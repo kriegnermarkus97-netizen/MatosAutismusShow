@@ -1,4 +1,4 @@
-const MAX_PAGES = 100;
+const MAX_PAGES = 90;
 const EXTENSIONS = ['png','jpg','jpeg','webp'];
 const PAD_WIDTHS = [0,2,3];
 const state = { pages: [], index: 0, direction: 1 };
