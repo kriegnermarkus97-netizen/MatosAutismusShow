@@ -2,85 +2,72 @@
 <html lang="de">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#16110c" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#120016" />
   <title>The Adventure of Trucker Lönhard</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="dust" id="dust" aria-hidden="true"></div>
   <header class="topbar">
-    <button class="brand" data-go="home" aria-label="Zur Startseite">
-      <span class="brand-kicker">THE ADVENTURE OF</span>
-      <span class="brand-title">TRUCKER LÖNHARD</span>
-    </button>
+    <a class="brand" href="#home" aria-label="Trucker Lönhard Startseite">
+      <span class="brand-small">TRUCKER</span><span class="brand-script">Lönhard</span>
+    </a>
     <nav>
-      <button data-go="home">Start</button>
-      <button data-go="chapters">Kapitel</button>
-      <button data-go="gallery">Galerie</button>
-      <button data-go="about">Über</button>
+      <a class="active" href="#home">HOME</a>
+      <button class="nav-read" data-start>COMIC LESEN</button>
+      <a href="#info">INFOS</a>
     </nav>
   </header>
 
   <main>
-    <section id="home" class="view active hero-view">
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <div class="route-badge" aria-hidden="true"><span>ROUTE</span><b>66</b></div>
-        <p class="eyebrow">EIN WEBCOMIC-PILOTPROJEKT</p>
-        <h1><span>The Adventure of</span> TRUCKER LÖNHARD</h1>
-        <p class="hero-copy">Begleite Trucker Lönhard auf einer Reise durch Wüste, Nacht und völligen Wahnsinn – in einer Welt, in der alles möglich ist.</p>
-        <div class="hero-actions">
-          <button class="primary" id="startComic">COMIC LADEN …</button>
-          <button class="secondary" id="startFromBeginning">VON VORNE LESEN</button>
-          <button class="secondary" data-go="chapters">KAPITEL ANSEHEN</button>
+    <section id="home" class="home view active-view">
+      <div class="poster-wrap" id="posterWrap">
+        <img src="assets/homepage.png" class="poster" id="poster" alt="Trucker Lönhard in einer Wüstenlandschaft vor seinem Truck" />
+        <button class="poster-hotspot" data-start aria-label="Comic lesen"></button>
+        <div class="poster-glow" aria-hidden="true"></div>
+      </div>
+
+      <div class="start-zone">
+        <p class="eyebrow">THE ADVENTURE OF</p>
+        <h1>TRUCKER <span>LÖNHARD</span></h1>
+        <p class="intro">Eine völlig durchgedrehte Reise über staubige Highways, durch lange Nächte und in eine Welt, in der alles möglich ist.</p>
+        <button class="start-button" data-start><span>COMIC LESEN</span><b>›</b></button>
+        <p class="status" id="status">Comicseiten werden gesucht …</p>
+      </div>
+
+      <section id="info" class="info-strip">
+        <article><strong>ROADTRIP</strong><span>Route 69, Trucks und jede Menge Chaos.</span></article>
+        <article><strong>COMEDY</strong><span>Verrückte Begegnungen und spontane Abenteuer.</span></article>
+        <article><strong>ÜBERALL LESBAR</strong><span>Optimiert für Handy, Tablet und PC.</span></article>
+      </section>
+    </section>
+
+    <section id="reader" class="reader view" aria-live="polite">
+      <div class="reader-head">
+        <button class="icon-btn" id="backHome">✕ <span>START</span></button>
+        <div class="reader-title">THE ADVENTURE OF <strong>TRUCKER LÖNHARD</strong></div>
+        <button class="icon-btn" id="fullscreenBtn">⛶ <span>VOLLBILD</span></button>
+      </div>
+
+      <div class="stage" id="stage">
+        <button class="side prev" id="prevBtn" aria-label="Vorherige Seite">‹</button>
+        <div class="page-frame" id="pageFrame">
+          <div class="loader" id="loader">LÄDT …</div>
+          <img id="comicPage" alt="Comicseite" />
         </div>
-        <p id="resumeHint" class="resume-hint">Comicseiten werden gesucht …</p><div class="hero-meta"><span>🚛 Roadtrip</span><span>💥 Comedy</span><span>🌵 Abenteuer</span></div>
+        <button class="side next" id="nextBtn" aria-label="Nächste Seite">›</button>
       </div>
-      <div class="road" aria-hidden="true"><div class="road-line"></div></div>
-    </section>
 
-    <section id="chapters" class="view page-view">
-      <div class="section-heading">
-        <p class="eyebrow">AUF DER STRASSE</p><h2>Kapitel</h2>
-        <p>Wähle ein Kapitel. Weitere Kapitel kannst du später leicht ergänzen.</p>
-      </div>
-      <p id="loadingStatus" class="loading-status">Comicseiten werden gesucht …</p><div id="chapterGrid" class="chapter-grid"></div>
-    </section>
-
-    <section id="reader" class="view reader-view">
-      <div class="reader-top">
-        <button class="back-link" data-go="chapters">← Kapitel</button>
-        <div><strong id="readerTitle">Kapitel 1 · Die Reise beginnt</strong><span id="pageCounter">Seite 1 / 3</span></div>
-        <button id="fullscreenBtn" class="icon-btn" title="Vollbild">⛶</button>
-      </div>
-      <div class="comic-stage" id="comicStage">
-        <button id="prevSide" class="side-nav left" aria-label="Vorherige Seite">‹</button>
-        <img id="comicImage" src="comic/1.svg" alt="Comicseite 1" />
-        <button id="nextSide" class="side-nav right" aria-label="Nächste Seite">›</button>
-      </div>
       <div class="reader-controls">
-        <button id="prevBtn" class="secondary">← ZURÜCK</button>
-        <div class="progress"><div id="progressBar"></div></div>
-        <button id="nextBtn" class="primary">WEITER →</button>
+        <button id="prevBottom">‹ ZURÜCK</button>
+        <span id="pageCounter">SEITE 1</span>
+        <button id="nextBottom">WEITER ›</button>
       </div>
-      <p class="reader-tip">Tipp: Am PC funktionieren auch ← und →. Auf dem Handy kannst du wischen.</p>
-    </section>
-
-    <section id="gallery" class="view page-view">
-      <div class="section-heading"><p class="eyebrow">ALLE SEITEN</p><h2>Galerie</h2><p>Tippe auf eine Seite, um direkt dort weiterzulesen.</p></div>
-      <div id="galleryGrid" class="gallery-grid"></div>
-    </section>
-
-    <section id="about" class="view page-view">
-      <div class="section-heading"><p class="eyebrow">ÜBER DAS PROJEKT</p><h2>Trucker Lönhard</h2></div>
-      <div class="about-card">
-        <div class="about-mark">TL</div>
-        <div><h3>Ein Roadtrip, bei dem alles passieren kann.</h3><p>Diese Seite ist als Webcomic-Homepage aufgebaut. Du kannst hier deine fertigen Comicseiten, neue Kapitel und später auch Charaktervorstellungen oder Bonusbilder ergänzen.</p><p class="muted">Lege deine Bilder einfach nummeriert in den Ordner <code>comic</code>, zum Beispiel <code>1.png</code>, <code>2.png</code>, <code>3.png</code> usw. Die Website erkennt die Seiten automatisch.</p></div>
-      </div>
+      <div class="progress"><i id="progressBar"></i></div>
     </section>
   </main>
 
-  <footer><span>THE ADVENTURE OF TRUCKER LÖNHARD</span><span>Webcomic · Pilotprojekt</span></footer>
   <script src="script.js"></script>
 </body>
 </html>
