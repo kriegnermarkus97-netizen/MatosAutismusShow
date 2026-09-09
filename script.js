@@ -8,12 +8,19 @@ const home = $('#home'), reader = $('#reader'), pageImg = $('#comicPage'), loade
 const statusEl = $('#status'), counter = $('#pageCounter'), progress = $('#progressBar');
 
 function candidates(n){
-  const names=[];
-  for(const pad of PAD_WIDTHS){
-    const base = pad ? String(n).padStart(pad,'0') : String(n);
-    for(const ext of EXTENSIONS) names.push(`comic/${base}.${ext}`);
-  }
-  return names;
+    const names = [];
+
+    for(const pad of PAD_WIDTHS){
+        const base = pad ? String(n).padStart(pad,'0') : String(n);
+
+        for(const ext of EXTENSIONS){
+            names.push(`comic/${base}.${ext}`);
+            names.push(`${base}.${ext}`);
+        }
+    }
+
+    return names;
+
 }
 function imageExists(url){
   return new Promise(resolve=>{const img=new Image();img.onload=()=>resolve(url);img.onerror=()=>resolve(null);img.src=url+'?v=1';});
