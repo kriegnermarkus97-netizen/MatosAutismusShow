@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#16110c" />
+  <title>The Adventure of Trucker Lönhard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" data-go="home" aria-label="Zur Startseite">
+      <span class="brand-kicker">THE ADVENTURE OF</span>
+      <span class="brand-title">TRUCKER LÖNHARD</span>
+    </button>
+    <nav>
+      <button data-go="home">Start</button>
+      <button data-go="chapters">Kapitel</button>
+      <button data-go="gallery">Galerie</button>
+      <button data-go="about">Über</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="view active hero-view">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="route-badge" aria-hidden="true"><span>ROUTE</span><b>66</b></div>
+        <p class="eyebrow">EIN WEBCOMIC-PILOTPROJEKT</p>
+        <h1><span>The Adventure of</span> TRUCKER LÖNHARD</h1>
+        <p class="hero-copy">Begleite Trucker Lönhard auf einer Reise durch Wüste, Nacht und völligen Wahnsinn – in einer Welt, in der alles möglich ist.</p>
+        <div class="hero-actions">
+          <button class="primary" id="startComic">COMIC LADEN …</button>
+          <button class="secondary" id="startFromBeginning">VON VORNE LESEN</button>
+          <button class="secondary" data-go="chapters">KAPITEL ANSEHEN</button>
+        </div>
+        <p id="resumeHint" class="resume-hint">Comicseiten werden gesucht …</p><div class="hero-meta"><span>🚛 Roadtrip</span><span>💥 Comedy</span><span>🌵 Abenteuer</span></div>
+      </div>
+      <div class="road" aria-hidden="true"><div class="road-line"></div></div>
+    </section>
+
+    <section id="chapters" class="view page-view">
+      <div class="section-heading">
+        <p class="eyebrow">AUF DER STRASSE</p><h2>Kapitel</h2>
+        <p>Wähle ein Kapitel. Weitere Kapitel kannst du später leicht ergänzen.</p>
+      </div>
+      <p id="loadingStatus" class="loading-status">Comicseiten werden gesucht …</p><div id="chapterGrid" class="chapter-grid"></div>
+    </section>
+
+    <section id="reader" class="view reader-view">
+      <div class="reader-top">
+        <button class="back-link" data-go="chapters">← Kapitel</button>
+        <div><strong id="readerTitle">Kapitel 1 · Die Reise beginnt</strong><span id="pageCounter">Seite 1 / 3</span></div>
+        <button id="fullscreenBtn" class="icon-btn" title="Vollbild">⛶</button>
+      </div>
+      <div class="comic-stage" id="comicStage">
+        <button id="prevSide" class="side-nav left" aria-label="Vorherige Seite">‹</button>
+        <img id="comicImage" src="comic/1.svg" alt="Comicseite 1" />
+        <button id="nextSide" class="side-nav right" aria-label="Nächste Seite">›</button>
+      </div>
+      <div class="reader-controls">
+        <button id="prevBtn" class="secondary">← ZURÜCK</button>
+        <div class="progress"><div id="progressBar"></div></div>
+        <button id="nextBtn" class="primary">WEITER →</button>
+      </div>
+      <p class="reader-tip">Tipp: Am PC funktionieren auch ← und →. Auf dem Handy kannst du wischen.</p>
+    </section>
+
+    <section id="gallery" class="view page-view">
+      <div class="section-heading"><p class="eyebrow">ALLE SEITEN</p><h2>Galerie</h2><p>Tippe auf eine Seite, um direkt dort weiterzulesen.</p></div>
+      <div id="galleryGrid" class="gallery-grid"></div>
+    </section>
+
+    <section id="about" class="view page-view">
+      <div class="section-heading"><p class="eyebrow">ÜBER DAS PROJEKT</p><h2>Trucker Lönhard</h2></div>
+      <div class="about-card">
+        <div class="about-mark">TL</div>
+        <div><h3>Ein Roadtrip, bei dem alles passieren kann.</h3><p>Diese Seite ist als Webcomic-Homepage aufgebaut. Du kannst hier deine fertigen Comicseiten, neue Kapitel und später auch Charaktervorstellungen oder Bonusbilder ergänzen.</p><p class="muted">Lege deine Bilder einfach nummeriert in den Ordner <code>comic</code>, zum Beispiel <code>1.png</code>, <code>2.png</code>, <code>3.png</code> usw. Die Website erkennt die Seiten automatisch.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>THE ADVENTURE OF TRUCKER LÖNHARD</span><span>Webcomic · Pilotprojekt</span></footer>
+  <script src="script.js"></script>
+</body>
+</html>
