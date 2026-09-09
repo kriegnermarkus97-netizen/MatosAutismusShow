@@ -28,7 +28,7 @@ async function scanPages(){
   for(let n=1;n<=MAX_PAGES;n++){
     const url=await findOne(n);
     if(url){found.push(url);misses=0;statusEl.textContent=`${found.length} Seite${found.length===1?'':'n'} gefunden …`;}
-    else {misses++; if(n>3 && misses>=3) break;}
+    else {misses++; if(n>3 && misses>=50) break;}
   }
   state.pages=found;
   statusEl.textContent=found.length?`${found.length} Comicseiten bereit.`:'Noch keine Comicseiten im Ordner „comic“ gefunden.';
