@@ -274,3 +274,1340 @@
         padding: 20px;
     }
 }
+
+/* =========================================
+   SCHLANGE FRIDOLIN – GRÜNES CHARAKTERDESIGN
+   ========================================= */
+
+.fridolin-profile {
+    margin-top: 100px;
+    padding-top: 70px;
+    border-top: 2px solid rgba(90, 255, 100, 0.25);
+}
+
+/* Bildkarte */
+.fridolin-profile .character-image {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(74, 255, 91, 0.18),
+            rgba(5, 25, 10, 0.92)
+        );
+
+    border: 1px solid rgba(100, 255, 110, 0.45);
+
+    box-shadow:
+        0 28px 80px rgba(0,0,0,0.45),
+        0 0 35px rgba(65,255,80,0.20);
+}
+
+/* Bild */
+.fridolin-profile .character-image img {
+    border: 1px solid rgba(110,255,120,0.35);
+}
+
+/* Hover-Effekt */
+.fridolin-profile .character-image:hover img {
+    filter:
+        drop-shadow(0 0 15px rgba(90,255,100,0.45))
+        drop-shadow(0 0 30px rgba(30,180,50,0.20));
+}
+
+/* Hauptkarte */
+.fridolin-profile .character-information {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(48,160,65,0.12),
+            transparent 35%
+        ),
+        rgba(6, 22, 11, 0.94);
+
+    border: 1px solid rgba(100,255,110,0.30);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.40),
+        0 0 35px rgba(65,255,80,0.10);
+}
+
+/* BEGLEITER */
+.fridolin-profile .character-role {
+    color: #78ff86;
+    text-shadow: 0 0 12px rgba(80,255,100,0.45);
+}
+
+/* Name */
+.fridolin-profile h2 {
+    color: #f4fff5;
+
+    text-shadow:
+        0 0 8px rgba(90,255,100,0.55),
+        0 0 22px rgba(50,210,70,0.28);
+}
+
+/* Zitat */
+.fridolin-profile .character-quote {
+    color: #dfffe2;
+}
+
+/* Statistikfelder */
+.fridolin-profile .character-stats div {
+    background: rgba(55, 160, 70, 0.13);
+    border: 1px solid rgba(100,255,115,0.30);
+}
+
+/* Kleine Überschriften */
+.fridolin-profile .character-stats span {
+    color: #8dff98;
+}
+
+/* Werte */
+.fridolin-profile .character-stats strong {
+    color: #ffffff;
+}
+
+/* Abschnittsüberschriften */
+.fridolin-profile h3 {
+    color: #8cff98;
+
+    text-shadow:
+        0 0 10px rgba(70,255,90,0.28);
+}
+
+/* Fließtext – bewusst fast weiß für gute Lesbarkeit */
+.fridolin-profile .character-information > p {
+    color: #f0f5f0;
+}
+
+/* Eigenschaften */
+.fridolin-profile .character-traits span {
+    color: #f5fff6;
+    background: rgba(45,150,60,0.18);
+    border: 1px solid rgba(100,255,110,0.34);
+
+    box-shadow:
+        inset 0 0 12px rgba(60,255,80,0.05);
+}
+
+/* Motto */
+.fridolin-profile .character-motto {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(36,150,52,0.30),
+            rgba(10,65,20,0.30)
+        );
+
+    border: 1px solid rgba(105,255,115,0.40);
+
+    box-shadow:
+        0 0 25px rgba(55,255,75,0.10);
+}
+
+.fridolin-profile .character-motto span {
+    color: #8cff98;
+}
+
+.fridolin-profile .character-motto strong {
+    color: #ffffff;
+
+    text-shadow:
+        0 0 10px rgba(80,255,100,0.40);
+}
+
+/* =========================================
+   EL VIKO – WARMES FARM-DESIGN
+   ========================================= */
+
+.el-viko-profile {
+    margin-top: 100px;
+    padding-top: 70px;
+    border-top: 2px solid rgba(255, 169, 70, 0.22);
+}
+
+/* Bildkarte */
+.el-viko-profile .character-image {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 151, 45, 0.13),
+            rgba(39, 19, 8, 0.95)
+        );
+
+    border: 1px solid rgba(255, 176, 82, 0.38);
+
+    box-shadow:
+        0 28px 80px rgba(0,0,0,0.45),
+        0 0 18px rgba(255,145,40,0.10);
+}
+
+.el-viko-profile .character-image img {
+    border: 1px solid rgba(255,190,100,0.28);
+}
+
+/* Nur sehr leichter Effekt beim Darüberfahren */
+.el-viko-profile .character-image:hover img {
+    filter: drop-shadow(0 0 10px rgba(255,165,65,0.20));
+}
+
+/* Hauptkarte */
+.el-viko-profile .character-information {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(180, 79, 20, 0.10),
+            transparent 40%
+        ),
+        rgba(35, 17, 8, 0.95);
+
+    border: 1px solid rgba(255,176,82,0.28);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.40),
+        0 0 16px rgba(255,145,40,0.07);
+}
+
+/* Rolle */
+.el-viko-profile .character-role {
+    color: #ffb45c;
+    text-shadow: 0 0 4px rgba(255,170,75,0.18);
+}
+
+/* Name */
+.el-viko-profile h2 {
+    color: #fff8ee;
+
+    text-shadow:
+        0 0 5px rgba(255,166,70,0.20);
+}
+
+/* Zitat */
+.el-viko-profile .character-quote {
+    color: #ffe7ca;
+}
+
+/* Statistikfelder */
+.el-viko-profile .character-stats div {
+    background: rgba(170, 77, 20, 0.12);
+    border: 1px solid rgba(255,178,85,0.25);
+}
+
+/* ALTER, GEBURTSORT usw. */
+.el-viko-profile .character-stats span {
+    color: #ffb968;
+    text-shadow: none;
+}
+
+/* Werte */
+.el-viko-profile .character-stats strong {
+    color: #ffffff;
+    text-shadow: none;
+}
+
+/* Abschnittsüberschriften */
+.el-viko-profile h3 {
+    color: #ffc477;
+    text-shadow: 0 0 4px rgba(255,170,70,0.15);
+}
+
+/* Fließtext */
+.el-viko-profile .character-information > p {
+    color: #f7f1e9;
+    text-shadow: none;
+}
+
+/* Eigenschaften */
+.el-viko-profile .character-traits span {
+    color: #fff8ef;
+    background: rgba(174, 77, 18, 0.15);
+    border: 1px solid rgba(255,181,88,0.28);
+    text-shadow: none;
+}
+
+/* Motto */
+.el-viko-profile .character-motto {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(174, 76, 18, 0.27),
+            rgba(82, 34, 8, 0.28)
+        );
+
+    border: 1px solid rgba(255,184,91,0.34);
+
+    box-shadow:
+        0 0 14px rgba(255,150,45,0.07);
+}
+
+.el-viko-profile .character-motto span {
+    color: #ffb968;
+    text-shadow: none;
+}
+
+.el-viko-profile .character-motto strong {
+    color: #ffffff;
+    text-shadow: none;
+}
+
+/* =========================================
+   DER WOLF – DUNKELROT / SCHWARZ
+   KOMPLETT OHNE GLOW
+   ========================================= */
+
+.wolf-profile {
+    margin-top: 100px;
+    padding-top: 70px;
+    border-top: 2px solid rgba(170, 30, 30, 0.35);
+}
+
+/* Bildkarte */
+.wolf-profile .character-image {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(110, 20, 20, 0.18),
+            rgba(5, 5, 5, 0.98)
+        );
+
+    border: 1px solid rgba(165, 45, 45, 0.45);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.48);
+}
+
+.wolf-profile .character-image img {
+    border: 1px solid rgba(150, 45, 45, 0.35);
+}
+
+/* Kein Leuchten beim Darüberfahren */
+.wolf-profile .character-image:hover img {
+    filter: none;
+}
+
+/* Hauptkarte */
+.wolf-profile .character-information {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(110, 20, 20, 0.12),
+            transparent 40%
+        ),
+        rgba(12, 8, 8, 0.97);
+
+    border: 1px solid rgba(155, 40, 40, 0.35);
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.45);
+}
+
+/* Antagonist */
+.wolf-profile .character-role {
+    color: #d85b5b;
+    text-shadow: none;
+}
+
+/* Charaktername */
+.wolf-profile h2 {
+    color: #ffffff;
+    text-shadow: none;
+}
+
+/* Zitat */
+.wolf-profile .character-quote {
+    color: #d6caca;
+    text-shadow: none;
+}
+
+/* Statistik */
+.wolf-profile .character-stats div {
+    background: rgba(115, 20, 20, 0.14);
+    border: 1px solid rgba(155, 45, 45, 0.32);
+}
+
+/* ALTER, HERKUNFT usw. */
+.wolf-profile .character-stats span {
+    color: #d76565;
+    text-shadow: none;
+}
+
+/* UNBEKANNT usw. */
+.wolf-profile .character-stats strong {
+    color: #ffffff;
+    text-shadow: none;
+}
+
+/* Überschriften */
+.wolf-profile h3 {
+    color: #dc6868;
+    text-shadow: none;
+}
+
+/* Fließtext */
+.wolf-profile .character-information > p {
+    color: #eeeeee;
+    text-shadow: none;
+}
+
+/* Eigenschaften */
+.wolf-profile .character-traits span {
+    color: #f5eeee;
+    background: rgba(105, 18, 18, 0.18);
+    border: 1px solid rgba(155, 45, 45, 0.32);
+    text-shadow: none;
+    box-shadow: none;
+}
+
+/* Motto */
+.wolf-profile .character-motto {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(100, 18, 18, 0.30),
+            rgba(25, 8, 8, 0.35)
+        );
+
+    border: 1px solid rgba(155, 45, 45, 0.36);
+    box-shadow: none;
+}
+
+.wolf-profile .character-motto span {
+    color: #d76565;
+    text-shadow: none;
+}
+
+.wolf-profile .character-motto strong {
+    color: #ffffff;
+    text-shadow: none;
+}
+/* =========================================
+   SHERIFF GHETTOQUEENS – WESTERN-DESIGN
+   KOMPLETT OHNE GLOW
+   ========================================= */
+
+.ghettoqueens-profile {
+    margin-top: 100px;
+    padding-top: 70px;
+    border-top: 2px solid rgba(210, 158, 72, 0.38);
+}
+
+/* Bildkarte */
+.ghettoqueens-profile .character-image {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(190, 135, 55, 0.14),
+            rgba(31, 20, 10, 0.98)
+        );
+
+    border: 1px solid rgba(210, 158, 72, 0.42);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+}
+
+.ghettoqueens-profile .character-image img {
+    border: 1px solid rgba(210, 158, 72, 0.32);
+}
+
+/* Kein Effekt beim Darüberfahren */
+.ghettoqueens-profile .character-image:hover img {
+    filter: none;
+}
+
+/* Hauptkarte */
+.ghettoqueens-profile .character-information {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(150, 100, 35, 0.11),
+            transparent 40%
+        ),
+        rgba(28, 19, 11, 0.97);
+
+    border: 1px solid rgba(205, 153, 72, 0.35);
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.42);
+}
+
+/* Rolle */
+.ghettoqueens-profile .character-role {
+    color: #d8a85e;
+    text-shadow: none;
+}
+
+/* Name */
+.ghettoqueens-profile h2 {
+    color: #fff8e9;
+    text-shadow: none;
+}
+
+/* Zitat */
+.ghettoqueens-profile .character-quote {
+    color: #e8d6b7;
+    text-shadow: none;
+}
+
+/* Statistikfelder */
+.ghettoqueens-profile .character-stats div {
+    background: rgba(145, 96, 32, 0.14);
+    border: 1px solid rgba(205, 153, 72, 0.30);
+}
+
+/* ALTER, HERKUNFT usw. */
+.ghettoqueens-profile .character-stats span {
+    color: #d9aa62;
+    text-shadow: none;
+}
+
+/* Werte */
+.ghettoqueens-profile .character-stats strong {
+    color: #ffffff;
+    text-shadow: none;
+}
+
+/* Abschnittsüberschriften */
+.ghettoqueens-profile h3 {
+    color: #e0ae62;
+    text-shadow: none;
+}
+
+/* Fließtext */
+.ghettoqueens-profile .character-information > p {
+    color: #f1ece3;
+    text-shadow: none;
+}
+
+/* Eigenschaften */
+.ghettoqueens-profile .character-traits span {
+    color: #fff8eb;
+    background: rgba(142, 91, 27, 0.17);
+    border: 1px solid rgba(205, 153, 72, 0.31);
+    text-shadow: none;
+    box-shadow: none;
+}
+
+/* Motto */
+.ghettoqueens-profile .character-motto {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(145, 94, 28, 0.28),
+            rgba(65, 40, 14, 0.34)
+        );
+
+    border: 1px solid rgba(210, 158, 72, 0.36);
+    box-shadow: none;
+}
+
+.ghettoqueens-profile .character-motto span {
+    color: #d9aa62;
+    text-shadow: none;
+}
+
+.ghettoqueens-profile .character-motto strong {
+    color: #ffffff;
+    text-shadow: none;
+}
+
+/* =========================================
+   MATO McLOVIN – BLAUES FARM-DESIGN
+   KOMPLETT OHNE GLOW
+   ========================================= */
+
+.mato-profile {
+    margin-top: 100px;
+    padding-top: 70px;
+    border-top: 2px solid rgba(70, 140, 220, 0.35);
+}
+
+/* Bildkarte */
+.mato-profile .character-image {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(55, 120, 210, 0.14),
+            rgba(8, 18, 32, 0.98)
+        );
+
+    border: 1px solid rgba(85, 145, 225, 0.42);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+}
+
+.mato-profile .character-image img {
+    border: 1px solid rgba(90, 150, 230, 0.32);
+}
+
+.mato-profile .character-image:hover img {
+    filter: none;
+}
+
+/* Hauptkarte */
+.mato-profile .character-information {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(45, 100, 185, 0.11),
+            transparent 40%
+        ),
+        rgba(10, 18, 30, 0.97);
+
+    border: 1px solid rgba(80, 140, 220, 0.35);
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.42);
+}
+
+/* Rolle */
+.mato-profile .character-role {
+    color: #6fa8e8;
+    text-shadow: none;
+}
+
+/* Name */
+.mato-profile h2 {
+    color: #ffffff;
+    text-shadow: none;
+}
+
+/* Zitat */
+.mato-profile .character-quote {
+    color: #d5e4f5;
+    text-shadow: none;
+}
+
+/* Statistikfelder */
+.mato-profile .character-stats div {
+    background: rgba(45, 95, 165, 0.14);
+    border: 1px solid rgba(80, 140, 220, 0.30);
+}
+
+/* ALTER, GEBURTSORT usw. */
+.mato-profile .character-stats span {
+    color: #78aee8;
+    text-shadow: none;
+}
+
+/* Werte */
+.mato-profile .character-stats strong {
+    color: #ffffff;
+    text-shadow: none;
+}
+
+/* Abschnittsüberschriften */
+.mato-profile h3 {
+    color: #7eb5ee;
+    text-shadow: none;
+}
+
+/* Fließtext */
+.mato-profile .character-information > p {
+    color: #edf3f9;
+    text-shadow: none;
+}
+
+/* Eigenschaften */
+.mato-profile .character-traits span {
+    color: #f4f8fc;
+    background: rgba(40, 90, 160, 0.17);
+    border: 1px solid rgba(80, 140, 220, 0.31);
+    text-shadow: none;
+    box-shadow: none;
+}
+
+/* Motto */
+.mato-profile .character-motto {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(45, 95, 165, 0.28),
+            rgba(18, 42, 78, 0.34)
+        );
+
+    border: 1px solid rgba(80, 140, 220, 0.36);
+    box-shadow: none;
+}
+
+.mato-profile .character-motto span {
+    color: #78aee8;
+    text-shadow: none;
+}
+
+.mato-profile .character-motto strong {
+    color: #ffffff;
+    text-shadow: none;
+}
+/* =========================================
+   CHARAKTER-NAVIGATION
+   ========================================= */
+
+.character-navigation {
+    max-width: 1250px;
+    margin: 20px auto 70px;
+    padding: 28px;
+
+    background: rgba(15, 10, 22, 0.92);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 26px;
+}
+
+.character-navigation-title {
+    margin: 0 0 22px;
+    text-align: center;
+
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+
+    text-shadow: none;
+}
+
+.character-navigation-list {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 15px;
+}
+
+.character-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 9px 9px 13px;
+
+    color: #ffffff;
+    text-decoration: none;
+
+    background: rgba(255,255,255,0.04);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.character-nav-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255,255,255,0.08);
+}
+
+/* Bilder */
+
+.character-nav-item img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    object-fit: cover;
+    object-position: center;
+
+    border-radius: 12px;
+}
+
+.character-nav-item span {
+    margin-top: 11px;
+
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-align: center;
+
+    text-shadow: none;
+}
+
+/* =========================================
+   INDIVIDUELLE CHARAKTERFARBEN
+   ========================================= */
+
+/* Lönhard – Violett */
+.loenhard-nav {
+    border-color: #8d5bd1;
+}
+
+.loenhard-nav span {
+    color: #c9a8f5;
+}
+
+/* Fridolin – Grün */
+.fridolin-nav {
+    border-color: #4eae62;
+}
+
+.fridolin-nav span {
+    color: #8bd99a;
+}
+
+/* EL VIKO – Orange */
+.viko-nav {
+    border-color: #d4873d;
+}
+
+.viko-nav span {
+    color: #efb16e;
+}
+
+/* Wolf – Dunkelrot */
+.wolf-nav {
+    border-color: #9e3e3e;
+}
+
+.wolf-nav span {
+    color: #d16b6b;
+}
+
+/* GHETTOQUEENS – Western-Gold */
+.ghettoqueens-nav {
+    border-color: #b58a4b;
+}
+
+.ghettoqueens-nav span {
+    color: #d7ad6b;
+}
+
+/* Mato – Blau */
+.mato-nav {
+    border-color: #4e86c5;
+}
+
+.mato-nav span {
+    color: #83afe0;
+}
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 1000px) {
+
+    .character-navigation-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+/* =========================================
+   HANDY
+   ========================================= */
+
+@media (max-width: 560px) {
+
+    .character-navigation {
+        padding: 18px;
+        margin-bottom: 45px;
+    }
+
+    .character-navigation-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 11px;
+    }
+
+    .character-nav-item span {
+        font-size: 0.68rem;
+    }
+
+}
+/* =========================================
+   CHARAKTER-NAVIGATION – KLARER / LESBARER
+   ========================================= */
+
+.character-navigation-title {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-shadow: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Kartenbeschriftungen größer und klarer */
+.character-nav-item span {
+    margin-top: 12px;
+
+    font-size: 0.9rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+
+    text-align: center;
+    text-shadow: none;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Karten etwas klarer */
+.character-nav-item {
+    background: rgba(255,255,255,0.035);
+    box-shadow: none;
+}
+
+/* Bilder sauber darstellen */
+.character-nav-item img {
+    filter: none;
+    image-rendering: auto;
+}
+
+/* LÖNHARD – Lila */
+.loenhard-nav {
+    border-color: #a657e8;
+}
+
+.loenhard-nav span {
+    color: #b86cf2;
+}
+
+/* FRIDOLIN – Grün */
+.fridolin-nav {
+    border-color: #4fc56e;
+}
+
+.fridolin-nav span {
+    color: #64d77e;
+}
+
+/* EL VIKO – Orange */
+.viko-nav {
+    border-color: #e09035;
+}
+
+.viko-nav span {
+    color: #f0a34b;
+}
+
+/* WOLF – Rot */
+.wolf-nav {
+    border-color: #d54a4a;
+}
+
+.wolf-nav span {
+    color: #e45d5d;
+}
+
+/* GHETTOQUEENS – Pink */
+.ghettoqueens-nav {
+    border-color: #e54ca5;
+}
+
+.ghettoqueens-nav span {
+    color: #f05ab1;
+}
+
+/* MATO – Blau */
+.mato-nav {
+    border-color: #4d9be8;
+}
+
+.mato-nav span {
+    color: #63aaf0;
+}
+
+/* Hover weiterhin ohne Glow */
+.character-nav-item:hover {
+    transform: translateY(-4px);
+    background: rgba(255,255,255,0.07);
+    box-shadow: none;
+}
+
+/* Handy */
+@media (max-width: 560px) {
+
+    .character-navigation-title {
+        font-size: 0.85rem;
+        letter-spacing: 1.5px;
+    }
+
+    .character-nav-item span {
+        font-size: 0.78rem;
+    }
+
+}
+/* =========================================
+   ALLE CHARAKTERPROFILE – KEIN GLOW
+   ========================================= */
+
+.character-profile *,
+.character-profile *::before,
+.character-profile *::after {
+    text-shadow: none !important;
+}
+
+/* Kein Glow auf den Karten */
+.character-profile .character-image,
+.character-profile .character-information,
+.character-profile .character-motto,
+.character-profile .character-traits span {
+    filter: none !important;
+}
+
+/* Bilder auch beim Hover ohne Glow */
+.character-profile .character-image img,
+.character-profile .character-image:hover img {
+    filter: none !important;
+}
+
+/* Alte farbige Glow-Schatten entfernen,
+   normale dunkle Tiefenschatten dürfen bleiben */
+.fridolin-profile .character-image,
+.el-viko-profile .character-image {
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+}
+
+.fridolin-profile .character-information,
+.el-viko-profile .character-information {
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.42);
+}
+
+.fridolin-profile .character-motto,
+.el-viko-profile .character-motto {
+    box-shadow: none;
+}
+/* =========================================
+   CHAOS-BUTTON
+   ========================================= */
+
+.chaos-button {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 14px 22px;
+
+    border: 2px solid #8f5be8;
+    border-radius: 14px;
+
+    background: #1b1027;
+    color: #ffffff;
+
+    font-size: 0.95rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.18s ease,
+        background 0.18s ease,
+        border-color 0.18s ease;
+}
+
+.chaos-button:hover {
+    transform: translateY(-3px) rotate(-1deg);
+    background: #2a1740;
+    border-color: #b27cff;
+}
+
+.chaos-button:active {
+    transform: translateY(0) scale(0.97);
+}
+
+.chaos-event {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+/* =========================================
+   CHAOS-EVENT MELDUNGEN
+   ========================================= */
+
+.chaos-message {
+    position: fixed;
+    left: 50%;
+    top: 45%;
+
+    transform: translate(-50%, -50%) scale(0.6) rotate(-3deg);
+
+    padding: 20px 28px;
+
+    border: 3px solid currentColor;
+    border-radius: 18px;
+
+    background: rgba(12, 10, 18, 0.96);
+
+    color: #ffffff;
+
+    font-size: clamp(1.4rem, 4vw, 3rem);
+    font-weight: 1000;
+    letter-spacing: 1px;
+    text-align: center;
+
+    max-width: min(90vw, 900px);
+
+    animation: chaosPop 2.2s ease forwards;
+
+    box-shadow: 0 18px 45px rgba(0,0,0,0.45);
+
+    z-index: 10000;
+}
+
+/* Farben */
+
+.chaos-purple {
+    color: #b47cff;
+}
+
+.chaos-orange {
+    color: #f2a34d;
+}
+
+.chaos-green {
+    color: #63d87e;
+}
+
+.chaos-pink {
+    color: #f45db9;
+}
+
+.chaos-red {
+    color: #e35e5e;
+}
+
+.chaos-blue {
+    color: #67aef3;
+}
+
+/* Animation */
+
+
+
+}
+/* =========================================
+   FRIDOL@keyframes fridolinRun {
+
+    0% {
+        left: -220px;
+        bottom: 20px;
+        transform: rotate(-5deg);
+    }
+
+    10% {
+        bottom: 110px;
+        transform: rotate(12deg);
+    }
+
+    20% {
+        bottom: 20px;
+        transform: rotate(-8deg);
+    }
+
+    35% {
+        bottom: 90px;
+        transform: rotate(10deg);
+    }
+
+    45% {
+        bottom: 20px;
+        transform: rotate(-6deg);
+    }
+
+    60% {
+        bottom: 130px;
+        transform: rotate(15deg) scale(1.08);
+    }
+
+    70% {
+        bottom: 20px;
+        transform: rotate(-8deg) scale(1);
+    }
+
+    85% {
+        bottom: 75px;
+        transform: rotate(8deg);
+    }
+
+    100% {
+        left: calc(100vw + 220px);
+        bottom: 20px;
+        transform: rotate(0deg);
+    }
+}IN – CHAOS-EVENT
+   ========================================= */
+
+.chaos-fridolin {
+    position: fixed;
+
+    left: -220px;
+    top: auto !important;
+    bottom: 20px !important;
+
+    width: 180px;
+    max-width: 30vw;
+
+    z-index: 10001;
+
+    pointer-events: none;
+
+    animation: fridolinRun 4.6s linear forwards;
+}
+}
+/* =========================================
+   WOLF – VOLLBILD JUMPSCARE
+   ========================================= */
+
+.wolf-jumpscare {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #000;
+
+    z-index: 20000;
+
+    overflow: hidden;
+
+    animation: wolfScreenShake 0.55s ease-out;
+}
+
+.wolf-jumpscare img {
+    width: 100vw;
+    height: 100vh;
+
+    object-fit: cover;
+    object-position: center;
+
+    animation: wolfScareZoom 1.7s ease-out forwards;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Schneller Zoom auf den Wolf */
+@keyframes wolfScareZoom {
+
+    0% {
+        transform: scale(0.72);
+    }
+
+    12% {
+        transform: scale(1.12);
+    }
+
+    25% {
+        transform: scale(1.03);
+    }
+
+    100% {
+        transform: scale(1.10);
+    }
+
+}
+
+/* Kurzes Wackeln beim Auftauchen */
+@keyframes wolfScreenShake {
+
+    0% {
+        transform: translate(0, 0);
+    }
+
+    15% {
+        transform: translate(-14px, 8px);
+    }
+
+    30% {
+        transform: translate(12px, -7px);
+    }
+
+    45% {
+        transform: translate(-9px, -5px);
+    }
+
+    60% {
+        transform: translate(8px, 6px);
+    }
+
+    75% {
+        transform: translate(-4px, 3px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+
+}
+/* =========================================
+   EL VIKO – EINFLUG & TANZ
+   ========================================= */
+
+/* =========================================
+   EL VIKO – FESTER TANZBEREICH UNTEN
+   ========================================= */
+
+/* =========================================
+   EL VIKO – TANZ IN DER BILDSCHIRMMITTE
+   ========================================= */
+
+.el-viko-container {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 15000;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.el-viko-dancer {
+    position: fixed;
+    width: 300px;
+    height: auto;
+
+    left: 50%;
+    top: 50%;
+
+    z-index: 15001;
+    pointer-events: none;
+
+    animation: elVikoDanceCenter 6s ease-in-out forwards;
+}
+
+@keyframes elVikoDanceCenter {
+
+    0% {
+        left: -350px;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-12deg);
+    }
+
+    20% {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    35% {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-10deg);
+    }
+
+    45% {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(10deg);
+    }
+
+    55% {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-10deg);
+    }
+
+    65% {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(10deg);
+    }
+
+    80% {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    100% {
+        left: calc(100vw + 350px);
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(12deg);
+    }
+}
+
+@media (max-width: 600px) {
+    .el-viko-dancer {
+        width: 220px;
+    }
+}

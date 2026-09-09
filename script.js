@@ -187,3 +187,171 @@ for (let i = 0; i < 32; i++) {
 
     dust.appendChild(p);
 }
+/* =========================================
+   TRUCKER-LÖNHARD CHAOS-BUTTON
+   ========================================= */
+
+const chaosButton = document.getElementById('chaosButton');
+const chaosEvent = document.getElementById('chaosEvent');
+
+if (chaosButton && chaosEvent) {
+
+    const chaosEvents = [
+
+        () => showChaosText('🚛 BRUMM BRUMM!', 'chaos-purple'),
+
+        () => showChaosText('🍺 TRUCKER LUL!', 'chaos-orange'),
+
+        () => fridolinEvent(),
+
+        () => elVikoEvent(), 
+
+        () => showChaosText('🤠 GHETTOQUEENS SORGT FÜR RECHT UND ORDNUNG!', 'chaos-pink'),
+
+      () => wolfJumpscare(),
+
+        () => showChaosText('🐢 KRÖTE!', 'chaos-blue'),
+
+        () => showChaosText('🛣️ ROUTE 69', 'chaos-purple')
+
+    ];
+
+    chaosButton.addEventListener('click', () => {
+
+        const randomEvent =
+            chaosEvents[Math.floor(Math.random() * chaosEvents.length)];
+
+        randomEvent();
+
+    });
+
+}
+
+function showChaosText(text, className) {
+
+    const message = document.createElement('div');
+
+    message.className = `chaos-message ${className}`;
+    message.textContent = text;
+
+    chaosEvent.appendChild(message);
+
+    setTimeout(() => {
+        message.remove();
+    }, 2200);
+
+}
+/* =========================================
+   FRIDOLIN SCHLÄNGELT DURCHS BILD
+   ========================================= */
+
+function fridolinEvent() {
+
+    const fridolin = document.createElement('img');
+
+    fridolin.src = 'schlange.png';
+    fridolin.alt = 'Fridolin';
+
+    fridolin.className = 'chaos-fridolin';
+
+    chaosEvent.appendChild(fridolin);
+
+    setTimeout(() => {
+        fridolin.remove();
+    }, 5000);
+
+}
+function wolfJumpscare() {
+
+    const scare = document.createElement('div');
+    scare.className = 'wolf-jumpscare';
+
+    const image = document.createElement('img');
+    image.src = 'wolf-jumpscare.png';
+    image.alt = 'Wolf Jumpscare';
+
+    scare.appendChild(image);
+    chaosEvent.appendChild(scare);
+
+    /* Lautes BUHHH */
+    const audioContext =
+        new (window.AudioContext || window.webkitAudioContext)();
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.type = 'sawtooth';
+    oscillator.frequency.setValueAtTime(130, audioContext.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(
+        55,
+        audioContext.currentTime + 0.65
+    );
+
+    gain.gain.setValueAtTime(0.65, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(
+        0.01,
+        audioContext.currentTime + 0.8
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.8);
+
+    setTimeout(() => {
+        scare.remove();
+        audioContext.close();
+    }, 1700);
+}
+/* =========================================
+   EL VIKO – EINFLUG & TANZ
+   ========================================= */
+
+function elVikoEvent() {
+
+    // Mariachi-Musik starten
+    const music = new Audio('mariachi.mp3');
+    music.volume = 0.6;
+    music.currentTime = 0;
+
+    music.play().catch(error => {
+        console.log('Musik konnte nicht gestartet werden:', error);
+    });
+
+    // EL VIKO erstellen
+    const vikoContainer = document.createElement('div');
+    vikoContainer.className = 'el-viko-container';
+
+    const viko = document.createElement('img');
+    viko.src = 'el-viko-tanz.png';
+    viko.alt = 'EL VIKO';
+    viko.className = 'el-viko-dancer';
+
+    vikoContainer.appendChild(viko);
+    chaosEvent.appendChild(vikoContainer);
+
+    // ¡SALUD!
+    const salud = document.createElement('div');
+    salud.className = 'el-viko-salud';
+    salud.textContent = '¡SALUD!';
+
+    setTimeout(() => {
+        chaosEvent.appendChild(salud);
+    }, 1100);
+
+    // SALUD entfernen
+    setTimeout(() => {
+        salud.remove();
+    }, 4800);
+
+    // Nach 6 Sekunden EL VIKO + Musik stoppen
+    setTimeout(() => {
+
+        music.pause();
+        music.currentTime = 0;
+
+        vikoContainer.remove();
+
+    }, 6000);
+}
