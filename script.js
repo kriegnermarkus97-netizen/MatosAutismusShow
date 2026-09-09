@@ -17,7 +17,7 @@ function candidates(n){
             names.push(`comic/${base}.${ext}`);
             names.push(`${base}.${ext}`);
         }
-    }
+
 
     return names;
 
