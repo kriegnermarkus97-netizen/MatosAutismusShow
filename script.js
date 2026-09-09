@@ -1,157 +1,82 @@
-const COMIC = {
-  title: 'The Adventure of Trucker Lönhard',
-  chapterSize: 20,
-  maxPages: 250,
-  stopAfterMissingNumbers: 3,
-  extensions: ['png','jpg','jpeg','webp'],
-  numberFormats: [n => String(n), n => String(n).padStart(2,'0'), n => String(n).padStart(3,'0')]
-};
+const MAX_PAGES = 250;
+const EXTENSIONS = ['png','jpg','jpeg','webp'];
+const PAD_WIDTHS = [0,2,3];
+const state = { pages: [], index: 0, direction: 1 };
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const home = $('#home'), reader = $('#reader'), pageImg = $('#comicPage'), loader = $('#loader');
+const statusEl = $('#status'), counter = $('#pageCounter'), progress = $('#progressBar');
 
-let pages = [];
-let currentPage = 0;
-const views = [...document.querySelectorAll('.view')];
-const img = document.getElementById('comicImage');
-const counter = document.getElementById('pageCounter');
-const progress = document.getElementById('progressBar');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const gallery = document.getElementById('galleryGrid');
-const chapterGrid = document.getElementById('chapterGrid');
-const startComicBtn = document.getElementById('startComic');
-const resumeHint = document.getElementById('resumeHint');
-const loadingStatus = document.getElementById('loadingStatus');
-
-function showView(id){
-  views.forEach(v => v.classList.toggle('active', v.id === id));
-  window.scrollTo({top:0, behavior:'instant'});
-}
-
-function imageExists(src){
-  return new Promise(resolve => {
-    const test = new Image();
-    test.onload = () => resolve(true);
-    test.onerror = () => resolve(false);
-    test.src = src + '?v=' + encodeURIComponent(document.lastModified || '1');
-  });
-}
-
-async function findPage(number){
-  for (const format of COMIC.numberFormats){
-    const base = format(number);
-    for (const ext of COMIC.extensions){
-      const src = `comic/${base}.${ext}`;
-      if (await imageExists(src)) return src;
-    }
+function candidates(n){
+  const names=[];
+  for(const pad of PAD_WIDTHS){
+    const base = pad ? String(n).padStart(pad,'0') : String(n);
+    for(const ext of EXTENSIONS) names.push(`comic/${base}.${ext}`);
   }
+  return names;
+}
+function imageExists(url){
+  return new Promise(resolve=>{const img=new Image();img.onload=()=>resolve(url);img.onerror=()=>resolve(null);img.src=url+'?v=1';});
+}
+async function findOne(n){
+  for(const url of candidates(n)){const ok=await imageExists(url);if(ok)return ok;}
   return null;
 }
-
-async function discoverPages(){
-  pages = [];
-  let misses = 0;
-  for(let n=1; n<=COMIC.maxPages && misses<COMIC.stopAfterMissingNumbers; n++){
-    if (loadingStatus) loadingStatus.textContent = `Suche Comicseite ${n} …`;
-    const found = await findPage(n);
-    if(found){ pages.push(found); misses = 0; }
-    else misses++;
+async function scanPages(){
+  statusEl.textContent='Comicseiten werden gesucht …';
+  const found=[]; let misses=0;
+  for(let n=1;n<=MAX_PAGES;n++){
+    const url=await findOne(n);
+    if(url){found.push(url);misses=0;statusEl.textContent=`${found.length} Seite${found.length===1?'':'n'} gefunden …`;}
+    else {misses++; if(n>3 && misses>=3) break;}
   }
-
-  if(!pages.length){
-    pages = ['comic/1.svg','comic/2.svg','comic/3.svg'];
-    if (loadingStatus) loadingStatus.textContent = 'Demo-Seiten geladen – ersetze sie später durch deine nummerierten Bilder.';
-  } else if (loadingStatus){
-    loadingStatus.textContent = `${pages.length} Comicseiten gefunden.`;
-  }
-
-  buildChapters();
-  buildGallery();
-  setupResume();
-  renderPage();
+  state.pages=found;
+  statusEl.textContent=found.length?`${found.length} Comicseiten bereit.`:'Noch keine Comicseiten im Ordner „comic“ gefunden.';
+  return found;
 }
-
-function savedPage(){
-  const n = Number(localStorage.getItem('truckerLoenhardPage'));
-  return Number.isInteger(n) && n >= 0 && n < pages.length ? n : 0;
+function showView(which){
+  home.classList.toggle('active-view',which==='home');
+  reader.classList.toggle('active-view',which==='reader');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function setupResume(){
-  const saved = savedPage();
-  if(saved > 0){
-    startComicBtn.textContent = `WEITERLESEN · SEITE ${saved + 1}`;
-    if(resumeHint) resumeHint.textContent = `Dein Lesefortschritt wurde gespeichert: Seite ${saved + 1} von ${pages.length}.`;
-  } else {
-    startComicBtn.textContent = 'COMIC STARTEN';
-    if(resumeHint) resumeHint.textContent = `${pages.length} Seiten verfügbar.`;
-  }
+async function startComic(){
+  if(!state.pages.length) await scanPages();
+  if(!state.pages.length){statusEl.animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}],{duration:350});return;}
+  state.index=0; showView('reader'); renderPage();
 }
-
 function renderPage(){
-  if(!pages.length) return;
-  currentPage = Math.max(0, Math.min(currentPage, pages.length - 1));
-  img.src = pages[currentPage];
-  img.alt = `Comicseite ${currentPage + 1}`;
-  counter.textContent = `Seite ${currentPage + 1} / ${pages.length}`;
-  progress.style.width = `${((currentPage + 1) / pages.length) * 100}%`;
-  prevBtn.disabled = currentPage === 0;
-  prevBtn.style.opacity = currentPage === 0 ? '.45' : '1';
-  nextBtn.textContent = currentPage === pages.length - 1 ? 'ENDE ✓' : 'WEITER →';
-  localStorage.setItem('truckerLoenhardPage', String(currentPage));
-  const chapter = Math.floor(currentPage / COMIC.chapterSize) + 1;
-  document.getElementById('readerTitle').textContent = `Kapitel ${chapter} · Trucker Lönhard`;
+  if(!state.pages.length)return;
+  loader.style.display='block'; pageImg.classList.remove('show');
+  const src=state.pages[state.index];
+  pageImg.onload=()=>{loader.style.display='none'; void pageImg.offsetWidth; pageImg.classList.add('show');};
+  pageImg.src=src; pageImg.alt=`Comicseite ${state.index+1}`;
+  counter.textContent=`SEITE ${state.index+1} / ${state.pages.length}`;
+  progress.style.width=`${((state.index+1)/state.pages.length)*100}%`;
+  localStorage.setItem('trucker-loenhard-last-page',String(state.index));
+  preload(state.index+1); preload(state.index-1);
 }
-
-function openReader(index=0){
-  currentPage = Math.max(0, Math.min(index, pages.length - 1));
-  renderPage();
-  showView('reader');
+function preload(i){if(i>=0&&i<state.pages.length){const im=new Image();im.src=state.pages[i];}}
+function move(delta){
+  const next=state.index+delta;
+  if(next<0){showView('home');return;}
+  if(next>=state.pages.length)return;
+  state.direction=delta; state.index=next; renderPage();
 }
-function next(){ if(currentPage < pages.length - 1){ currentPage++; renderPage(); } else { showView('chapters'); } }
-function prev(){ if(currentPage > 0){ currentPage--; renderPage(); } }
+$$('[data-start]').forEach(b=>b.addEventListener('click',startComic));
+$('#backHome').addEventListener('click',()=>showView('home'));
+$('#prevBtn').addEventListener('click',()=>move(-1)); $('#prevBottom').addEventListener('click',()=>move(-1));
+$('#nextBtn').addEventListener('click',()=>move(1)); $('#nextBottom').addEventListener('click',()=>move(1));
+$('#fullscreenBtn').addEventListener('click',async()=>{if(!document.fullscreenElement) await document.documentElement.requestFullscreen?.(); else await document.exitFullscreen?.();});
+document.addEventListener('keydown',e=>{if(!reader.classList.contains('active-view'))return;if(e.key==='ArrowRight'||e.key===' ')move(1);if(e.key==='ArrowLeft')move(-1);if(e.key==='Escape')showView('home');});
+let sx=0; $('#stage').addEventListener('touchstart',e=>sx=e.changedTouches[0].clientX,{passive:true}); $('#stage').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>55)move(dx<0?1:-1);},{passive:true});
 
-function buildChapters(){
-  chapterGrid.innerHTML = '';
-  const count = Math.ceil(pages.length / COMIC.chapterSize);
-  for(let c=0; c<count; c++){
-    const start = c * COMIC.chapterSize;
-    const end = Math.min(start + COMIC.chapterSize, pages.length);
-    const card = document.createElement('article');
-    card.className = 'chapter-card featured';
-    card.innerHTML = `<div class="chapter-number">${String(c+1).padStart(2,'0')}</div><div><p class="smallcaps">KAPITEL ${c+1}</p><h3>${c === 0 ? 'Die Reise beginnt' : 'Weiter auf der Route'}</h3><p>Comicseiten ${start+1}–${end}</p><button class="text-button">Kapitel lesen →</button></div>`;
-    card.addEventListener('click', () => openReader(start));
-    chapterGrid.appendChild(card);
-  }
-}
+// Parallax poster on pointer movement
+const poster=$('#poster'); const wrap=$('#posterWrap');
+wrap.addEventListener('pointermove',e=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const r=wrap.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;poster.style.transform=`scale(1.035) translate(${x*-9}px,${y*-7}px)`;});
+wrap.addEventListener('pointerleave',()=>poster.style.transform='scale(1.01)');
 
-function buildGallery(){
-  gallery.innerHTML = '';
-  pages.forEach((src,i)=>{
-    const el=document.createElement('article');
-    el.className='gallery-item';
-    el.innerHTML=`<div class="gallery-thumb"><img loading="lazy" src="${src}" alt="Comicseite ${i+1}"></div><p>Seite ${i+1}</p>`;
-    el.addEventListener('click',()=>openReader(i));
-    gallery.appendChild(el);
-  });
-}
+// Dust particles
+const dust=$('#dust');
+for(let i=0;i<32;i++){const p=document.createElement('i');p.style.left=Math.random()*100+'%';p.style.top=(Math.random()*120+10)+'%';p.style.animationDuration=(8+Math.random()*15)+'s';p.style.animationDelay=(-Math.random()*16)+'s';p.style.transform=`scale(${.4+Math.random()*1.7})`;dust.appendChild(p);}
 
-document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click',()=>showView(b.dataset.go)));
-startComicBtn.addEventListener('click',()=>openReader(savedPage()));
-document.getElementById('startFromBeginning').addEventListener('click',()=>openReader(0));
-prevBtn.addEventListener('click',prev); nextBtn.addEventListener('click',next);
-document.getElementById('prevSide').addEventListener('click',prev);
-document.getElementById('nextSide').addEventListener('click',next);
-document.getElementById('fullscreenBtn').addEventListener('click',()=>{
-  const stage=document.getElementById('comicStage');
-  if(!document.fullscreenElement) stage.requestFullscreen?.(); else document.exitFullscreen?.();
-});
-
-document.addEventListener('keydown',e=>{
-  if(!document.getElementById('reader').classList.contains('active')) return;
-  if(e.key==='ArrowRight') next();
-  if(e.key==='ArrowLeft') prev();
-  if(e.key==='Escape' && document.fullscreenElement) document.exitFullscreen?.();
-});
-let touchStart=0;
-document.getElementById('comicStage').addEventListener('touchstart',e=>touchStart=e.changedTouches[0].screenX,{passive:true});
-document.getElementById('comicStage').addEventListener('touchend',e=>{ const d=e.changedTouches[0].screenX-touchStart; if(Math.abs(d)>55) d<0?next():prev(); },{passive:true});
-
-discoverPages();
+scanPages();
