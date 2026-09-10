@@ -355,3 +355,10 @@ function elVikoEvent() {
 
     }, 6000);
 }
+/* =========================================
+   COMIC DIREKT VON COMICS.HTML STARTEN
+   ========================================= */
+
+if (window.location.hash === '#reader') {
+    startComic();
+}

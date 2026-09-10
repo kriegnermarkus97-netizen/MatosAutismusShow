@@ -1611,3 +1611,603 @@
         width: 220px;
     }
 }
+/* =====================================================
+   COMICS – BIBLIOTHEK
+   ===================================================== */
+
+.comics-page {
+  min-height: 100vh;
+  padding: 130px 6% 80px;
+  background:
+    radial-gradient(circle at top, rgba(125, 35, 170, 0.22), transparent 45%),
+    linear-gradient(180deg, #16051d 0%, #09030d 100%);
+}
+
+.comics-hero {
+  max-width: 1100px;
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+.comics-hero .eyebrow {
+  color: #d5a6ff;
+  font-weight: 900;
+  letter-spacing: 4px;
+  font-size: 13px;
+}
+
+.comics-hero h1 {
+  margin: 5px 0 10px;
+  font-size: clamp(48px, 8vw, 90px);
+  line-height: 0.95;
+  color: white;
+  text-shadow: 4px 4px 0 #6c168c;
+}
+
+.comics-hero p {
+  max-width: 650px;
+  margin: 18px auto 0;
+  color: #d8cddd;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+
+/* COMIC GRID */
+
+.comic-library {
+  max-width: 1100px;
+  margin: auto;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+
+/* COMIC KARTE */
+
+.comic-card {
+  position: relative;
+  overflow: hidden;
+
+  border: 3px solid #713092;
+  border-radius: 20px;
+
+  background:
+    linear-gradient(145deg, #24102c, #110616);
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.55);
+
+  transition:
+    transform .25s ease,
+    border-color .25s ease;
+}
+
+.comic-card:hover {
+  transform: translateY(-7px);
+  border-color: #b966e0;
+}
+
+
+/* COVER */
+
+.comic-card img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+
+  border-bottom: 3px solid #713092;
+}
+
+
+/* TEXTBEREICH */
+
+.comic-card-content {
+  padding: 25px;
+}
+
+.comic-label {
+  display: inline-block;
+
+  padding: 5px 10px;
+  margin-bottom: 12px;
+
+  border-radius: 6px;
+
+  background: #6e278d;
+  color: white;
+
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.comic-card h2 {
+  margin: 0 0 15px;
+
+  color: white;
+
+  font-size: 27px;
+  line-height: 1.05;
+}
+
+.comic-card-content p {
+  color: #cdbfd2;
+  line-height: 1.55;
+  margin-bottom: 25px;
+}
+
+
+/* COMIC LESEN BUTTON */
+
+.comic-play-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 13px 22px;
+
+  border-radius: 9px;
+
+  background: linear-gradient(
+    135deg,
+    #9b3cc4,
+    #642080
+  );
+
+  color: white;
+  text-decoration: none;
+
+  font-weight: 900;
+  letter-spacing: 1px;
+
+  transition:
+    transform .2s ease,
+    filter .2s ease;
+}
+
+.comic-play-button:hover {
+  transform: scale(1.04);
+  filter: brightness(1.15);
+}
+
+
+/* COMING SOON KARTE */
+
+.coming-soon {
+  min-height: 420px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-style: dashed;
+
+  opacity: .75;
+}
+
+.coming-soon-inner {
+  text-align: center;
+}
+
+.coming-soon-inner > span {
+  display: block;
+
+  font-size: 90px;
+  font-weight: 900;
+
+  color: #8e4aaa;
+}
+
+.coming-soon h2 {
+  margin-top: 10px;
+}
+
+.coming-soon p {
+  color: #aa8eb4;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+
+/* HANDY */
+
+@media (max-width: 650px) {
+
+  .comics-page {
+    padding: 105px 16px 50px;
+  }
+
+  .comic-library {
+    grid-template-columns: 1fr;
+  }
+
+  .comic-card h2 {
+    font-size: 23px;
+  }
+
+  .coming-soon {
+    min-height: 300px;
+  }
+}
+/* =====================================================
+   GAMES – BIBLIOTHEK
+   ===================================================== */
+
+.games-page {
+  min-height: 100vh;
+  padding: 130px 6% 80px;
+  background:
+    radial-gradient(circle at top, rgba(125, 35, 170, 0.22), transparent 45%),
+    linear-gradient(180deg, #16051d 0%, #09030d 100%);
+}
+
+.games-hero {
+  max-width: 1100px;
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+.games-hero .eyebrow {
+  color: #d5a6ff;
+  font-weight: 900;
+  letter-spacing: 4px;
+  font-size: 13px;
+}
+
+.games-hero h1 {
+  margin: 5px 0 10px;
+  font-size: clamp(48px, 8vw, 90px);
+  line-height: 0.95;
+  color: white;
+  text-shadow: 4px 4px 0 #6c168c;
+}
+
+.games-hero p {
+  max-width: 650px;
+  margin: 18px auto 0;
+  color: #d8cddd;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+
+/* GAME GRID */
+
+.game-library {
+  max-width: 1100px;
+  margin: auto;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+
+/* GAME KARTE */
+
+.game-card {
+  position: relative;
+  overflow: hidden;
+
+  border: 3px solid #713092;
+  border-radius: 20px;
+
+  background: linear-gradient(145deg, #24102c, #110616);
+
+  box-shadow: 0 12px 35px rgba(0, 0, 0, .55);
+
+  transition:
+    transform .25s ease,
+    border-color .25s ease;
+}
+
+.game-card:hover {
+  transform: translateY(-7px);
+  border-color: #b966e0;
+}
+
+
+/* VORSCHAUBILD */
+
+.game-preview {
+  position: relative;
+}
+
+.game-preview img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+
+  border-bottom: 3px solid #713092;
+}
+
+.game-badge {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+
+  padding: 6px 11px;
+
+  border-radius: 7px;
+
+  background: #6e278d;
+  color: white;
+
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+
+/* TEXT */
+
+.game-card-content {
+  padding: 25px;
+}
+
+.game-card h2 {
+  margin: 0 0 15px;
+
+  color: white;
+
+  font-size: 30px;
+  line-height: 1;
+}
+
+.game-card-content p {
+  color: #cdbfd2;
+  line-height: 1.55;
+  margin-bottom: 25px;
+}
+
+
+/* GAME STARTEN */
+
+.game-play-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 13px 22px;
+
+  border-radius: 9px;
+
+  background: linear-gradient(
+    135deg,
+    #9b3cc4,
+    #642080
+  );
+
+  color: white;
+  text-decoration: none;
+
+  font-weight: 900;
+  letter-spacing: 1px;
+
+  transition:
+    transform .2s ease,
+    filter .2s ease;
+}
+
+.game-play-button:hover {
+  transform: scale(1.04);
+  filter: brightness(1.15);
+}
+
+
+/* COMING SOON */
+
+.game-coming-soon {
+  min-height: 420px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-style: dashed;
+
+  opacity: .75;
+}
+
+.game-coming-inner {
+  text-align: center;
+}
+
+.game-coming-inner > span {
+  display: block;
+
+  font-size: 90px;
+  font-weight: 900;
+
+  color: #8e4aaa;
+}
+
+.game-coming-inner h2 {
+  margin-top: 10px;
+}
+
+.game-coming-inner p {
+  color: #aa8eb4;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+
+/* HANDY */
+
+@media (max-width: 650px) {
+
+  .games-page {
+    padding: 105px 16px 50px;
+  }
+
+  .game-library {
+    grid-template-columns: 1fr;
+  }
+
+  .game-card h2 {
+    font-size: 25px;
+  }
+
+  .game-coming-soon {
+    min-height: 300px;
+  }
+}
+/* =====================================================
+   BONUS – BIBLIOTHEK
+   ===================================================== */
+
+.bonus-page {
+  min-height: 100vh;
+  padding: 130px 6% 80px;
+  background:
+    radial-gradient(circle at top, rgba(125, 35, 170, 0.22), transparent 45%),
+    linear-gradient(180deg, #16051d 0%, #09030d 100%);
+}
+
+.bonus-hero {
+  max-width: 1100px;
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+.bonus-hero .eyebrow {
+  color: #d5a6ff;
+  font-weight: 900;
+  letter-spacing: 4px;
+  font-size: 13px;
+}
+
+.bonus-hero h1 {
+  margin: 5px 0 10px;
+  font-size: clamp(48px, 8vw, 90px);
+  line-height: 0.95;
+  color: white;
+  text-shadow: 4px 4px 0 #6c168c;
+}
+
+.bonus-hero p {
+  max-width: 650px;
+  margin: 18px auto 0;
+  color: #d8cddd;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+
+/* BONUS GRID */
+
+.bonus-library {
+  max-width: 1100px;
+  margin: auto;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+
+
+/* BONUS KARTE */
+
+.bonus-card {
+  min-height: 270px;
+  padding: 32px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  border: 3px solid #713092;
+  border-radius: 20px;
+
+  background:
+    linear-gradient(145deg, #24102c, #110616);
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, .55);
+
+  transition:
+    transform .25s ease,
+    border-color .25s ease;
+}
+
+.bonus-card:hover {
+  transform: translateY(-7px);
+  border-color: #b966e0;
+}
+
+
+/* ICON */
+
+.bonus-icon {
+  font-size: 48px;
+  margin-bottom: 18px;
+}
+
+
+/* TEXT */
+
+.bonus-card h2 {
+  margin: 0 0 12px;
+
+  color: white;
+
+  font-size: 25px;
+  line-height: 1.1;
+}
+
+.bonus-card p {
+  margin: 0 0 25px;
+
+  color: #cdbfd2;
+
+  line-height: 1.55;
+}
+
+
+/* COMING SOON */
+
+.bonus-soon {
+  margin-top: auto;
+
+  display: inline-block;
+
+  padding: 7px 12px;
+
+  border: 2px dashed #8e4aaa;
+  border-radius: 7px;
+
+  color: #c68de0;
+
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+
+/* HANDY */
+
+@media (max-width: 700px) {
+
+  .bonus-page {
+    padding: 105px 16px 50px;
+  }
+
+  .bonus-library {
+    grid-template-columns: 1fr;
+  }
+
+  .bonus-card {
+    min-height: 230px;
+    padding: 25px;
+  }
+
+  .bonus-card h2 {
+    font-size: 22px;
+  }
+}
