@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Route 69 – Trucker Run</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(#6e43a9 0%,#e68a52 38%,#d7a05b 38%,#c98543 100%);color:#fff;font-family:Arial,Helvetica,sans-serif;display:flex;justify-content:center;padding:16px;touch-action:manipulation}.game-shell{width:min(100%,720px)}.hud{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}.hud-box{background:rgba(20,13,35,.9);border:2px solid rgba(255,255,255,.18);border-radius:14px;padding:10px 12px;text-align:center;font-weight:800;font-size:clamp(14px,3.5vw,18px)}#game{width:100%;aspect-ratio:3/4;display:block;border-radius:18px;border:4px solid #1a1026;background:#222;box-shadow:0 14px 35px rgba(0,0,0,.35)}.controls{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.control-btn,.start-btn{min-height:58px;border:0;border-radius:16px;font-size:24px;font-weight:900;cursor:pointer;background:rgba(20,13,35,.9);color:#fff;border:2px solid rgba(255,255,255,.2)}.control-btn:active,.start-btn:active{transform:scale(.97)}.start-wrap{margin-top:12px}.start-btn{width:100%;background:#5e2c91;font-size:18px}.hint{text-align:center;opacity:.8;margin:10px 4px 0;font-size:13px}@media(min-width:760px){#game{aspect-ratio:4/3}}
+  </style>
+</head>
+<body>
+<main class="game-shell">
+  <div class="hud">
+    <div class="hud-box">❤️ <span id="lives">5</span>/5</div>
+    <div class="hud-box">🍺 <span id="beers">0</span></div>
+    <div class="hud-box">SCORE <span id="score">0</span></div>
+  </div>
+  <canvas id="game" width="720" height="960" aria-label="Route 69 Trucker Run"></canvas>
+  <div class="controls">
+    <button class="control-btn" id="leftBtn" type="button">⬅️ LINKS</button>
+    <button class="control-btn" id="rightBtn" type="button">RECHTS ➡️</button>
+  </div>
+  <div class="start-wrap"><button class="start-btn" id="startBtn" type="button">🚛 SPIEL STARTEN</button></div>
+  <p class="hint">PC: Pfeiltasten oder A / D · Handy: LINKS / RECHTS</p>
+</main>
+<script>
+(()=>{
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+const livesEl=document.getElementById('lives'),beersEl=document.getElementById('beers'),scoreEl=document.getElementById('score'),startBtn=document.getElementById('startBtn'),leftBtn=document.getElementById('leftBtn'),rightBtn=document.getElementById('rightBtn');
+const MAX_LIVES=5, lanes=3; let laneCenters=[],roadLeft=0,roadWidth=0,running=false,gameOver=false,lives=MAX_LIVES,beers=0,score=0,speed=5,spawnTimer=0,lastTime=0,objects=[],roadOffset=0;
+const player={lane:1,y:0,width:68,height:112};
+function resizeGameMath(){const w=canvas.width,h=canvas.height;roadWidth=w*.58;roadLeft=(w-roadWidth)/2;laneCenters=Array.from({length:lanes},(_,i)=>roadLeft+roadWidth*((i+.5)/lanes));player.y=h-player.height-48}
+function resetGame(){lives=MAX_LIVES;beers=0;score=0;speed=5;spawnTimer=0;objects=[];player.lane=1;gameOver=false;updateHUD()}
+function updateHUD(){livesEl.textContent=lives;beersEl.textContent=beers;scoreEl.textContent=Math.floor(score)}
+function move(dir){if(!running)return;player.lane=Math.max(0,Math.min(lanes-1,player.lane+dir))}
+function spawn(){const r=Math.random();let type=r<.28?'beer':r<.64?'cactus':'wolf';objects.push({type,lane:Math.floor(Math.random()*lanes),y:-80,w:type==='beer'?38:52,h:type==='beer'?52:70})}
+function rectsOverlap(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+function drawBackground(){const w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);let g=ctx.createLinearGradient(0,0,0,h*.42);g.addColorStop(0,'#6d46a8');g.addColorStop(1,'#e6935e');ctx.fillStyle=g;ctx.fillRect(0,0,w,h*.42);ctx.fillStyle='#d49b58';ctx.fillRect(0,h*.42,w,h*.58);ctx.fillStyle='#5d4939';ctx.fillRect(roadLeft,0,roadWidth,h);ctx.strokeStyle='#f5e7aa';ctx.lineWidth=6;ctx.setLineDash([28,24]);for(let i=1;i<lanes;i++){let x=roadLeft+roadWidth*i/lanes;ctx.beginPath();ctx.moveTo(x,-60+roadOffset);ctx.lineTo(x,h+60);ctx.stroke()}ctx.setLineDash([])}
+function drawPlayer(){const x=laneCenters[player.lane]-player.width/2;ctx.fillStyle='#5b267d';ctx.fillRect(x,player.y,player.width,player.height);ctx.fillStyle='#eee';ctx.fillRect(x+10,player.y+10,player.width-20,24);ctx.fillStyle='#222';ctx.fillRect(x+7,player.y+74,14,28);ctx.fillRect(x+player.width-21,player.y+74,14,28)}
+function drawObject(o){const x=laneCenters[o.lane]-o.w/2;o.x=x;if(o.type==='beer'){ctx.fillStyle='#f5c04f';ctx.fillRect(x,o.y,o.w,o.h);ctx.fillStyle='#fff';ctx.fillRect(x+8,o.y+10,o.w-16,18)}else if(o.type==='cactus'){ctx.fillStyle='#277a3f';ctx.fillRect(x+o.w*.4,o.y,o.w*.2,o.h);ctx.fillRect(x,o.y+o.h*.35,o.w*.45,o.h*.15);ctx.fillRect(x+o.w*.55,o.y+o.h*.2,o.w*.45,o.h*.15)}else{ctx.fillStyle='#333';ctx.beginPath();ctx.arc(x+o.w/2,o.y+o.h/2,o.w/2,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.fillRect(x+12,o.y+18,8,8);ctx.fillRect(x+o.w-20,o.y+18,8,8)}}
+function update(dt){score+=dt*.012;speed=5+Math.min(9,score/350);roadOffset=(roadOffset+speed*dt*.03)%52;spawnTimer-=dt;if(spawnTimer<=0){spawn();spawnTimer=Math.max(340,850-speed*28)}const p={x:laneCenters[player.lane]-player.width/2,y:player.y,w:player.width,h:player.height};for(let i=objects.length-1;i>=0;i--){const o=objects[i];o.y+=speed*dt*.06;const r={x:laneCenters[o.lane]-o.w/2,y:o.y,w:o.w,h:o.h};if(rectsOverlap(p,r)){if(o.type==='beer'){beers++;score+=50}else{lives--;if(lives<=0){running=false;gameOver=true;startBtn.textContent='🔁 NOCHMAL SPIELEN'}}objects.splice(i,1);updateHUD();continue}if(o.y>canvas.height+100)objects.splice(i,1)}updateHUD()}
+function draw(){drawBackground();for(const o of objects)drawObject(o);drawPlayer();if(!running){ctx.fillStyle='rgba(0,0,0,.45)';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.textAlign='center';ctx.fillStyle='#fff';ctx.font='900 46px Arial';ctx.fillText(gameOver?'GAME OVER':'ROUTE 69',canvas.width/2,canvas.height/2-20);ctx.font='700 24px Arial';ctx.fillText(gameOver?'Score: '+Math.floor(score):'TRUCKER RUN',canvas.width/2,canvas.height/2+28)}}
+function loop(t){const dt=Math.min(40,t-lastTime||16);lastTime=t;if(running)update(dt);draw();requestAnimationFrame(loop)}
+startBtn.addEventListener('click',()=>{resetGame();running=true;startBtn.textContent='🚛 LÄUFT...'});leftBtn.addEventListener('click',()=>move(-1));rightBtn.addEventListener('click',()=>move(1));document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key.toLowerCase()==='a')move(-1);if(e.key==='ArrowRight'||e.key.toLowerCase()==='d')move(1)});resizeGameMath();resetGame();requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
