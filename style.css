@@ -2211,3 +2211,109 @@
     font-size: 22px;
   }
 }
+/* =========================================================
+   FIGUREN – COMICSCHRIFT + KLARE FARBEN, OHNE GLOW
+   ========================================================= */
+
+/* Comicschrift */
+.character-profile,
+.character-profile h2,
+.character-profile h3,
+.character-profile p,
+.character-profile span,
+.character-profile strong,
+.character-role,
+.character-quote,
+.character-traits,
+.character-motto {
+    font-family: "Trebuchet MS", "Arial Black", Arial, sans-serif;
+}
+
+/* Große Charakternamen – Comic-Look */
+.character-profile h2 {
+    font-family: Impact, "Arial Black", sans-serif;
+    font-style: italic;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+
+    /* KEIN LEUCHTEN */
+    text-shadow:
+        3px 3px 0 #111,
+        -1px -1px 0 #111,
+        1px -1px 0 #111,
+        -1px 1px 0 #111;
+
+    filter: none !important;
+}
+
+/* Überschriften */
+.character-profile h3 {
+    font-family: Impact, "Arial Black", sans-serif;
+    letter-spacing: 1px;
+    text-shadow: none !important;
+    filter: none !important;
+}
+
+/* Lönhard – Lila */
+.loenhard-profile h2,
+.loenhard-profile h3 {
+    color: #b86cf2;
+}
+
+/* Fridolin – Grün */
+.fridolin-profile h2,
+.fridolin-profile h3 {
+    color: #64d77e;
+}
+
+/* EL VIKO – Orange */
+.el-viko-profile h2,
+.el-viko-profile h3 {
+    color: #f0a34b;
+}
+
+/* GHETTOQUEENS – Pink */
+.ghettoqueens-profile h2,
+.ghettoqueens-profile h3 {
+    color: #f05ab1;
+}
+
+/* Mato – Blau */
+.mato-profile h2,
+.mato-profile h3 {
+    color: #63aaf0;
+}
+
+/* =========================================================
+   ALLES LEUCHTEN ENTFERNEN
+   ========================================================= */
+
+.character-profile,
+.character-profile *,
+.character-information,
+.character-image,
+.character-image img,
+.character-stats,
+.character-stats div,
+.character-traits,
+.character-traits span,
+.character-motto,
+.character-quote {
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+/* Normaler Text ohne Glow */
+.character-profile p,
+.character-profile span,
+.character-profile strong,
+.character-role,
+.character-quote,
+.character-motto {
+    text-shadow: none !important;
+}
+
+/* Bilder bleiben unverändert – nur Glow weg */
+.character-image img {
+    filter: none !important;
+}
