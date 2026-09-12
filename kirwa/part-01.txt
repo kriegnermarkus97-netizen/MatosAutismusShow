@@ -1,0 +1,331 @@
+ .armHead{background:#514033}.armOpponent.elviko .armBody{background:#352c27}.armOpponent.ghettoqueens .armBody{background:#b94c91}
+
+
+.armCountdown{
+ position:absolute;inset:0;z-index:65;display:none;align-items:center;justify-content:center;
+ background:#09080788;color:#fff0a5;font:900 clamp(90px,18vw,170px) Georgia;
+ text-shadow:0 7px 0 #4a2515,0 0 25px #000;
+}
+.armCountdown.show{display:flex}
+.armCountdown.pop{animation:armCountPop .32s ease-out}
+@keyframes armCountPop{0%{transform:scale(.55);opacity:.25}70%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+
+
+/* V21 – Wasserbüffelrennen */
+.buffRaceWrap{
+  width:min(980px,96%);margin:0 auto;
+}
+.buffSelectTitle{
+  text-align:center;font:900 24px Georgia;color:#f3d9a4;margin:8px 0 12px;
+}
+.buffChooser{
+  display:grid;grid-template-columns:repeat(5,minmax(110px,1fr));gap:10px;
+  width:min(900px,96%);margin:0 auto 14px;
+}
+.buffCard{
+  border:3px solid #8e643b;border-radius:12px;background:#241912;color:#fff0c8;
+  padding:10px 6px;cursor:pointer;text-align:center;font-weight:900;
+  transition:.15s transform,.15s border-color,.15s box-shadow;
+}
+.buffCard:hover{transform:translateY(-3px)}
+.buffCard.selected{border-color:#ffd766;box-shadow:0 0 0 3px #ffd76655,0 0 18px #000}
+.buffMini{
+  position:relative;width:92px;height:66px;margin:0 auto 5px;
+}
+.buffBody{
+  position:absolute;left:20px;top:23px;width:57px;height:30px;border-radius:48% 52% 42% 45%;
+  border:3px solid #241a15;background:var(--buff-color,#6b5645);
+}
+.buffHead{
+  position:absolute;left:3px;top:17px;width:31px;height:29px;border-radius:45%;
+  border:3px solid #241a15;background:var(--buff-color,#6b5645);
+}
+.buffHead:before,.buffHead:after{
+  content:"";position:absolute;top:-10px;width:17px;height:12px;border-top:5px solid #ddd0ae;border-radius:50%;
+}
+.buffHead:before{left:-10px;transform:rotate(-25deg)}
+.buffHead:after{right:-10px;transform:rotate(25deg)}
+.buffMoustache{
+  position:absolute;left:5px;top:15px;width:21px;height:8px;
+}
+.buffMoustache:before,.buffMoustache:after{
+  content:"";position:absolute;top:0;width:13px;height:5px;background:#1b120d;border-radius:80% 10%;
+}
+.buffMoustache:before{left:0;transform:rotate(15deg)}
+.buffMoustache:after{right:0;transform:scaleX(-1) rotate(15deg)}
+.buffSombrero{
+  position:absolute;left:-3px;top:-5px;width:37px;height:10px;border-radius:50%;
+  background:#d8a64d;border:2px solid #4a3119;
+}
+.buffSombrero:after{
+  content:"";position:absolute;left:10px;top:-9px;width:17px;height:13px;border-radius:50% 50% 20% 20%;
+  background:#d8a64d;border:2px solid #4a3119;
+}
+.buffLeg{position:absolute;top:48px;width:7px;height:17px;background:var(--buff-color,#6b5645);border:2px solid #241a15;border-radius:4px}
+.buffLeg.l1{left:28px}.buffLeg.l2{left:42px}.buffLeg.l3{left:61px}.buffLeg.l4{left:72px}
+
+.buffTrack{
+  position:relative;width:min(930px,98%);height:390px;margin:8px auto 12px;
+  border:7px solid #3a2416;border-radius:16px;overflow:hidden;
+  background:
+    repeating-linear-gradient(to bottom,#d9b16e 0 70px,#cda15d 70px 72px);
+  box-shadow:inset 0 0 28px #0008;
+}
+.buffTrack:before{
+  content:"START";position:absolute;left:8px;top:0;bottom:0;width:58px;
+  display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;
+  font:900 18px Georgia;color:#4a2b18;background:#fff4d06b;border-right:4px dashed #4f2f1b;z-index:2
+}
+.buffFinish{
+  position:absolute;right:150px;top:0;bottom:0;width:26px;z-index:2;
+  background:repeating-linear-gradient(45deg,#fff 0 10px,#111 10px 20px);
+  border-left:3px solid #222;border-right:3px solid #222;
+}
+.buffLane{
+  position:absolute;left:70px;right:0;height:72px;border-bottom:2px dashed #825c34;
+}
+.buffRunner{
+  position:absolute;left:78px;width:100px;height:68px;z-index:5;
+  transition:none;will-change:left;
+}
+.buffRunner .buffMini{transform:scale(.92);transform-origin:center}
+.buffRunnerName{
+  position:absolute;left:102px;top:20px;white-space:nowrap;font:900 14px Georgia;color:#3c2415;
+  text-shadow:0 1px #fff8;
+}
+.buffRunner.running .buffMini{animation:buffGallop .17s infinite alternate}
+@keyframes buffGallop{from{transform:translateY(-2px) scale(.92)}to{transform:translateY(3px) scale(.92)}}
+.buffRaceHud{
+  display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:8px auto;
+}
+.buffRaceResult{
+  text-align:center;font-weight:900;font-size:22px;color:#ffe3a3;min-height:34px;margin:8px;
+}
+.buffPodium{
+  display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:8px auto;
+}
+.buffPodium div{
+  padding:8px 13px;border:2px solid #9c7449;border-radius:9px;background:#211811;color:#f3ddb4;font-weight:900
+}
+@media(max-width:700px){
+ .buffChooser{grid-template-columns:repeat(2,1fr)}
+ .buffTrack{height:390px}
+ .buffRunnerName{display:none}
+}
+
+
+/* V23 – Büffel schauen in Laufrichtung */
+.buffRunner .buffMini{
+  transform:scaleX(-1) scale(.92);
+  transform-origin:center;
+}
+.buffRunner.running .buffMini{
+  animation:buffGallopForward .17s infinite alternate;
+}
+@keyframes buffGallopForward{
+  from{transform:scaleX(-1) translateY(-2px) scale(.92)}
+  to{transform:scaleX(-1) translateY(3px) scale(.92)}
+}
+
+
+/* V24 – längeres Rennen + Platzierung direkt auf der Laufbahn */
+.buffPlaceBadge{
+  position:absolute;
+  right:22px;
+  top:19px;
+  min-width:42px;
+  height:34px;
+  padding:0 8px;
+  border-radius:10px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  font:900 20px Georgia;
+  color:#2a180e;
+  background:#f3d77a;
+  border:3px solid #4b2a17;
+  box-shadow:0 3px 8px #0008;
+  z-index:10;
+}
+.buffPlaceBadge.show{display:flex}
+.buffPlaceBadge.p1{background:#ffd94f}
+.buffPlaceBadge.p2{background:#d8d8d8}
+.buffPlaceBadge.p3{background:#c98a4b}
+.buffPlaceBadge.p4,.buffPlaceBadge.p5{background:#f0deb0}
+
+
+/* V25 – Mandala-Bude */
+.mandalaWrap{width:min(980px,96%);margin:0 auto}
+.mandalaTop{display:grid;grid-template-columns:220px 1fr;gap:18px;align-items:start}
+.mandalaChars{display:grid;gap:8px}
+.mandalaCharBtn{
+  border:3px solid #8c6540;background:#221811;color:#f4dfb4;border-radius:10px;
+  padding:10px;cursor:pointer;font-weight:900;text-align:left
+}
+.mandalaCharBtn.active{border-color:#ffd665;box-shadow:0 0 0 3px #ffd66533}
+.mandalaBoard{
+  position:relative;background:#fff;border:8px solid #4a2b18;border-radius:16px;
+  min-height:620px;display:flex;align-items:center;justify-content:center;overflow:hidden
+}
+.mandalaBoard svg{width:min(540px,95%);height:auto;max-height:590px}
+.mandalaRegion{fill:#fff;stroke:#111;stroke-width:4;cursor:pointer;transition:.12s}
+.mandalaRegion:hover{filter:brightness(.93)}
+.mandalaLine{fill:none;stroke:#111;stroke-width:4;pointer-events:none}
+.mandalaLabel{font:900 28px Georgia;fill:#111;text-anchor:middle;pointer-events:none}
+.mandalaPalette{
+  margin:14px auto 8px;display:flex;justify-content:center;gap:9px;flex-wrap:wrap;
+  padding:12px;background:#211711;border:3px solid #8d6540;border-radius:12px
+}
+.mandalaColor{
+  width:42px;height:42px;border-radius:50%;border:4px solid #eee;cursor:pointer;
+  box-shadow:0 2px 7px #0008
+}
+.mandalaColor.active{outline:4px solid #ffd86d;transform:scale(1.08)}
+.mandalaActions{text-align:center;margin:8px}
+.mandalaHint{text-align:center;color:#f1ddb6;font-weight:800;margin:6px 0 12px}
+@media(max-width:760px){.mandalaTop{grid-template-columns:1fr}.mandalaChars{grid-template-columns:repeat(2,1fr)}}
+
+
+/* V30 – Fressmeile */
+.foodGame{text-align:center;max-width:900px;margin:auto}
+.foodShelf{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:15px 0}
+.foodItem{font-size:48px;background:#f7d98b;border:4px solid #6b3b1c;border-radius:16px;padding:9px 14px;cursor:pointer;transition:.15s}
+.foodItem:hover{transform:translateY(-5px) scale(1.05)} .foodItem.eaten{opacity:.25;pointer-events:none}
+.foodStage{height:360px;position:relative;overflow:hidden;background:linear-gradient(#f5cf82,#d99145);border:7px solid #5b321b;border-radius:18px}
+.foodTrucker{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);font-size:150px;line-height:1}
+.foodFace{font-size:105px;display:block}.foodMouth{font-size:62px;margin-top:-28px;display:block}
+.foodFlying{position:absolute;font-size:55px;z-index:5;animation:eatFly .75s ease-in forwards}
+@keyframes eatFly{0%{top:5px;left:var(--x);transform:scale(1)}100%{top:210px;left:48%;transform:scale(.15) rotate(300deg)}}
+.foodChew{animation:chew .18s 4 alternate}@keyframes chew{to{transform:translateX(-50%) scale(1.08) rotate(2deg)}}
+.foodCounter{font:900 22px Georgia;margin:10px;color:#fff3c8}
+.comedySick{position:absolute;left:50%;bottom:80px;transform:translateX(-50%);font-size:80px;animation:sickPop 1.4s ease-out forwards;z-index:8}
+@keyframes sickPop{0%{opacity:0;transform:translateX(-50%) scale(.2)}25%{opacity:1;transform:translateX(-50%) scale(1.2)}100%{opacity:0;transform:translateX(-50%) translateY(110px) scale(.8)}}
+
+
+/* V31 – Glücksrad statt Figuren gestalten */
+.luckGame{text-align:center;max-width:760px;margin:auto}
+.luckWheel{width:330px;height:330px;margin:4px auto 18px;border-radius:50%;border:12px solid #4b2b19;box-shadow:0 8px 18px #0008,inset 0 0 0 7px #f2d48c;background:conic-gradient(#d62f2f 0deg 15deg,#d62f2f 15deg 30deg,#f4d03f 30deg 45deg,#d62f2f 45deg 60deg,#d62f2f 60deg 75deg,#d62f2f 75deg 90deg,#2ecc71 90deg 105deg,#d62f2f 105deg 120deg,#d62f2f 120deg 135deg,#d62f2f 135deg 150deg,#3498db 150deg 165deg,#d62f2f 165deg 180deg,#d62f2f 180deg 195deg,#d62f2f 195deg 210deg,#9b59b6 210deg 225deg,#d62f2f 225deg 240deg,#d62f2f 240deg 255deg,#d62f2f 255deg 270deg,#f39c12 270deg 285deg,#d62f2f 285deg 300deg,#d62f2f 300deg 315deg,#d62f2f 315deg 330deg,#f1c40f 330deg 345deg,#d62f2f 345deg 360deg);position:relative;transition:transform 4.2s cubic-bezier(.12,.72,.12,1)}
+.luckWheel:after{content:'🍀';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:74px;height:74px;border-radius:50%;background:#2c1b12;border:7px solid #f3d27c;display:flex;align-items:center;justify-content:center;font-size:38px}
+.luckPointer{font-size:54px;color:#ffd75c;text-shadow:0 3px 2px #000;margin-bottom:-19px;position:relative;z-index:3}
+.luckResult{min-height:60px;font:900 25px Georgia;color:#ffe5a5;margin:15px}
+
+
+/* V32 – Glücksrad Gewinnübersicht */
+.luckPrizes{
+  margin:14px auto 18px;
+  max-width:560px;
+  background:#20160f;
+  border:3px solid #8f623b;
+  border-radius:14px;
+  padding:12px 16px;
+  color:#f5dfb6;
+}
+.luckPrizes h3{margin:0 0 8px;font:900 22px Georgia;color:#ffd86d}
+.luckPrizesGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+}
+.luckPrize{
+  padding:8px 10px;
+  background:#33241a;
+  border:2px solid #6f4a2c;
+  border-radius:9px;
+  font-weight:900;
+}
+.luckPrize.niete{color:#ffb0a8}
+.luckPrize.extra{color:#9fe7ff}
+@media(max-width:650px){.luckPrizesGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* V33 – Glücksrad frei auf dem Jahrmarkt + Kirwa-Shop */
+.fairLuckWheel{
+  cursor:pointer;
+  transition:transform .18s,filter .18s;
+  box-shadow:0 9px 20px #0009,0 0 0 6px #f2d07866;
+}
+.fairLuckWheel:hover{transform:scale(1.08);filter:brightness(1.12)}
+.fairLuckWheel .center{
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;font-weight:900;
+}
+.fairWheelPointer{
+  position:absolute;left:50%;top:-34px;transform:translateX(-50%);
+  color:#ffd963;font-size:42px;z-index:8;text-shadow:0 3px 2px #000;
+}
+.fairWheelSign{
+  position:absolute;left:50%;bottom:-45px;transform:translateX(-50%);
+  padding:6px 16px;border:4px solid #4b2c1a;border-radius:9px;
+  background:#f0c35b;color:#3a2112;font:900 18px Georgia;
+  white-space:nowrap;box-shadow:0 4px 7px #0008;
+}
+.shopWrap{max-width:850px;margin:auto;text-align:center}
+.shopBalance{font:900 24px Georgia;color:#ffe08a;margin:12px}
+.shopGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:18px 0}
+.shopItem{
+  background:#2c2017;border:3px solid #805832;border-radius:14px;
+  padding:14px 10px;color:#f5e1b9;min-height:155px;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+}
+.shopIcon{font-size:52px}
+.shopName{font-weight:900;font-size:17px;margin:4px}
+.shopPrice{font:900 18px Georgia;color:#ffd86c}
+.shopBuy{
+  margin-top:8px;padding:8px 13px;border:0;border-radius:9px;
+  background:#d89c37;color:#2d180d;font-weight:900;cursor:pointer
+}
+.shopBuy:disabled{opacity:.4;cursor:not-allowed}
+.shopOwned{color:#91e59c;font-weight:900}
+.shopMessage{min-height:36px;font:900 20px Georgia;color:#ffe5a3;margin-top:10px}
+@media(max-width:700px){.shopGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* V36 – Spielerprofil, Taler-Konto, Sammlung & tägliches Glücksrad */
+.playerAccount{
+ position:absolute;left:18px;top:18px;z-index:15;
+ display:flex;align-items:center;gap:10px;
+ background:#20160fdd;border:3px solid #d2a95b;border-radius:14px;
+ padding:8px 11px;color:#fff4d0;box-shadow:0 4px 12px #0008;
+}
+.playerAvatar{font-size:34px}
+.playerMeta{line-height:1.1;text-align:left}
+.playerName{font:900 15px Georgia;color:#ffd96b;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.playerMoney{font-weight:900;font-size:14px;margin-top:4px}
+.collectionBtn{
+ border:2px solid #e3bd6a;border-radius:9px;background:#6b3e1f;color:#fff3d0;
+ padding:7px 9px;font-weight:900;cursor:pointer
+}
+.startGate{
+ position:fixed;inset:0;z-index:1000;background:#120d09f5;
+ display:flex;align-items:center;justify-content:center;padding:20px
+}
+.startGate.hidden{display:none}
+.startCard{
+ width:min(720px,94vw);background:#2a1d13;border:5px solid #d0a052;border-radius:20px;
+ padding:24px;color:#f8e7bf;text-align:center;box-shadow:0 18px 45px #000c
+}
+.startCard h1{margin:0 0 8px;color:#ffd56a;font:900 34px Georgia}
+.startCard p{margin:5px 0 16px}
+.nameInput{
+ width:min(420px,88%);font-size:20px;padding:12px 14px;border-radius:10px;
+ border:3px solid #8b6036;background:#fff7df;color:#2a180d;font-weight:800;text-align:center
+}
+.charGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px auto;max-width:650px}
+.charPick{
+ border:3px solid #76502f;border-radius:13px;background:#3b291c;color:#f7e6bd;
+ padding:12px 6px;cursor:pointer;font-weight:900
+}
+.charPick .charEmoji{display:block;font-size:42px;margin-bottom:5px}
+.charPick.selected{border-color:#ffd85c;background:#69441f;transform:translateY(-2px)}
+.startButton{font-size:19px;padding:12px 24px;border:0;border-radius:11px;background:#e1a83e;color:#2c190c;font-weight:900;cursor:pointer}
+.collectionPanel{max-width:760px;margin:auto;text-align:center}
+.collectionGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.collectionCard{background:#2b2118;border:3px solid #735033;border-radius:13px;padding:14px;color:#f6dfb3}
+.collectionCard.locked{opacity:.35;filter:grayscale(1)}
+.collectionCard .big{font-size:48px}
+.dailyInfo{font-weight:900;color:#ffdd77;margin:10px 0}
+@media(max-width:700px){
+ .charGrid{grid-template-columns:repeat(2,1fr)}
+ .collectionGrid{grid-template-columns:repeat(2,1fr)}
+ .playerAccount{top:86px;left:8px;transform:scale(.9);transform-origin:top left}
+}
