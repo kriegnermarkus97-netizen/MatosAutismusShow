@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KIRWASPAẞ IN MATOSVILLE</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#10151d;color:#fff}
+button{font:inherit}.game{position:relative;width:100vw;height:100vh;overflow:hidden;background:#111}
+.sky{position:absolute;inset:0 0 38% 0;background:linear-gradient(#397bb5,#79b9dd 62%,#f4b568);z-index:0}
+.sun{position:absolute;right:9%;top:8%;width:110px;height:110px;border-radius:50%;background:#ffd789;box-shadow:0 0 55px #ffd78988}
+.mesa{position:absolute;bottom:-1px;width:300px;height:170px;background:linear-gradient(#a85736,#713621);clip-path:polygon(0 100%,8% 52%,30% 48%,38% 12%,67% 12%,78% 56%,100% 62%,100% 100%);opacity:.75}
+.ground{position:absolute;left:0;right:0;bottom:0;height:65%;background:linear-gradient(#b8793d,#80502e);z-index:1}
+.ground:after{content:"";position:absolute;left:0;right:0;bottom:0;height:55%;background:repeating-linear-gradient(7deg,transparent 0 48px,#70432844 49px 52px)}
+.lights{position:absolute;left:-2%;right:-2%;top:7%;height:85px;border-top:4px solid #24201b;z-index:6;transform:rotate(-1deg)}
+.bulb{position:absolute;top:-2px;width:15px;height:20px;border-radius:50% 50% 45% 45%;background:#ffd25d;box-shadow:0 0 16px #ffd25d}
+.title{position:absolute;z-index:30;left:50%;top:18px;transform:translateX(-50%) rotate(-1deg);padding:9px 28px;background:linear-gradient(#e6a848,#b76825);border:5px solid #40200e;box-shadow:0 7px 0 #6c3518,0 15px 25px #0007;text-align:center;font-family:Georgia,serif}
+.title b{font-size:clamp(23px,3vw,46px);letter-spacing:2px}.title small{display:block;font-weight:900;color:#fff0bd;letter-spacing:4px}
+.hud{position:absolute;right:18px;top:18px;z-index:40;background:#111b;border:1px solid #d6b06b88;border-radius:12px;padding:11px 15px;backdrop-filter:blur(8px);box-shadow:0 8px 20px #0007;font-weight:900}
+.hud span{color:#ffd16e}
+.map{position:absolute;z-index:5;inset:0;perspective:900px}
+.path{position:absolute;left:17%;right:17%;bottom:-12%;height:68%;background:linear-gradient(90deg,#795035,#b1845d 20%,#c39a70 50%,#b1845d 80%,#795035);clip-path:polygon(38% 0,62% 0,100% 100%,0 100%);box-shadow:inset 0 0 35px #0003}
+.booth{position:absolute;width:190px;height:150px;z-index:8;cursor:pointer;transition:.18s;filter:drop-shadow(0 12px 8px #0006)}
+.booth:hover{transform:translateY(-8px) scale(1.04);filter:drop-shadow(0 17px 10px #0007) brightness(1.08)}
+.roof{position:absolute;left:-10px;right:-10px;top:0;height:48px;background:repeating-linear-gradient(90deg,#b43131 0 28px,#f1e0b0 28px 56px);clip-path:polygon(5% 0,95% 0,100% 100%,0 100%);border:5px solid #3b2115}
+.stall{position:absolute;left:5px;right:5px;top:42px;bottom:0;background:linear-gradient(#8a512e,#56301e);border:6px solid #382015}
+.sign{position:absolute;left:12px;right:12px;top:29px;z-index:3;background:#f0d497;color:#26170e;border:4px solid #3b2115;padding:6px;text-align:center;font:900 15px Georgia;box-shadow:0 5px 8px #0005}
+.icon{position:absolute;left:50%;top:82px;transform:translateX(-50%);font-size:42px;z-index:4;text-shadow:0 4px 5px #0007}
+.b1{left:3%;top:22%}.b2{left:5%;top:52%}.b3{left:25%;top:28%}.b4{left:27%;top:59%}.b5{right:25%;top:28%}.b6{right:27%;top:59%}.b7{right:4%;top:22%}.b8{right:5%;top:52%}
+.wheel{position:absolute;z-index:3;left:43%;top:18%;width:210px;height:210px;border:9px solid #49311e;border-radius:50%;background:conic-gradient(#d62f2f 0deg 15deg,#d62f2f 15deg 30deg,#f4d03f 30deg 45deg,#d62f2f 45deg 60deg,#d62f2f 60deg 75deg,#d62f2f 75deg 90deg,#2ecc71 90deg 105deg,#d62f2f 105deg 120deg,#d62f2f 120deg 135deg,#d62f2f 135deg 150deg,#3498db 150deg 165deg,#d62f2f 165deg 180deg,#d62f2f 180deg 195deg,#d62f2f 195deg 210deg,#9b59b6 210deg 225deg,#d62f2f 225deg 240deg,#d62f2f 240deg 255deg,#d62f2f 255deg 270deg,#f39c12 270deg 285deg,#d62f2f 285deg 300deg,#d62f2f 300deg 315deg,#d62f2f 315deg 330deg,#f1c40f 330deg 345deg,#d62f2f 345deg 360deg);box-shadow:0 15px 25px #0007}
+.wheel:before,.wheel:after{content:"";position:absolute;background:#49311e}.wheel:before{width:9px;height:260px;left:91px;top:190px;transform:rotate(18deg)}.wheel:after{width:9px;height:260px;right:91px;top:190px;transform:rotate(-18deg)}
+.center{position:absolute;inset:82px;border-radius:50%;background:#d9b15e;border:5px solid #49311e}
+.buffalo{position:absolute;z-index:4;left:47%;bottom:13%;width:95px;height:54px;background:#35241c;border-radius:48% 48% 38% 38%;border:4px solid #211712}
+.buffalo:before{content:"";position:absolute;right:-25px;top:-15px;width:45px;height:42px;border-radius:45%;background:#493126;border:4px solid #211712}
+.buffalo:after{content:"MATOS";position:absolute;left:14px;top:16px;color:#e9c98b;font:900 12px Georgia}
+.foodSmoke{position:absolute;z-index:4;right:10%;bottom:37%;width:70px;height:70px;border-radius:50%;background:#fff4;filter:blur(9px);box-shadow:-30px -35px 0 #fff3,25px -50px 0 #fff3}
+.tip{position:absolute;z-index:35;left:50%;bottom:12px;transform:translateX(-50%);background:#111d;border:1px solid #d5aa6a88;border-radius:10px;padding:9px 16px;font-weight:800;backdrop-filter:blur(7px);white-space:nowrap}
+.overlay{display:none;position:absolute;inset:0;z-index:100;background:#07090bd9;backdrop-filter:blur(7px);align-items:center;justify-content:center}
+.overlay.show{display:flex}
+.panel{position:relative;width:min(920px,94vw);height:min(650px,90vh);background:linear-gradient(#31251d,#171311);border:2px solid #a47b49;box-shadow:0 25px 80px #000;border-radius:14px;overflow:hidden}
+.panelHead{height:74px;background:linear-gradient(#68472e,#3d291e);border-bottom:1px solid #b38b57;padding:15px 75px 10px 22px;font:900 29px Georgia;color:#f1d6a4}
+.close{position:absolute;right:15px;top:14px;z-index:3;width:45px;height:45px;border-radius:50%;border:1px solid #b58c56;background:#201914;color:#fff;font-weight:900;cursor:pointer}
+.content{height:calc(100% - 74px);padding:24px;overflow:auto;text-align:center}
+.bigIcon{font-size:100px;filter:drop-shadow(0 10px 8px #0008)}
+.desc{max-width:650px;margin:10px auto 20px;color:#e7d5b8;font-size:18px;line-height:1.45}
+.play{border:1px solid #d1a15f;background:linear-gradient(#9b6434,#623a22);color:#fff2cf;border-radius:8px;padding:12px 24px;font-weight:900;cursor:pointer;box-shadow:0 7px 14px #0006}
+.score{font:900 26px Georgia;margin:16px}
+.cans{height:180px;display:flex;align-items:flex-end;justify-content:center;gap:5px;flex-wrap:wrap;max-width:300px;margin:auto}
+.can{width:44px;height:67px;background:linear-gradient(90deg,#bbb,#eee,#aaa);border:3px solid #555;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#7b241e;font-weight:900}
+.foodGrid,.costumeGrid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:18px}
+.food,.costume{min-width:110px;padding:13px;border:1px solid #8c6a46;background:#261e19;color:#fff;border-radius:9px;cursor:pointer;font-weight:800}
+.meter{width:min(500px,90%);height:28px;background:#251916;border:2px solid #75503a;border-radius:20px;overflow:hidden;margin:15px auto}
+.meter i{display:block;width:0;height:100%;background:linear-gradient(90deg,#68a15f,#d9b747,#b84434);transition:.25s}
+.avatar{margin:15px auto;width:170px;height:220px;position:relative}
+.avHead{position:absolute;left:42px;top:10px;width:88px;height:88px;background:#e9b67e;border:4px solid #302019;border-radius:48%}
+.avBody{position:absolute;left:25px;top:91px;width:120px;height:105px;background:#527d9a;border:4px solid #302019;border-radius:20px}
+.avHat{position:absolute;left:25px;top:-4px;width:120px;height:38px;background:#7b3c24;border:4px solid #302019;border-radius:50% 50% 15% 15%;z-index:2}
+.avEye{position:absolute;top:38px;width:9px;height:9px;border-radius:50%;background:#111}.e1{left:24px}.e2{right:24px}
+.canvasMandala{width:300px;height:300px;margin:10px auto;border-radius:50%;background:repeating-conic-gradient(#eee 0 10deg,#777 10deg 20deg);border:8px solid #322117;cursor:pointer;transition:.2s}
+.race{position:relative;height:260px;background:linear-gradient(#7b9e69 0 25%,#a67443 25% 100%);border:5px solid #382416;overflow:hidden}
+.runner{position:absolute;left:10px;font-size:45px;transition:left .9s ease}.r1{top:60px}.r2{top:130px}.r3{top:195px}
+.hoop{font-size:120px;margin:20px}
+.armbar{width:min(520px,90%);height:38px;margin:30px auto;background:linear-gradient(90deg,#9a3434,#d8bd62,#52905a);border:4px solid #271a13;position:relative}.needle{position:absolute;left:0;top:-9px;width:10px;height:50px;background:white;box-shadow:0 0 8px white}
+@media(max-width:900px){.booth{transform:scale(.8)}.booth:hover{transform:scale(.84)}.b1,.b2{left:-2%}.b7,.b8{right:-2%}.b3,.b4{left:20%}.b5,.b6{right:20%}.wheel{transform:scale(.7);left:38%}.tip{font-size:12px}.title{top:8px}.hud{top:auto;bottom:10px}}
+
+/* V2 – echtes Dosenwerfen */
+.canGame{
+  position:relative;width:min(760px,96%);height:410px;margin:0 auto 12px;
+  overflow:hidden;border:7px solid #3a2115;border-radius:8px;
+  background:
+    linear-gradient(180deg,#7a5137 0 18%,#4c2e20 18% 77%,#6c4228 77% 100%);
+  box-shadow:inset 0 0 45px #0007,0 12px 28px #0007;
+  cursor:none;user-select:none
+}
+.canGame:before{
+  content:"DOSENWERFEN";position:absolute;left:18%;right:18%;top:12px;z-index:4;
+  padding:7px;background:#e1b866;color:#29180e;border:5px solid #3b2115;
+  font:900 21px Georgia;text-align:center;box-shadow:0 6px 10px #0006
+}
+.canShelf{
+  position:absolute;left:12%;right:12%;bottom:66px;height:18px;
+  background:linear-gradient(#936039,#57351f);border:5px solid #382116;
+  box-shadow:0 10px 15px #0007
+}
+.canStack{position:absolute;left:50%;bottom:84px;width:330px;height:245px;transform:translateX(-50%)}
+.throwCan{
+  position:absolute;width:54px;height:76px;
+  background:linear-gradient(90deg,#a8aaa9,#e6e8e6 40%,#929593);
+  border:3px solid #4c4d4c;border-radius:8px;
+  box-shadow:inset 0 5px 0 #dfe0de,inset 0 -5px 0 #777,0 5px 6px #0005;
+  display:flex;align-items:center;justify-content:center;
+  color:#8d2d24;font:900 13px Georgia;
+  transition:.38s transform,.38s opacity,.38s left,.38s top;
+  z-index:3
+}
+.throwCan.hit{
+  transform:translate(var(--flyx),var(--flyy)) rotate(var(--rot))!important;
+  opacity:.1
+}
+.crosshair{
+  position:absolute;width:30px;height:30px;border:2px solid #fff;border-radius:50%;
+  transform:translate(-50%,-50%);pointer-events:none;z-index:20;
+  filter:drop-shadow(0 1px 2px #000)
+}
+.crosshair:before,.crosshair:after{content:"";position:absolute;background:#fff}
+.crosshair:before{width:40px;height:2px;left:-7px;top:12px}
+.crosshair:after{height:40px;width:2px;top:-7px;left:12px}
+.throwBall{
+  position:absolute;width:44px;height:44px;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%,#fff,#d8d3c9 30%,#8c877e 75%);
+  border:3px solid #514b44;z-index:30;pointer-events:none;
+  box-shadow:0 5px 10px #0007;transition:.28s left,.28s top,.28s transform,.28s opacity
+}
+.canInstructions{color:#ead8b7;font-weight:800;margin:7px auto 12px}
+.canStats{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:10px}
+.canStat{background:#1c1713;border:1px solid #896844;padding:8px 14px;border-radius:8px;font-weight:900}
+.canStat b{color:#ffd170}
+
+
+/* V3 – aufwendige Dosenwerfbude */
+.canGame{
+  height:500px;
+  background:
+    linear-gradient(#4e2f21 0 12%,#7e4d2f 12% 18%,#3b251d 18% 74%,#6a4028 74% 100%);
+  border:10px solid #2e1a12;
+  box-shadow:inset 0 0 65px #0009,0 18px 35px #0008
+}
+.canGame:before{
+  content:"TRUCKER LÖNHARD DOSENWERFEN";
+  left:13%;right:13%;top:12px;
+  font-size:24px;
+  background:linear-gradient(#f2d58c,#c78c3d);
+  border:6px solid #321c11;
+  box-shadow:0 7px 0 #6d3f22,0 12px 18px #0008
+}
+.canGame:after{
+  content:"3 BÄLLE · 10 DOSEN · HAUPTGEWINN BEI ALLEM ABRÄUMEN · PERFEKTE 3 WÜRFE MÖGLICH";
+  position:absolute;left:18%;right:18%;top:69px;z-index:4;
+  padding:5px;background:#20140fbf;border:2px solid #b8894c;color:#f3dfb2;
+  font:800 12px Georgia;text-align:center;letter-spacing:1px
+}
+.canBackdrop{
+  position:absolute;left:6%;right:6%;top:105px;bottom:75px;
+  background:linear-gradient(#6e342a 0 15%,#172333 15% 100%);
+  border:6px solid #2a1911;box-shadow:inset 0 0 35px #000b
+}
+.canBackdrop:before{
+  content:"";position:absolute;inset:0;
+  background:
+   radial-gradient(circle at 15% 20%,#ffd65e 0 5px,transparent 6px),
+   radial-gradient(circle at 32% 20%,#f06a63 0 5px,transparent 6px),
+   radial-gradient(circle at 49% 20%,#72d6e0 0 5px,transparent 6px),
+   radial-gradient(circle at 66% 20%,#ef93da 0 5px,transparent 6px),
+   radial-gradient(circle at 83% 20%,#ffd65e 0 5px,transparent 6px);
+  opacity:.9
+}
+.prizeShelf{position:absolute;top:135px;width:112px;height:235px;z-index:5}
+.prizeShelf.left{left:15px}.prizeShelf.right{right:15px}
+.prizeCard{
+  margin:5px 0;padding:7px 5px;background:#e5c27b;color:#2c190e;
+  border:4px solid #432419;border-radius:8px;text-align:center;
+  font:900 11px Georgia;box-shadow:0 5px 8px #0008
+}
+.prizeToy{font-size:28px;display:block;margin-bottom:2px}
+.canStage{
+  position:absolute;left:50%;top:155px;width:430px;height:250px;transform:translateX(-50%);
+  perspective:800px;z-index:8
+}
+.canShelf{
+  left:50%;right:auto;bottom:0;width:390px;height:24px;transform:translateX(-50%);
+  background:linear-gradient(#aa7144,#5a351f);border:6px solid #341e13
+}
+.canStack{left:50%;bottom:23px;width:360px;height:235px}
+.throwCan{
+  width:58px;height:82px;border-radius:7px;
+  background:linear-gradient(90deg,#b9b6ae 0%,#ece9df 22%,#c6c2b9 52%,#88837d 100%);
+  border:3px solid #403d38;
+  color:#24150f;
+  box-shadow:inset 0 5px 0 #f5f0df,inset 0 -5px 0 #777,0 4px 5px #0006;
+  overflow:hidden
+}
+.throwCan .beerTop,.throwCan .beerBottom{
+  position:absolute;left:0;right:0;height:13px;background:#74251f
+}
+.throwCan .beerTop{top:0}.throwCan .beerBottom{bottom:0}
+.throwCan .beerLabel{
+  position:absolute;left:4px;right:4px;top:19px;bottom:17px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(#f0c85a,#d08f2e);border:2px solid #6b341d;
+  line-height:.95;text-align:center
+}
+.throwCan .beerLabel b{font:900 10px Georgia;color:#3b190d}
+.throwCan .beerLabel strong{font:900 13px Georgia;color:#7a1f1b}
+.throwCan .beerLabel small{font:900 8px Georgia;color:#3a1b12}
+.throwCan.hit{opacity:.13}
+.crosshair{width:26px;height:26px}
+.crosshair:before{width:36px;left:-6px;top:11px}.crosshair:after{height:36px;top:-6px;left:11px}
+.throwBall{
+  width:52px;height:52px;
+  background:radial-gradient(circle at 30% 25%,#fff,#e5ded1 28%,#9e9589 72%,#5c544c);
+  border:3px solid #4f463f;
+  transition:left .62s cubic-bezier(.2,.75,.25,1),top .62s cubic-bezier(.2,.75,.25,1),transform .62s,opacity .18s
+}
+.throwLane{
+  position:absolute;left:25%;right:25%;bottom:0;height:90px;
+  background:linear-gradient(90deg,#5f3d29,#8b6144 25%,#9a6f50 50%,#8b6144 75%,#5f3d29);
+  clip-path:polygon(34% 0,66% 0,100% 100%,0 100%);
+  opacity:.9
+}
+.throwPrompt{
+  position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
+  z-index:8;color:#f0d6a4;background:#17100bc9;border:1px solid #9e7449;
+  padding:5px 12px;border-radius:7px;font:800 12px Georgia
+}
+
+
+/* V5 – stabiler 10er-Dosenstapel mit Kettenreaktion */
+.canStage{width:310px;height:238px;top:166px}
+.canShelf{width:280px;height:20px;bottom:0}
+.canStack{width:260px;height:205px;bottom:19px}
+.throwCan{
+  width:30px!important;height:42px!important;
+  border-width:2px!important;border-radius:4px!important;
+  transition:transform .42s ease,opacity .42s ease!important
+}
+.throwCan .beerTop,.throwCan .beerBottom{height:7px!important}
+.throwCan .beerLabel{left:2px!important;right:2px!important;top:9px!important;bottom:9px!important;border-width:1px!important}
+.throwCan .beerLabel b{font-size:5px!important}
+.throwCan .beerLabel strong{font-size:7px!important}
+.throwCan .beerLabel small{font-size:4px!important}
+.throwCan.hit{
+  transform:translate(var(--flyx),var(--flyy)) rotate(var(--rot))!important;
+  opacity:.08!important
+}
+
+
+/* V7 – Ergebnis-Einblendung */
+.resultFlash{
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%) scale(.85);
+  z-index:80;
+  min-width:min(520px,82%);
+  padding:20px 28px;
+  border:7px solid #2d190f;
+  border-radius:14px;
+  text-align:center;
+  font:900 clamp(24px,4vw,48px) Georgia,serif;
+  letter-spacing:1px;
+  box-shadow:0 16px 45px #000c, inset 0 0 20px #ffffff25;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s ease;
+  text-shadow:0 3px 0 #0008;
+}
+.resultFlash.show{
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1);
+}
+.resultFlash.win{
+  background:linear-gradient(#f2ce63,#b96d24);
+  color:#fff8db;
+}
+.resultFlash.lose{
+  background:linear-gradient(#8c2e2e,#411717);
+  color:#ffe3d6;
+}
+.resultFlash small{
+  display:block;
+  margin-top:7px;
+  font:800 14px Arial,sans-serif;
+  letter-spacing:2px;
+}
+
+
+/* V8 – schneller Matosville-Schießstand */
+.shootGame{
+  position:relative;
+  width:min(790px,96%);
+  height:430px;
+  margin:0 auto 10px;
+  overflow:hidden;
+  cursor:crosshair;
+  border:9px solid #2f1b12;
+  border-radius:10px;
+  background:
+    linear-gradient(#5c3526 0 13%,#2e2020 13% 100%);
+  box-shadow:inset 0 0 55px #000a,0 14px 30px #0008;
+}
+.shootGame:before{
+  content:"MATOSVILLE SCHIESSSTAND";
+  position:absolute;
+  left:20%;right:20%;top:10px;
+  z-index:3;
+  background:linear-gradient(#e7c976,#a9682d);
+  color:#2a170d;
+  border:5px solid #321d12;
+  padding:7px;
+  text-align:center;
+  font:900 22px Georgia,serif;
+  box-shadow:0 7px 0 #6b3b20;
+}
+.shootBackdrop{
+  position:absolute;left:5%;right:5%;top:82px;bottom:25px;
+  border:5px solid #321d14;
+  background:
+    linear-gradient(#263849 0 34%,#6b442d 34% 100%);
+  box-shadow:inset 0 0 30px #0009;
+}
+.shootBackdrop:after{
+  content:"";
+  position:absolute;left:0;right:0;bottom:0;height:44%;
+  background:
+    repeating-linear-gradient(90deg,#4f2f20 0 60px,#5a3523 60px 120px);
+  opacity:.65;
+}
+.shootRail{
+  position:absolute;left:7%;right:7%;height:8px;
+  background:#1d1512;
+  border:2px solid #8d6947;
+  z-index:2;
+}
+.sr1{top:165px}.sr2{top:255px}.sr3{top:345px}
+.shootTarget{
+  position:absolute;
+  width:64px;height:64px;
+  border-radius:50%;
+  border:6px solid #eee4d2;
+  background:
+    radial-gradient(circle,#f0dfca 0 12%,#ba342e 13% 28%,#f0dfca 29% 46%,#ba342e 47% 65%,#f0dfca 66%);
+  box-shadow:0 5px 9px #0008;
+  z-index:10;
+  cursor:crosshair;
+  transform:scale(.85);
+  opacity:0;
+  animation:targetPop .12s forwards;
+}
+.shootTarget.gold{
+  border-color:#fff0a1;
+  background:
+    radial-gradient(circle,#fff7b0 0 12%,#d59b17 13% 28%,#ffe37d 29% 46%,#c98b11 47% 65%,#fff1a1 66%);
+  box-shadow:0 0 18px #ffd84d,0 5px 9px #0008;
+}
+.shootTarget.wolf{
+  border-radius:16px;
+  width:68px;height:68px;
+  background:linear-gradient(#4a4a4a,#1f1f1f);
+  border:5px solid #111;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:39px;
+  box-shadow:0 5px 10px #000b;
+}
+@keyframes targetPop{
+  to{opacity:1;transform:scale(1)}
+}
+.shootHud{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:9px auto;
+}
+.shootStat{
+  min-width:145px;
+  padding:9px 13px;
+  border-radius:8px;
+  background:#181411;
+  border:1px solid #8a6746;
+  font-weight:900;
+}
+.shootStat b{color:#ffd36e}
+.shootLegend{
+  display:flex;justify-content:center;gap:18px;flex-wrap:wrap;
+  color:#ead8b7;font-weight:800;font-size:14px;margin:7px 0 12px
+}
+.shootLegend span{background:#211a15;border:1px solid #795939;border-radius:7px;padding:6px 10px}
+.shootStartOverlay{
+  position:absolute;inset:0;
+  z-index:30;
+  display:flex;align-items:center;justify-content:center;
+  background:#08090bbb;
+  backdrop-filter:blur(3px);
+}
+.shootStartBox{
+  text-align:center;
+  max-width:430px;
+  background:#211710;
+  border:4px solid #b48245;
+  padding:24px;
+  border-radius:12px;
+  box-shadow:0 15px 35px #000b
+}
+.shootStartBox h3{margin:0 0 8px;font:900 28px Georgia;color:#f1d398}
+.shootStartBox p{color:#e7d5ba;line-height:1.4}
+.shootFlash{
+  position:absolute;
+  pointer-events:none;
+  z-index:40;
+  font:900 24px Georgia;
+  text-shadow:0 3px 4px #000;
+  animation:shootFloat .55s forwards
+}
+@keyframes shootFloat{
+  0%{opacity:1;transform:translate(-50%,-50%) scale(.8)}
+  100%{opacity:0;transform:translate(-50%,-100%) scale(1.2)}
+}
+
+
+/* V9 – Ego-Pistole, Fadenkreuz und zerspringende Treffer */
+.shootGame{cursor:none!important}
+.shootCrosshair{
+  position:absolute;
+  width:26px;height:26px;
+  z-index:55;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+}
+.shootCrosshair:before,.shootCrosshair:after{
+  content:"";
+  position:absolute;
+  background:#ffe690;
+  box-shadow:0 0 4px #000,0 0 6px #000;
+}
+.shootCrosshair:before{left:12px;top:0;width:2px;height:26px}
+.shootCrosshair:after{left:0;top:12px;width:26px;height:2px}
+.shootCrosshair i{
+  position:absolute;
+  left:8px;top:8px;
+  width:10px;height:10px;
+  border:2px solid #ffe690;
+  border-radius:50%;
+  box-sizing:border-box;
+  box-shadow:0 0 4px #000;
+}
+
+.shootGunWrap{
+  position:absolute;
+  left:50%;
+  bottom:-7px;
+  width:210px;
+  height:165px;
+  transform:translateX(-50%);
+  z-index:45;
+  pointer-events:none;
+  transform-origin:50% 100%;
+}
+.shootGun{
+  position:absolute;
+  left:76px;
+  bottom:24px;
+  width:62px;
+  height:105px;
+  transform:rotate(-2deg);
+}
+.shootGun .barrel{
+  position:absolute;
+  left:16px;top:0;
+  width:30px;height:62px;
+  border-radius:7px 7px 3px 3px;
+  background:linear-gradient(90deg,#171717,#4b4b4b 48%,#151515);
+  border:3px solid #0c0c0c;
+  box-shadow:inset 4px 0 5px #7775;
+}
+.shootGun .barrel:before{
+  content:"";
+  position:absolute;
+  left:6px;top:-7px;
+  width:18px;height:11px;
+  border-radius:50%;
+  background:#090909;
+  border:3px solid #555;
+}
+.shootGun .slide{
+  position:absolute;
+  left:8px;top:45px;
+  width:46px;height:24px;
+  border-radius:4px;
+  background:linear-gradient(#555,#1b1b1b);
+  border:3px solid #101010;
+}
+.shootGun .grip{
+  position:absolute;
+  left:24px;top:65px;
+  width:31px;height:51px;
+  background:linear-gradient(90deg,#3f2418,#7a4a2c,#3d2116);
+  border:3px solid #160d09;
+  transform:skew(-8deg);
+  border-radius:4px 4px 11px 8px;
+}
+.shootGun .trigger{
+  position:absolute;
+  left:13px;top:67px;
+  width:23px;height:23px;
+  border:4px solid #1a1a1a;
+  border-top-width:3px;
+  border-radius:50%;
+}
+.shootHand{
+  position:absolute;
+  left:52px;bottom:0;
+  width:106px;height:65px;
+  border-radius:44px 44px 22px 22px;
+  background:linear-gradient(#d7a06f,#a86e49);
+  border:4px solid #5a3422;
+  transform:rotate(-1deg);
+}
+.shootHand:before{
+  content:"";
+  position:absolute;
+  left:14px;top:-29px;
+  width:31px;height:57px;
+  border-radius:16px;
+  background:linear-gradient(#dda777,#b6784f);
+  border:4px solid #5a3422;
+  transform:rotate(24deg);
+}
+.shootMuzzle{
+  position:absolute;
+  left:50%;
+  bottom:139px;
+  width:85px;height:85px;
+  z-index:60;
+  pointer-events:none;
+  opacity:0;
+  transform:translateX(-50%) scale(.45);
+}
+.shootMuzzle:before,.shootMuzzle:after{
+  content:"";
+  position:absolute;
+  inset:17px;
+  background:#ffe079;
+  clip-path:polygon(50% 0,60% 32%,88% 12%,70% 43%,100% 50%,69% 58%,88% 90%,59% 69%,50% 100%,41% 68%,11% 89%,31% 57%,0 50%,32% 42%,12% 12%,41% 32%);
+  filter:drop-shadow(0 0 7px #ff9d00);
+}
+.shootMuzzle:after{
+  inset:28px;
+  background:#fffbd0;
+}
+.shootGunWrap.fire{animation:gunKick .16s ease}
+.shootGunWrap.fire .shootMuzzle{animation:muzzleFlash .15s ease}
+@keyframes gunKick{
+  0%{transform:translateX(-50%) rotate(0)}
+  45%{transform:translateX(-50%) translateY(9px) rotate(3deg)}
+  100%{transform:translateX(-50%) rotate(0)}
+}
+@keyframes muzzleFlash{
+  0%{opacity:1;transform:translateX(-50%) scale(.5)}
+  100%{opacity:0;transform:translateX(-50%) scale(1.25)}
+}
+
+.shootTarget.hitTarget{
+  pointer-events:none;
+  animation:none!important;
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+.targetShard{
+  position:absolute;
+  width:14px;height:14px;
+  border-radius:3px;
+  z-index:12;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  animation:shardFly .42s ease-out forwards;
+}
+@keyframes shardFly{
+  from{opacity:1;transform:translate(-50%,-50%) translate(0,0) rotate(0)}
+  to{opacity:0;transform:translate(-50%,-50%) translate(var(--sx),var(--sy)) rotate(var(--sr))}
+}
+
+
+/* V11 – stabilere Treffererkennung */
+.shootTarget::after{
+  content:"";
+  position:absolute;
+  inset:-9px;
+  border-radius:inherit;
+}
+
+
+/* V13 – Schießstand-Einstellungen / Maus-Empfindlichkeit */
+.shootSettingsRow{
+  display:flex;
+  justify-content:center;
+  margin:8px 0 4px;
+}
+.shootSettingsBtn{
+  padding:9px 16px;
+  border:2px solid #9c7449;
+  border-radius:8px;
+  background:linear-gradient(#3a2b20,#211812);
+  color:#f4dfb7;
+  font-weight:900;
+  cursor:pointer;
+}
+.shootSettings{
+  display:none;
+  width:min(500px,90%);
+  margin:8px auto 12px;
+  padding:13px 16px;
+  border:2px solid #8c6743;
+  border-radius:9px;
+  background:#1b1612;
+  box-sizing:border-box;
+}
+.shootSettings.open{display:block}
+.shootSettings label{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  font-weight:900;
+  color:#ead6b1;
+  margin-bottom:9px;
+}
+.shootSettings input[type=range]{width:100%;cursor:pointer}
+.shootSettings small{display:block;color:#bfa98a;margin-top:7px}
+
+
+/* V14 – Wolf als echte Zielscheibe */
+.shootTarget.wolf{
+  width:68px!important;
+  height:68px!important;
+  border-radius:50%!important;
+  border:6px solid #ddd3c3!important;
+  background:
+    radial-gradient(circle,#4a4a4a 0 13%,#d8d0c3 14% 29%,#383838 30% 47%,#d8d0c3 48% 65%,#343434 66%)!important;
+  box-shadow:0 5px 10px #000b!important;
+  color:transparent!important;
+  overflow:visible;
+}
+.shootTarget.wolf .wolfHead{
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:34px;height:30px;
+  background:#666;
+  border:2px solid #171717;
+  border-radius:48% 48% 42% 42%;
+  z-index:3;
+}
+.shootTarget.wolf .wolfHead:before,
+.shootTarget.wolf .wolfHead:after{
+  content:"";
+  position:absolute;
+  top:-11px;
+  width:13px;height:18px;
+  background:#555;
+  border:2px solid #171717;
+  z-index:-1;
+}
+.shootTarget.wolf .wolfHead:before{
+  left:0;transform:rotate(-28deg);clip-path:polygon(50% 0,100% 100%,0 100%);
+}
+.shootTarget.wolf .wolfHead:after{
+  right:0;transform:rotate(28deg);clip-path:polygon(50% 0,100% 100%,0 100%);
+}
+.shootTarget.wolf .wolfEyes{
+  position:absolute;left:5px;right:5px;top:8px;height:5px;
+  background:
+    radial-gradient(circle at 20% 50%,#ffca45 0 2px,transparent 3px),
+    radial-gradient(circle at 80% 50%,#ffca45 0 2px,transparent 3px);
+}
+.shootTarget.wolf .wolfSnout{
+  position:absolute;left:8px;top:15px;width:16px;height:12px;
+  background:#888;border:1px solid #222;border-radius:50%;
+}
+.shootTarget.wolf .wolfSnout:after{
+  content:"";
+  position:absolute;left:5px;top:2px;width:6px;height:4px;
+  background:#111;border-radius:50%;
+}
+
+
+.armArena{position:relative;width:min(820px,96%);height:470px;margin:auto;overflow:hidden;border:8px solid #321c11;border-radius:12px;background:linear-gradient(#74452b 0 18%,#bd8248 18% 67%,#57301e 67%);box-shadow:inset 0 0 55px #0008}.armArena:before{content:"MATOSVILLE ARMWRESTLING";position:absolute;left:18%;right:18%;top:12px;padding:8px;text-align:center;background:#e3bd68;border:5px solid #4b2815;color:#32190d;font:900 23px Georgia;z-index:4}.armOpponent{position:absolute;left:50%;top:76px;transform:translateX(-50%);width:260px;height:275px;z-index:3}.armHead{position:absolute;left:84px;top:0;width:92px;height:92px;border-radius:50%;background:#d8a170;border:4px solid #382219}.armBody{position:absolute;left:48px;top:82px;width:164px;height:170px;border-radius:55px 55px 20px 20px;background:#38556a;border:5px solid #2a201a}.armOpponentName{position:absolute;top:183px;left:0;right:0;text-align:center;color:#fff7d5;font:900 18px Georgia;text-shadow:0 3px 3px #000}.armTable{position:absolute;left:12%;right:12%;bottom:22px;height:126px;background:linear-gradient(#8b4b28,#4a281a);border:7px solid #2d180f;border-radius:16px;z-index:8}.armHands{position:absolute;left:50%;top:272px;width:128px;height:92px;transform:translateX(-50%);z-index:15}.armEnemyForearm{position:absolute;width:42px;height:125px;left:76px;top:-24px;background:#c88e61;border:4px solid #533321;border-radius:22px;transform:rotate(42deg)}.armPlayerForearm{position:absolute;width:48px;height:155px;left:11px;top:8px;background:linear-gradient(90deg,#bd8056,#e0a574);border:4px solid #51301f;border-radius:25px;transform:rotate(-42deg)}.armGrip{position:absolute;left:43px;top:13px;width:51px;height:67px;border-radius:25px;background:#d59a69;border:5px solid #4b2d1e}.armPrompt{position:absolute;left:50%;top:145px;transform:translateX(-50%) scale(.8);width:105px;height:105px;border-radius:18px;background:#17120f;border:6px solid #f0c967;display:flex;align-items:center;justify-content:center;color:#fff0a5;font:900 67px Arial;z-index:30;opacity:0}.armPrompt.show{opacity:1;transform:translateX(-50%) scale(1);transition:.08s}.armPrompt.bad{background:#7b2020;border-color:#ff8b76}.armHud{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:10px}.armProgress{width:min(600px,88%);height:19px;margin:8px auto;background:#241812;border:3px solid #76502f;border-radius:12px;overflow:hidden}.armProgressFill{height:100%;width:0;background:linear-gradient(90deg,#d39537,#f3d374);transition:.12s}.armResult{position:absolute;inset:0;z-index:70;background:#090807df;display:none;align-items:center;justify-content:center;text-align:center}.armResult.show{display:flex}.armResultBox{padding:25px 32px;background:#2a1b13;border:6px solid #d2a052;border-radius:14px;color:#fff3d0;max-width:520px}.armResultBox h2{font:900 clamp(30px,5vw,52px) Georgia;margin:0 0 10px}.armOpponent.fridolin .armHead{background:#58a95a}.armOpponent.fridolin .armBody{background:#398d43}.armOpponent.mato .armBody{background:#356b9c}.armOpponent.trucker .armBody{background:#42627a}.armOpponent.elviko
