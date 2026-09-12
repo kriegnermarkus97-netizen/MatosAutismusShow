@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c0b0a">
+<title>Welche Trucker-Lönhard-Figur bist du?</title>
+<link rel="stylesheet" href="style.css">
+<style>
+:root{--gold:#f0aa2c;--rust:#a64723;--cream:#f5e5bd;--ink:#0c0b0a;--panel:#171512;--line:#4d4030}
+*{box-sizing:border-box}
+body{margin:0;background:#0d0c0a;color:#f8f1df;font-family:Arial,Helvetica,sans-serif;background-image:radial-gradient(circle at 50% -10%,rgba(240,130,40,.22),transparent 35%),linear-gradient(#17120d,#090807 45%,#120d08)}
+.quiz-wrap{max-width:1000px;margin:auto;padding:18px 14px 60px}
+.quiz-hero{position:relative;overflow:hidden;border:1px solid #61492e;border-radius:22px;padding:28px 20px;background:linear-gradient(135deg,rgba(68,31,15,.96),rgba(12,12,11,.96));box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.quiz-hero:after{content:"";position:absolute;inset:auto -5% -28px -5%;height:78px;background:repeating-linear-gradient(90deg,transparent 0 58px,rgba(255,255,255,.18) 58px 90px);border-top:5px solid #2b2925;transform:skewY(-1deg);opacity:.7}
+.eyebrow{letter-spacing:3px;font-size:.78rem;color:#d3b88a;font-weight:800}
+.quiz-hero h1{margin:8px 0 6px;font-size:clamp(2rem,7vw,4.8rem);line-height:.95;text-transform:uppercase;font-weight:1000;letter-spacing:-1px;color:#fff3d0}
+.quiz-hero h1 span{color:var(--gold)}
+.quiz-hero p{max-width:720px;color:#d7c9aa;line-height:1.55;margin-bottom:40px}
+.route-sign{display:inline-block;background:#2f5d3b;border:3px solid #d7dccf;border-radius:10px;padding:9px 14px;font-weight:900;transform:rotate(-1deg);box-shadow:inset 0 0 0 2px #183623}
+.quiz-card,.result-card{margin-top:18px;border:1px solid #5a4a36;border-radius:22px;background:linear-gradient(180deg,#1a1815,#0e0d0b);padding:20px;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.progress-row{display:flex;align-items:center;gap:12px}
+.progress-label{font-weight:900;color:#f4d494;min-width:96px}
+.road{height:16px;border-radius:999px;background:#363533;border:2px solid #5b5a56;overflow:hidden;flex:1;position:relative}
+.road:before{content:"";position:absolute;inset:5px 0;background:repeating-linear-gradient(90deg,#f2c742 0 28px,transparent 28px 48px);opacity:.8}
+.road-fill{height:100%;width:5%;background:linear-gradient(90deg,#a65a1f,#efac31);mix-blend-mode:screen;transition:.25s}
+.question{font-size:clamp(1.35rem,4vw,2rem);font-weight:900;text-align:center;margin:28px auto 18px;max-width:760px}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.answer{min-height:92px;text-align:left;border:2px solid #5a4e3b;border-radius:15px;background:#161514;color:#f7efdc;padding:15px 16px;font-size:1rem;line-height:1.35;cursor:pointer;transition:.16s}
+.answer:hover{transform:translateY(-2px);border-color:#b18448}
+.answer.selected{border-color:var(--gold);background:linear-gradient(135deg,#432312,#17120d);box-shadow:inset 0 0 0 1px #ffc85a}
+.answer b{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:#392719;color:#ffd37b;margin-right:10px}
+.controls{display:flex;justify-content:space-between;gap:12px;margin-top:20px}
+.btn{min-height:48px;border:0;border-radius:12px;padding:12px 20px;font-weight:1000;cursor:pointer}
+.btn.secondary{background:#292622;color:#eee0c0;border:1px solid #554c3f}
+.btn.primary{background:linear-gradient(#ffc84c,#df8c10);color:#1d1306;border:2px solid #ffd97b;box-shadow:inset 0 -4px 0 rgba(108,59,0,.28)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.result-card{display:none}
+.result-grid{display:grid;grid-template-columns:minmax(220px,360px) 1fr;gap:24px;align-items:start}
+.character-frame{background:#120f0c;border:2px solid #6e5433;border-radius:18px;overflow:hidden;position:relative}
+.character-frame img{width:100%;display:block;aspect-ratio:4/5;object-fit:cover;background:#0a0908}
+.nameplate{padding:12px;text-align:center;background:linear-gradient(#47351f,#21170d);font-weight:1000;font-size:1.1rem;border-top:1px solid #8c6b3f}
+.result-copy h2{margin:2px 0 8px;font-size:clamp(2rem,6vw,4rem);line-height:.95;color:#ffd174;text-transform:uppercase}
+.quote{background:#efe0bc;color:#1a1209;padding:14px 16px;border-radius:5px;font-size:1.15rem;font-weight:800;transform:rotate(-.6deg);margin:14px 0 18px}
+.result-copy p{line-height:1.65;color:#e6d9bf}
+.scores{margin-top:20px;padding:16px;background:#0e0d0c;border:1px solid #443a2d;border-radius:14px}
+.score{margin:11px 0}
+.score-top{display:flex;justify-content:space-between;gap:12px;font-size:.9rem;font-weight:800}
+.bar{height:10px;background:#302d28;border-radius:10px;overflow:hidden;margin-top:5px}
+.bar>span{height:100%;display:block;border-radius:inherit}
+.restart{margin-top:18px;width:100%}
+.footer-note{text-align:center;color:#88765b;font-size:.78rem;letter-spacing:2px;margin-top:20px}
+@media(max-width:680px){.answers{grid-template-columns:1fr}.result-grid{grid-template-columns:1fr}.character-frame{max-width:420px;margin:auto}.quiz-card{padding:15px}.controls{position:sticky;bottom:8px;background:rgba(11,10,8,.92);padding:8px;border-radius:14px}.btn{flex:1}}
+</style>
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="index.html" aria-label="Trucker Lönhard Startseite"><span class="brand-small">TRUCKER</span><span class="brand-script">Lönhard</span></a>
+<nav><a href="index.html">HOME</a><a href="comics.html">COMICS</a><a href="info.html">FIGUREN</a><a class="active" href="games.html">GAMES</a><a href="bonus.html">BONUS</a></nav>
+</header>
+
+<main class="quiz-wrap">
+<section class="quiz-hero">
+<div class="eyebrow">TRUCKER LÖNHARD UNIVERSUM</div>
+<h1>CHARAKTER <span>QUIZ</span></h1>
+<p>20 Fragen. Sechs völlig verschiedene Figuren. Finde heraus, wer aus dem Trucker-Lönhard-Universum am besten zu dir passt. Es gibt keine falschen Antworten – nur unterschiedlich viel Chaos.</p>
+<div class="route-sign">ROUTE 69 · NÄCHSTER HALT: DEINE FIGUR →</div>
+</section>
+
+<section class="quiz-card" id="quizCard">
+<div class="progress-row"><div class="progress-label" id="progressLabel">FRAGE 1 / 20</div><div class="road"><div class="road-fill" id="roadFill"></div></div></div>
+<div class="question" id="question"></div>
+<div class="answers" id="answers"></div>
+<div class="controls">
+<button class="btn secondary" id="backBtn" type="button">← ZURÜCK</button>
+<button class="btn primary" id="nextBtn" type="button" disabled>WEITER →</button>
+</div>
+</section>
+
+<section class="result-card" id="resultCard" aria-live="polite">
+<div class="result-grid">
+<div class="character-frame"><img id="resultImage" alt=""><div class="nameplate" id="resultPlate"></div></div>
+<div class="result-copy">
+<div class="eyebrow">DEIN ERGEBNIS</div><h2 id="resultTitle"></h2>
+<div class="quote" id="resultQuote"></div><p id="resultText"></p>
+<div class="scores" id="scores"></div>
+<button class="btn primary restart" id="restartBtn" type="button">↻ NOCHMAL SPIELEN</button>
+</div>
+</div>
+</section>
+<div class="footer-note">GOOD PEOPLE · CRAZY TIMES · GREAT ROADS</div>
+</main>
+
+<script>
+const characters={
+TL:{name:"TRUCKER LÖNHARD",img:"trucker-loenhard.png",color:"#a657e8",quote:"„Wer soll denn sonst der Beste sein?“",text:"Du bist laut, impulsiv, abenteuerlustig und mit einem Ego ausgestattet, das vermutlich einen eigenen Führerschein braucht. Regeln siehst du eher als grobe Empfehlung. Wenn etwas schiefläuft, wird erst geflucht und danach irgendwie weitergemacht."},
+FR:{name:"FRIDOLIN",img:"schlange.png",color:"#4fc56e",quote:"„Süßigkeiten zuerst. Plan später.“",text:"Du wirkst vielleicht harmlos, bist aber völlig unberechenbar. Du liebst Chaos, Spaß und alles, was süß ist. Andere unterschätzen dich gerne – bis sie merken, dass deutlich mehr in dir steckt, als es zunächst aussieht."},
+EV:{name:"EL VIKO",img:"el-viko.png",color:"#e09035",quote:"„Das Leben ist zu kurz für Stress und schlechte Sangria.“",text:"Du bist entspannt, loyal und genießt das Leben. Musik, gutes Essen und gute Gesellschaft sind dir wichtiger als unnötiger Stress. Doch wer deine Freunde bedroht oder dich unterschätzt, sollte deine ruhige Art nicht mit Schwäche verwechseln."},
+GQ:{name:"SHERIFF GHETTOQUEENS",img:"ghettoqueens.png",color:"#e54ca5",quote:"„Recht und Ordnung... irgendwie.“",text:"Du bist temperamentvoll, spontan und manchmal gefährlich schnell auf 180. Gleichzeitig bist du hilfsbereit und stellst dich vor Menschen, die dir wichtig sind. Zwischen Shopping und Eskalation bleibt bei dir selten Zeit für Langeweile."},
+MM:{name:"MATO McLOVIN",img:"mato.png",color:"#4d9be8",quote:"„Kröten.“",text:"Du bist loyal, freundlich und nachdenklich. Dir sind echte Beziehungen wichtiger als Status oder Ego. Du kümmerst dich um andere, liebst Tiere und versuchst selbst dann vernünftig zu bleiben, wenn um dich herum bereits völliges Chaos ausgebrochen ist."},
+WO:{name:"DER WOLF",img:"wolf.png",color:"#d54a4a",quote:"„Man weiß nie, was er als Nächstes plant.“",text:"Du bist geheimnisvoll, strategisch und schwer einzuschätzen. Du beobachtest lieber erst, bevor du handelst. Vertrauen verteilst du sparsam – und wenn dir jemand in die Quere kommt, kann es sein, dass du sehr lange darüber nachdenkst."}
+};
+const Q=[
+["Jemand beleidigt dich in einer Bar. Wie reagierst du?",[["„WAS HAST DU GERADE GESAGT?!“ – die Situation eskaliert innerhalb von fünf Sekunden.",{TL:3,GQ:2}],["Ich bleibe ruhig. Wegen so etwas verschwende ich doch nicht meinen Abend.",{EV:3,MM:1}],["Ich kontere mit etwas völlig Absurdem und verwirre die Person.",{FR:3,TL:1}],["Ich merke mir das Gesicht. Wir sprechen uns später wieder.",{WO:3}]]],
+["Du hast plötzlich einen komplett freien Tag. Was machst du?",[["Einfach losfahren. Wohin? Keine Ahnung.",{TL:3,MM:1}],["Essen, Musik, Sonne und absolut keinen Stress.",{EV:3}],["Süßigkeiten besorgen und anschließend irgendeinen völligen Blödsinn machen.",{FR:3}],["Erst shoppen und danach schauen, was der Tag noch bringt.",{GQ:3}]]],
+["Was könnte dich am ehesten schwach werden lassen?",[["Wenn jemand mein Ego verletzt.",{TL:3,GQ:1}],["Süßigkeiten. Definitiv Süßigkeiten.",{FR:3}],["Menschen oder Tiere, die mir wichtig sind.",{MM:3,EV:2}],["Die Aussicht darauf, es jemandem heimzahlen zu können.",{WO:3}]]],
+["Ein guter Freund steckt richtig in Schwierigkeiten. Was machst du?",[["Ich helfe sofort. Fragen können wir später stellen.",{EV:3,MM:3}],["Wer meinem Freund etwas antut, hat jetzt ein Problem mit mir.",{GQ:3,TL:2}],["Ich habe keine Ahnung, was ich tue – aber ich komme mit!",{FR:3,MM:1}],["Ich überlege zuerst, wie wir die Situation zu unserem Vorteil nutzen können.",{WO:3}]]],
+["Welche Rolle übernimmst du in einer völlig chaotischen Gruppe?",[["Natürlich der Anführer. Ob die anderen das auch so sehen, ist nebensächlich.",{TL:3}],["Derjenige, der versucht, alle zusammenzuhalten.",{MM:3,EV:2}],["Ich bin wahrscheinlich der Grund für das Chaos.",{FR:3,GQ:1}],["Ich beobachte lieber alles und greife ein, wenn es mir nützt.",{WO:3}]]],
+["Du findest eine Tasche voller Geld. Was machst du?",[["Ich versuche herauszufinden, wem sie gehört.",{MM:3,EV:2}],["Erst einmal reinschauen. Nur aus wissenschaftlichem Interesse natürlich.",{FR:3}],["Ich behalte sie. Wer sie verliert, ist selber schuld.",{TL:2,WO:3}],["Ich bringe sie zurück – aber eine Belohnung wäre schon angebracht.",{GQ:2,MM:1}]]],
+["Wie sieht dein perfekter Abend aus?",[["Truck, Straße, Bier und niemand, der mich nervt.",{TL:3}],["Gutes Essen, Sangria und spanische Musik.",{EV:3}],["Freunde, Tiere und ein entspannter Abend.",{MM:3}],["Irgendetwas komplett Verrücktes, an das sich morgen keiner mehr richtig erinnert.",{FR:3,GQ:2}]]],
+["Jemand fordert dich zu einem Wettkampf heraus.",[["Der wird gleich erfahren, wer hier der Beste ist.",{TL:3}],["Warum nicht? Hauptsache, wir haben Spaß.",{EV:3,FR:1}],["Ich werde komplett unterschätzt – perfekt.",{FR:3}],["Gewinnen ist schön. Den Gegner verzweifeln zu sehen ist schöner.",{WO:3,GQ:1}]]],
+["Was bringt dich am schnellsten auf die Palme?",[["Wenn mir jemand sagt, was ich zu tun habe.",{TL:3}],["Ungerechtigkeit gegenüber meinen Freunden.",{MM:3,EV:2}],["Wenn etwas nicht so läuft, wie ich es will.",{GQ:3}],["Wenn jemand glaubt, er wäre mir überlegen.",{WO:3,TL:1}]]],
+["Auf einer langen Reise geht plötzlich alles schief.",[["Ich fluche lautstark und fahre trotzdem weiter.",{TL:3}],["Kein Stress. Irgendwie bekommen wir das schon hin.",{EV:3}],["Ich versuche eine Lösung zu finden und kümmere mich um die anderen.",{MM:3}],["Ich improvisiere etwas völlig Verrücktes. Die Erfolgschance liegt ungefähr bei 12 %.",{FR:3,GQ:1}]]],
+["Welche Eigenschaft beschreibt dich am besten?",[["Selbstbewusst.",{TL:3,GQ:1}],["Entspannt.",{EV:3}],["Loyal.",{MM:3,EV:1}],["Unberechenbar.",{FR:2,WO:2,GQ:1}]]],
+["Was ist wahrscheinlich deine größte Schwäche?",[["Ich überschätze mich manchmal ein kleines bisschen. Okay, ziemlich oft.",{TL:3}],["Ich denke zu viel über Dinge nach.",{MM:3}],["Ich lasse mich sehr leicht von Dingen ablenken, die ich liebe.",{FR:3,EV:1}],["Ich kann Dinge nur sehr schwer vergessen oder vergeben.",{WO:3,GQ:2}]]],
+["Vor dir steht ein riesiges Buffet. Wo findet man dich?",[["Hauptsache deftig und dazu ein Bier.",{TL:3}],["Mexikanisches Essen. Und wo ist die Sangria?",{EV:3}],["Beim Nachtisch. Seit ungefähr 45 Minuten.",{FR:3}],["Ich probiere von allem etwas und genieße einfach den Abend.",{MM:3}]]],
+["Du bekommst plötzlich enorme Macht. Was machst du?",[["Endlich erkennen alle, dass ich sowieso der geborene Chef bin.",{TL:3}],["Ich versuche damit anderen zu helfen.",{MM:3,EV:2}],["Ich probiere sofort aus, was ich alles damit machen kann. Wahrscheinlich keine gute Idee.",{FR:3,GQ:1}],["Jetzt können einige alte Rechnungen beglichen werden.",{WO:3}]]],
+["Wie gehst du mit Leuten um, die du überhaupt nicht leiden kannst?",[["Die wissen ziemlich schnell, was ich von ihnen halte.",{TL:3,GQ:2}],["Solange sie mich in Ruhe lassen, lasse ich sie auch in Ruhe.",{EV:3}],["Ich versuche trotzdem vernünftig zu bleiben.",{MM:3}],["Freundlich lächeln. Man muss schließlich nicht alles sofort zeigen.",{WO:3}]]],
+["Wo würdest du am liebsten leben?",[["Irgendwo, wo mein Truck steht. Zuhause ist die Straße.",{TL:3}],["Sonne, gutes Essen und entspannte Leute.",{EV:3}],["Auf einem Hof mit Tieren und Menschen, die mir wichtig sind.",{MM:3}],["Irgendwo, wo jeden Tag etwas Verrücktes passieren kann.",{FR:2,GQ:2}]]],
+["Jemand unterschätzt dich komplett.",[["Ein schwerer Fehler. Ich zeige sofort, was ich kann.",{TL:3,GQ:2}],["Soll er ruhig. Ich weiß, was ich kann.",{EV:3}],["Hervorragend. Dann wird die Überraschung umso größer.",{FR:3,WO:1}],["Ich brauche niemandem etwas zu beweisen.",{MM:3,EV:1}]]],
+["Was ist dir bei Freundschaften am wichtigsten?",[["Loyalität. Wenn wir Freunde sind, dann richtig.",{MM:3,EV:2}],["Dass man gemeinsam jeden Blödsinn machen kann.",{FR:3,TL:1}],["Dass man füreinander kämpft, wenn es darauf ankommt.",{GQ:3,TL:2}],["Vertrauen ist gut – aber vollkommen vertraue ich eigentlich niemandem.",{WO:3}]]],
+["Du kannst 24 Stunden lang alles machen, ohne Konsequenzen. Was passiert?",[["Das wird der größte Tag meines Lebens. Einzelheiten unterliegen der Geheimhaltung.",{TL:3,GQ:2}],["Ich esse sämtliche Süßigkeiten, die ich finden kann, und probiere jeden Unsinn aus.",{FR:3}],["Ich nehme meine Freunde mit und wir machen uns gemeinsam einen perfekten Tag.",{EV:3,MM:2}],["Es gibt ein paar Leute, die diesen Tag weniger genießen werden als ich.",{WO:3}]]],
+["Wenn dein Leben ein Film wäre – welche Rolle wärst du?",[["Natürlich die Hauptfigur. Wer denn sonst?",{TL:3}],["Der entspannte Typ, den alle mögen und der plötzlich zeigt, was wirklich in ihm steckt.",{EV:3}],["Die völlig verrückte Nebenfigur, die am Ende überraschend wichtig wird.",{FR:3}],["Der Charakter, bei dem bis zum Schluss niemand weiß, was er wirklich vorhat.",{WO:3}]]]
+];
+let current=0,selections=Array(Q.length).fill(null);
+const $=s=>document.querySelector(s);
+const qEl=$("#question"),answersEl=$("#answers"),next=$("#nextBtn"),back=$("#backBtn");
+function render(){
+ const q=Q[current]; qEl.textContent=q[0]; answersEl.innerHTML="";
+ q[1].forEach((a,i)=>{const b=document.createElement("button");b.type="button";b.className="answer"+(selections[current]===i?" selected":"");b.innerHTML="<b>"+String.fromCharCode(65+i)+"</b>"+a[0];b.addEventListener("click",()=>{selections[current]=i;render()});answersEl.appendChild(b)});
+ $("#progressLabel").textContent=`FRAGE ${current+1} / ${Q.length}`;$("#roadFill").style.width=((current+1)/Q.length*100)+"%";
+ back.disabled=current===0;next.disabled=selections[current]===null;next.textContent=current===Q.length-1?"ERGEBNIS ANZEIGEN":"WEITER →";
+}
+function calc(indices){const s={TL:0,FR:0,EV:0,GQ:0,MM:0,WO:0};(indices||Q.map((_,i)=>i)).forEach(i=>{const pick=selections[i];if(pick===null)return;Object.entries(Q[i][1][pick][1]).forEach(([k,v])=>s[k]+=v)});return s}
+function maxima(){const m={TL:0,FR:0,EV:0,GQ:0,MM:0,WO:0};Q.forEach(q=>Object.keys(m).forEach(k=>m[k]+=Math.max(...q[1].map(a=>a[1][k]||0))));return m}
+function finish(){
+ const s=calc(),m=maxima(),tie=calc([3,4,11,13,17]);let ranked=Object.keys(s).sort((a,b)=>(s[b]-s[a])||(tie[b]-tie[a]));
+ const w=ranked[0],c=characters[w];$("#quizCard").style.display="none";$("#resultCard").style.display="block";
+ $("#resultImage").src=c.img;$("#resultImage").alt=c.name;$("#resultPlate").textContent=c.name;$("#resultTitle").textContent="DU BIST … "+c.name+"!";$("#resultTitle").style.color=c.color;$("#resultQuote").textContent=c.quote;$("#resultText").textContent=c.text;
+ const box=$("#scores");box.innerHTML="<div class='eyebrow'>DEINE WERTE</div>";
+ ranked.forEach(k=>{const pct=m[k]?Math.round(s[k]/m[k]*100):0,d=document.createElement("div");d.className="score";d.innerHTML=`<div class="score-top"><span>${characters[k].name}</span><span>${pct}%</span></div><div class="bar"><span style="width:${pct}%;background:${characters[k].color}"></span></div>`;box.appendChild(d)});
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+next.addEventListener("click",()=>{if(selections[current]===null)return;if(current<Q.length-1){current++;render()}else finish()});
+back.addEventListener("click",()=>{if(current>0){current--;render()}});
+$("#restartBtn").addEventListener("click",()=>{current=0;selections.fill(null);$("#resultCard").style.display="none";$("#quizCard").style.display="block";render();window.scrollTo({top:0,behavior:"smooth"})});
+render();
+</script>
+</body>
+</html>
