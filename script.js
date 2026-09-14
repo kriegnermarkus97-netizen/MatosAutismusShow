@@ -204,11 +204,13 @@ if (chaosButton && chaosEvent) {
 
         () => fridolinEvent(),
 
-        () => elVikoEvent(), 
+        () => elVikoEvent(),
+
+        () => eloqueen500SubsEvent(),
 
         () => showChaosText('🤠 GHETTOQUEENS SORGT FÜR RECHT UND ORDNUNG!', 'chaos-pink'),
 
-      () => wolfJumpscare(),
+        () => wolfJumpscare(),
 
         () => showChaosText('🐢 KRÖTE!', 'chaos-blue'),
 
@@ -261,6 +263,80 @@ function fridolinEvent() {
     }, 5000);
 
 }
+
+/* =========================================
+   ELOQUEEN – 500 SUBS BANNER
+   ========================================= */
+
+function eloqueen500SubsEvent() {
+
+    const wrap = document.createElement('div');
+    wrap.setAttribute('role', 'status');
+    wrap.setAttribute('aria-label', 'ELOQUEEN fragt: Schaffen wir heute noch die 500 Subs?');
+
+    Object.assign(wrap.style, {
+        position: 'fixed',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%) scale(.7)',
+        width: 'min(94vw, 1100px)',
+        zIndex: '99999',
+        pointerEvents: 'none',
+        opacity: '0',
+        filter: 'drop-shadow(0 20px 35px rgba(0,0,0,.7))',
+        transition: 'opacity .28s ease, transform .38s cubic-bezier(.2,.9,.2,1.2)'
+    });
+
+    const image = document.createElement('img');
+    image.src = 'eloqueen-500-subs.png';
+    image.alt = 'ELOQUEEN: SCHAFFEN WIR HEUTE NOCH DIE 500 SUBS?';
+
+    Object.assign(image.style, {
+        display: 'block',
+        width: '100%',
+        height: 'auto',
+        maxHeight: '78vh',
+        objectFit: 'contain'
+    });
+
+    image.onerror = () => {
+        image.remove();
+
+        const fallback = document.createElement('div');
+        fallback.textContent = 'SCHAFFEN WIR HEUTE NOCH DIE 500 SUBS?';
+
+        Object.assign(fallback.style, {
+            padding: '24px 30px',
+            border: '5px solid #ff48b7',
+            borderRadius: '28px',
+            background: '#fff',
+            color: '#111',
+            textAlign: 'center',
+            font: '900 clamp(28px, 6vw, 64px)/1 Impact, system-ui, sans-serif',
+            boxShadow: '0 0 35px rgba(255,40,180,.7)'
+        });
+
+        wrap.appendChild(fallback);
+    };
+
+    wrap.appendChild(image);
+    chaosEvent.appendChild(wrap);
+
+    requestAnimationFrame(() => {
+        wrap.style.opacity = '1';
+        wrap.style.transform = 'translate(-50%, -50%) scale(1)';
+    });
+
+    setTimeout(() => {
+        wrap.style.opacity = '0';
+        wrap.style.transform = 'translate(-50%, -50%) scale(.82)';
+    }, 4200);
+
+    setTimeout(() => {
+        wrap.remove();
+    }, 4700);
+}
+
 function wolfJumpscare() {
 
     const scare = document.createElement('div');
