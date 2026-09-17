@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="900">
+<defs><linearGradient id="s" x2="0" y2="1"><stop stop-color="#173f31"/><stop offset="1" stop-color="#07140d"/></linearGradient>
+<radialGradient id="g"><stop stop-color="#e8c45a" stop-opacity=".5"/><stop offset="1" stop-color="#153d24" stop-opacity="0"/></radialGradient></defs>
+<rect width="1536" height="900" fill="url(#s)"/><circle cx="760" cy="250" r="330" fill="url(#g)"/>
+<g fill="#0c2a19"><path d="M0 0h190l120 900H0zM1536 0h-210l-120 900h330z"/><path d="M180 0h80l180 900H330zM1280 0h-80l-170 900h110z"/></g>
+<g stroke="#315c2c" stroke-width="18" fill="none"><path d="M0 120Q350 250 590 40M1536 100Q1190 260 970 30M80 360Q430 180 760 330M1450 350Q1120 170 790 340"/></g>
+<g fill="#1e5b2d"><ellipse cx="170" cy="550" rx="260" ry="95"/><ellipse cx="1360" cy="550" rx="280" ry="100"/><ellipse cx="350" cy="300" rx="170" ry="70"/><ellipse cx="1190" cy="290" rx="190" ry="75"/></g>
+<path d="M0 690 Q380 630 760 680 T1536 680 V900H0Z" fill="#594126"/><path d="M0 720 Q400 660 760 710 T1536 710" stroke="#9c7b42" stroke-width="8" fill="none"/>
+<g fill="#7a8e46"><circle cx="270" cy="700" r="45"/><circle cx="1260" cy="700" r="55"/><circle cx="1180" cy="750" r="35"/></g>
+<text x="768" y="620" text-anchor="middle" font-family="Impact" font-size="62" fill="#d7c06c" opacity=".5">FRIDOLINS DSCHUNGEL</text></svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1536" height="900">
+<defs><radialGradient id="r"><stop stop-color="#7c1820"/><stop offset=".55" stop-color="#29121b"/><stop offset="1" stop-color="#07070b"/></radialGradient></defs>
+<rect width="1536" height="900" fill="url(#r)"/>
+<g fill="#17141b" stroke="#55404b" stroke-width="6"><path d="M0 140Q180 20 360 140v480H0zM1176 140Q1356 20 1536 140v480h-360z"/><path d="M300 100Q768-100 1236 100v190H300z"/></g>
+<g fill="#d7b46a"><circle cx="768" cy="120" r="42"/><path d="M748 120l-75-60 55 88-80 15 95 10M788 120l75-60-55 88 80 15-95 10" stroke="#d7b46a" stroke-width="10" fill="none"/></g>
+<g fill="#0d0d11"><ellipse cx="180" cy="430" rx="170" ry="230"/><ellipse cx="1356" cy="430" rx="170" ry="230"/></g>
+<g fill="#8c2630" opacity=".7"><circle cx="150" cy="380" r="8"/><circle cx="210" cy="430" r="8"/><circle cx="1320" cy="390" r="8"/><circle cx="1390" cy="450" r="8"/></g>
+<path d="M0 650Q400 600 768 650T1536 650V900H0z" fill="#29252b"/><ellipse cx="768" cy="760" rx="520" ry="110" fill="#4a4045" stroke="#8f6a55" stroke-width="14"/>
+<g stroke="#b1252d" stroke-width="18" fill="none"><ellipse cx="768" cy="760" rx="600" ry="145"/><ellipse cx="768" cy="760" rx="670" ry="180"/></g>
+<text x="768" y="590" text-anchor="middle" font-family="Impact" font-size="82" fill="#c8b07c" opacity=".75">THE WOLF ARENA</text>
+<text x="768" y="855" text-anchor="middle" font-family="Impact" font-size="48" fill="#e2d4b0">FINAL BOSS</text></svg>
