@@ -1,0 +1,1002 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Trucker Fighters – Lönhard vs EL VIKO</title><style>
+*{box-sizing:border-box}html,body{margin:0;background:#100b08;color:#fff;font-family:Impact,Arial,sans-serif;overflow:hidden}.game{height:100vh;min-height:620px;position:relative;background:url('fighting-club-assets/asset_001_af65e0c3bcd9.png') center/cover no-repeat;user-select:none}.shade{position:absolute;inset:0;background:linear-gradient(#0005 0 15%,transparent 38%,#0002 80%,#0009)}
+.hud{position:absolute;z-index:10;top:12px;left:2%;right:2%;display:grid;grid-template-columns:1fr 150px 1fr;gap:12px;align-items:start}.side{display:grid;grid-template-columns:80px 1fr;gap:8px}.side.right{grid-template-columns:1fr 80px}.portrait{width:80px;height:80px;border:4px solid #d3a653;background:#18110d;border-radius:9px;object-fit:cover}.right .portrait{order:2}.name{font-size:24px;text-shadow:2px 2px #000;margin-bottom:3px}.right .name{text-align:right}.bar{height:28px;border:4px solid #2b211a;background:#260d0d;box-shadow:0 0 0 2px #c99d54}.fill{height:100%;width:100%;background:linear-gradient(90deg,#36d13e,#d7ef38);transition:width .18s}.right .fill{margin-left:auto}.special{height:13px;margin-top:8px;border:2px solid #191919;background:#071a25}.special>div{height:100%;width:0;background:linear-gradient(90deg,#00a7ff,#5feaff);transition:width .2s}.timer{text-align:center;background:#1b1511;border:4px solid #b18a4e;border-radius:8px;padding:4px 6px;box-shadow:0 3px 0 #000}.timer small{display:block;font:16px Arial;font-weight:800}.timer b{font-size:54px;line-height:48px}.dots{text-align:center;font:28px Arial;color:#e9c66e;letter-spacing:5px}
+.stage{position:absolute;z-index:5;left:5%;right:5%;bottom:7%;height:57%}.fighter{position:absolute;bottom:28px;width:260px;height:338px;display:flex;align-items:flex-end;justify-content:center;transition:none;filter:drop-shadow(0 12px 8px #0008)}.fighter img{max-width:100%;max-height:100%;object-fit:contain}.enemy img{transform:scaleX(-1)}.fighter.jump{animation:jump .55s ease}.fighter.hit{animation:hit .22s}.fighter.attack{animation:punch .18s}.enemy.attack{animation:punchR .18s}@keyframes jump{0%,100%{bottom:28px}50%{bottom:188px}}@keyframes hit{50%{filter:drop-shadow(0 0 18px red);transform:translateX(-18px)}}@keyframes punch{50%{transform:translateX(30px)}}@keyframes punchR{50%{transform:translateX(-30px)}}
+.fighter.ko{
+  overflow:visible!important;
+  z-index:12!important;
+  bottom:16px!important;
+  width:360px!important;
+  height:230px!important;
+  filter:drop-shadow(0 9px 7px #000a)!important;
+}
+.fighter.ko img{
+  width:auto!important;
+  height:auto!important;
+  max-width:350px!important;
+  max-height:220px!important;
+  object-fit:contain!important;
+  transform-origin:center bottom!important;
+}
+.player.ko{
+  left:18%!important;
+  transform:none!important;
+}
+.player.ko img{transform:none!important}
+.enemy.ko{
+  left:55%!important;
+  transform:none!important;
+}
+.enemy.ko img{transform:scaleX(-1)!important}
+
+.winPanel{display:none;position:absolute;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);width:min(620px,88vw);text-align:center;background:linear-gradient(#25170eeF,#090604F2);border:5px solid #d4a34e;border-radius:18px;padding:25px 28px;box-shadow:0 18px 60px #000,0 0 0 4px #24150b}
+.winPanel.show{display:block;animation:winPop .32s ease-out}
+.winTitle{font-size:58px;color:#ffe56a;text-shadow:4px 4px #9d1b10,-2px -2px #000;line-height:1}
+.winSub{font:800 19px Arial;margin:12px 0 20px;color:#fff}
+.nextBtn{font:900 24px Impact,Arial;border:4px solid #2c1b0d;border-radius:10px;padding:13px 30px;cursor:pointer;background:linear-gradient(#ffd968,#d58b20);color:#1b0d05;box-shadow:0 5px 0 #6e3b10}
+.nextBtn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.nextBtn:active{transform:translateY(3px);box-shadow:0 2px 0 #6e3b10}
+@keyframes winPop{from{transform:translate(-50%,-50%) scale(.75);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.centerMsg{position:absolute;z-index:20;inset:35% 0 auto;text-align:center;font-size:64px;color:#ffe266;text-shadow:5px 5px #9c180e,-3px -3px #000;pointer-events:none}.controls{position:absolute;z-index:15;bottom:8px;left:50%;transform:translateX(-50%);background:#000b;border:2px solid #d0a05b;border-radius:8px;padding:7px 16px;font:14px Arial;font-weight:700;white-space:nowrap}.tag{position:absolute;z-index:9;bottom:5%;left:2%;font:13px Arial;background:#000b;padding:6px 9px;border-radius:5px}.flash{position:absolute;inset:0;z-index:18;pointer-events:none}.flash.on{background:transparent!important;animation:none!important}@keyframes flash{50%{background:transparent}}@media(max-width:900px){.hud{grid-template-columns:1fr 100px 1fr}.portrait{display:none}.side,.side.right{display:block}.fighter{width:200px;height:260px}.controls{font-size:11px}.name{font-size:18px}}
+
+.koSmoke{
+  position:absolute;
+  z-index:18;
+  width:260px;
+  height:180px;
+  pointer-events:none;
+  transform:translate(-50%,0) scale(.2);
+  transform-origin:center bottom;
+  opacity:0;
+}
+.koSmoke.show{animation:koSmokePop 1.35s ease-out forwards}
+.koSmoke .puff{
+  position:absolute;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff 0 22%,#eee 42%,#c9c9c9 72%,#9a9a9a 100%);
+  box-shadow:inset -8px -10px 18px #7775,0 5px 10px #0005;
+}
+.koSmoke .s1{width:105px;height:105px;left:75px;top:38px}
+.koSmoke .s2{width:92px;height:92px;left:28px;top:66px}
+.koSmoke .s3{width:86px;height:86px;left:145px;top:68px}
+.koSmoke .s4{width:72px;height:72px;left:48px;top:25px}
+.koSmoke .s5{width:78px;height:78px;left:142px;top:20px}
+.koSmoke .s6{width:70px;height:70px;left:94px;top:4px}
+.koSmoke .star{
+  position:absolute;
+  font-size:34px;
+  color:#ffd52e;
+  text-shadow:2px 2px 0 #7b4a00;
+  animation:koStar .55s ease-in-out infinite alternate;
+}
+.koSmoke .st1{left:18px;top:35px}.koSmoke .st2{right:15px;top:26px}
+.koSmoke .st3{left:116px;top:-8px}.koSmoke .st4{right:35px;bottom:10px}
+@keyframes koSmokePop{
+  0%{opacity:0;transform:translate(-50%,0) scale(.15) rotate(-5deg)}
+  15%{opacity:1;transform:translate(-50%,0) scale(1.15) rotate(3deg)}
+  30%{transform:translate(-50%,0) scale(.95) rotate(-2deg)}
+  100%{opacity:1;transform:translate(-50%,0) scale(1) rotate(0)}
+}
+@keyframes koStar{from{transform:scale(.82) rotate(-12deg)}to{transform:scale(1.18) rotate(12deg)}}
+
+</style>
+<style>
+.champMenu{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;background:#100b08}
+.champCard{text-align:center;padding:34px 44px;border:4px solid #b77b2d;border-radius:14px;background:#17100d;color:#fff;box-shadow:0 15px 45px #000}
+.champTitle{font:52px Impact,Arial;text-shadow:3px 3px #000}.champSub{font:20px Impact;color:#e6bb69;margin:5px 0 20px}
+#champStart{font:28px Impact;padding:13px 30px;border:3px solid #d79b3d;border-radius:8px;background:#361b10;color:#fff;cursor:pointer}
+.champRoute{font:14px Arial;margin-top:18px;color:#ddd}
+.storyStage{position:absolute;top:94px;left:50%;transform:translateX(-50%);z-index:25;background:#17100ddd;border:2px solid #b77b2d;border-radius:6px;padding:6px 14px;font:18px Impact;display:none}
+.storyStage.show{display:block}
+</style>
+
+<style>
+@keyframes tfSpecialBlink{
+  0%,100%{transform:scale(1);filter:brightness(1);box-shadow:0 0 5px #fff8}
+  50%{transform:scale(1.035);filter:brightness(2.6);box-shadow:0 0 18px #fff,0 0 34px #ffd52a}
+}
+.special.specialReady{animation:tfSpecialBlink .45s linear infinite;border-color:#fff!important}
+.special.specialReady:after{content:" SPECIAL BEREIT!";font:900 11px Arial;color:#fff;position:absolute;margin-left:8px;text-shadow:0 0 7px #ffd52a}
+</style>
+
+<style>
+.fighter{will-change:transform;contain:layout paint;transform:translateZ(0)}
+.fighter img{will-change:contents;transform:translateZ(0);backface-visibility:hidden}
+</style>
+
+<style>
+/* Gegner mit falscher Blickrichtung horizontal spiegeln */
+#e.flipEnemy img{transform:translateZ(0)}
+/* GHETTOQUEENZ: kleinen dunklen Freistellungsrand optisch entfernen */
+#e.ghettoClean img{filter:drop-shadow(0 12px 8px #0008)}
+</style>
+
+<style>
+@keyframes truckerModePulse{0%,100%{filter:drop-shadow(0 12px 8px #0008) brightness(1)}
+50%{filter:drop-shadow(0 0 22px #ff8a00) brightness(1.65)}}
+@keyframes transformPulse{0%,100%{filter:drop-shadow(0 0 8px #9cff00) brightness(1.1)}
+50%{filter:drop-shadow(0 0 30px #9cff00) brightness(1.8) saturate(1.7)}}
+@keyframes waterBlast{0%{transform:scaleX(.05);opacity:0}15%{opacity:1}80%{opacity:1}100%{transform:scaleX(1);opacity:0}}
+@keyframes buffaloRush{0%{left:90%;opacity:0}10%{opacity:1}100%{left:5%;opacity:0}}
+.truckerMode img{animation:truckerModePulse .35s infinite}
+.transformMode img{animation:transformPulse .3s infinite}
+.invincibleMode img{filter:drop-shadow(0 0 25px #fff) brightness(1.6)!important}
+.specialFX{position:absolute;inset:0;z-index:18;pointer-events:none;overflow:hidden}
+.waterBeam{position:absolute;right:17%;top:52%;width:65%;height:70px;transform-origin:right center;
+background:linear-gradient(180deg,#dffaff,#4edcff 35%,#0a7eff 65%,#dffaff);border-radius:50%;
+box-shadow:0 0 25px #fff,0 0 55px #2dcfff;animation:waterBlast .65s ease-out forwards}
+.buffaloRush{position:absolute;top:58%;font-size:78px;filter:drop-shadow(0 8px 5px #0009);animation:buffaloRush .8s linear forwards}
+.buffaloRush.b2{animation-delay:.18s}.buffaloRush.b3{animation-delay:.36s}
+.modeLabel{position:absolute;left:50%;top:28%;transform:translate(-50%,-50%);font:42px Impact;color:#fff;
+text-shadow:0 3px 0 #000,0 0 16px #ffb000;white-space:nowrap}
+</style>
+
+<style>
+/* Gewonnene Runden: gefüllte Punkte grün */
+.roundDotWin{color:#35e85b!important;text-shadow:0 0 7px #35e85b}
+</style>
+
+<style>
+.champMenu{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;
+background:radial-gradient(circle at 50% 35%,#5a2c18,#120907 65%);font-family:Impact,Arial}
+.champCard{width:min(720px,88vw);text-align:center;padding:42px;border:5px solid #d59a42;border-radius:18px;
+background:linear-gradient(#26150f,#0d0806);box-shadow:0 20px 80px #000;color:white}
+.champTitle{font-size:72px;letter-spacing:2px;color:#f7d45f;text-shadow:5px 5px #7e1c12,8px 8px #000}
+.champSub{font:900 20px Arial;margin:8px 0 28px;color:#eee}
+#champStart,.comicNext{font:30px Impact,Arial;padding:14px 34px;border:4px solid #28150c;border-radius:10px;
+background:linear-gradient(#ffe06b,#d48b20);color:#1a0d05;box-shadow:0 6px 0 #6b3810;cursor:pointer}
+.champRoute{margin-top:25px;font:800 16px Arial;color:#d7b77c}
+.comicScene,.championScene{position:fixed;inset:0;z-index:1100;display:none;align-items:center;justify-content:center;
+background:#090604eF;padding:18px}
+.comicScene.show,.championScene.show{display:flex}
+.comicFrame{position:relative;width:min(1100px,94vw);height:min(680px,90vh);overflow:hidden;border:7px solid #201108;
+border-radius:12px;background:linear-gradient(135deg,#e7c17b,#9b5528);box-shadow:0 22px 80px #000}
+.comicFrame:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;
+background-image:radial-gradient(#241208 1.2px,transparent 1.2px);background-size:7px 7px}
+.comicKicker{position:absolute;top:18px;left:22px;background:#19100b;color:#ffd75a;padding:7px 16px;
+font:22px Impact;transform:rotate(-2deg);z-index:4}
+.comicTitle{text-align:center;font:54px Impact;color:white;text-shadow:4px 4px #8e1b12,-2px -2px #000;padding-top:25px}
+.comicActors{height:470px;display:flex;align-items:flex-end;justify-content:space-around;position:relative}
+.comicActor{width:42%;height:100%;display:flex;align-items:flex-end;justify-content:center;position:relative}
+.comicActor img{max-width:82%;max-height:78%;object-fit:contain;filter:drop-shadow(0 12px 8px #0008)}
+.comicActor.right img{transform:scaleX(-1)}
+.comicVs{font:74px Impact;color:#ffe359;text-shadow:5px 5px #a31d12;align-self:center}
+.speech{position:absolute;top:35px;left:5%;max-width:78%;background:#fff;color:#17100d;border:4px solid #17100d;
+border-radius:50%;padding:15px 20px;font:900 18px Arial;z-index:3}
+.enemySpeech{left:auto;right:3%}
+.comicNext{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:23px;z-index:5}
+.championCard{width:min(1050px,94vw);height:min(760px,92vh);background:#150c08;border:6px solid #e0a943;
+border-radius:16px;text-align:center;color:#fff;overflow:hidden;box-shadow:0 20px 90px #000}
+.championTop{font:64px Impact;color:#ffe16b;text-shadow:5px 5px #a11e13;margin:16px 0 8px}
+.championPic{width:92%;height:68%;object-fit:cover;object-position:center}
+.championText{font:24px Impact;margin:8px}
+#championAgain{font-size:21px;padding:10px 28px}
+</style>
+
+<style>
+.comicFrame.fridolinChapter{background:linear-gradient(180deg,rgba(7,30,18,.1),rgba(4,18,10,.6)),radial-gradient(circle at 50% 35%,#5f9d45,#234d2b 47%,#0c1d12);border-color:#d8b14b}
+.chapterBadge{position:absolute;top:18px;right:22px;z-index:6;background:#17351e;color:#ffe56d;border:3px solid #e0b950;padding:7px 14px;border-radius:8px;font:18px Impact,Arial}
+.fridolinTitle{color:#ffe36a!important;text-shadow:4px 4px #2b6d31,-2px -2px #111!important}
+.fridolinVs{color:#fff06a!important;font-size:88px!important;text-shadow:5px 5px #cb2c19,8px 8px #111!important}
+.fridolinSpeech{border-radius:18px!important;background:#fff9df!important;box-shadow:6px 7px 0 #17200f}
+.sceneCaption{position:absolute;left:24px;bottom:86px;z-index:5;max-width:42%;padding:8px 13px;background:#17100ddd;color:#fff3bd;border-left:5px solid #f0c64c;font:800 15px Arial}
+.comicFrame.vsMoment .speech{display:none}.comicFrame.vsMoment .comicActor img{max-height:88%}
+.comicFrame.victoryMoment{background:linear-gradient(160deg,#31572c,#142616 62%,#0b100b)}
+.comicFrame.victoryMoment .comicVs{display:none}
+</style>
+
+<style>
+/* BUILD 49 – Story-Szenen lesbarer und erzählerischer */
+.comicFrame{height:min(720px,94vh)}
+.comicActors{height:500px}
+.comicActor img{max-width:88%;max-height:84%;object-fit:contain}
+.comicActor.right img{transform:scaleX(-1)}
+.comicFrame.storyTalk .comicVs{font-size:48px;opacity:.65}
+.storyBeat{position:absolute;top:78px;left:50%;transform:translateX(-50%);z-index:5;
+ background:#17100ddd;color:#ffe9a5;border:2px solid #d9a94b;border-radius:7px;
+ padding:7px 15px;font:800 14px Arial;white-space:nowrap}
+.comicFrame.elvikoScene .comicActor.right img{
+ max-width:96%;max-height:92%;transform:scaleX(-1) scale(1.08);
+ filter:drop-shadow(0 12px 8px #0008)
+}
+.comicFrame.elvikoScene{background:linear-gradient(145deg,#7b2514,#d18424 48%,#3f170d)}
+.comicFrame.elvikoScene .comicTitle{color:#ffe166;text-shadow:4px 4px #8b1b10,-2px -2px #111}
+</style>
+
+<style>
+.storyReader{position:fixed;inset:0;z-index:1400;display:none;align-items:center;justify-content:center;background:#090807ee;padding:14px}
+.storyReader.show{display:flex}
+.storyCard{width:min(1080px,96vw);height:min(900px,96vh);position:relative;display:flex;flex-direction:column;background:#17110d;border:5px solid #b57931;box-shadow:0 22px 80px #000;color:#fff;padding:18px 24px 20px}
+.storyTop{display:flex;justify-content:space-between;align-items:center;color:#e8b952;font:20px Impact,Arial;letter-spacing:1px;margin-bottom:10px}
+.storyArt{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:#080706;border:4px solid #050505;overflow:hidden}
+.storyArt img{width:100%;height:100%;object-fit:contain;display:block}
+.storyCopy{padding:13px 4px 7px}
+.storyTitle{font:34px Impact,Arial;color:#fff;text-shadow:3px 3px #000;text-transform:uppercase}
+.storyText{font:18px Arial;line-height:1.35;color:#f3eadb;margin-top:5px}
+.storyQuote{display:inline-block;margin-top:8px;padding:8px 12px;background:#f5edd5;color:#17110d;border:3px solid #111;font:20px Impact,Arial;transform:rotate(-.5deg)}
+.storyQuote:empty{display:none}
+.storyNav{display:flex;justify-content:space-between;gap:14px;margin-top:8px}
+.storyNav button{font:21px Impact,Arial;padding:10px 22px;border:3px solid #d49b3e;background:#3b2013;color:#fff;border-radius:7px;cursor:pointer}
+#storyNext{margin-left:auto;background:#5a1b73;border-color:#d65cff}
+@media(max-width:700px){.storyCard{padding:12px;height:96vh}.storyTitle{font-size:27px}.storyText{font-size:15px}.storyQuote{font-size:17px}.storyNav button{font-size:17px;padding:8px 12px}}
+</style>
+
+<style>
+#champMenu .champCard{padding:48px 56px 52px;min-width:min(760px,88vw)}
+#champMenu .champTitle{font-size:clamp(42px,6vw,76px);line-height:1.02;margin-bottom:34px}
+#champMenu #champStart{font-size:clamp(24px,3vw,34px);padding:16px 38px}
+</style>
+</head><body>
+
+<div id="storyReader" class="storyReader">
+  <div class="storyCard">
+    <div class="storyTop">
+      <span id="storyChapter">PROLOG</span>
+      <span id="storyCount">1 / 15</span>
+    </div>
+    <div class="storyArt"><img id="storyImage"></div>
+    <div class="storyCopy">
+      <div id="storyTitle" class="storyTitle"></div>
+      <div id="storyText" class="storyText"></div>
+      <div id="storyQuote" class="storyQuote"></div>
+    </div>
+    <div class="storyNav">
+      <button id="storyPrev">◀ ZURÜCK</button>
+      <button id="storyNext">WEITER ▶</button>
+    </div>
+  </div>
+</div>
+
+<div id="champMenu" class="champMenu">
+  <div class="champCard">
+    <div class="champTitle">FIGHTING CLUB – TRUCKERS HONOR</div>
+    
+    <button id="champStart">WERDE ZUM CHAMP</button>
+    
+  </div>
+</div>
+<div id="comicScene" class="comicScene">
+  <div class="comicFrame">
+    <div id="comicKicker" class="comicKicker">STORY</div><div id="chapterBadge" class="chapterBadge">KAPITEL 1 · DSCHUNGEL</div>
+    <div id="comicTitle" class="comicTitle"></div><div id="storyBeat" class="storyBeat"></div>
+    <div class="comicActors">
+      <div class="comicActor left"><img id="comicTrucker"><div id="comicTruckBubble" class="speech"></div></div>
+      <div class="comicVs">VS</div>
+      <div class="comicActor right"><img id="comicEnemy"><div id="comicEnemyBubble" class="speech enemySpeech"></div></div>
+    </div>
+    <div id="sceneCaption" class="sceneCaption"></div><button id="comicNext" class="comicNext">WEITER ▶</button>
+  </div>
+</div>
+<div id="championScene" class="championScene">
+  <div class="championCard">
+    <div class="championTop">DU BIST DER CHAMPION!</div>
+    <img src="fighting-club-assets/asset_002_483a72b3780d.webp" class="championPic">
+    <div class="championText">TRUCKER LÖNHARD HAT ALLE FÜNF GEGNER BESIEGT!</div>
+    <button id="championAgain" class="comicNext">NOCH EINMAL</button>
+  </div>
+</div>
+<div class="game" id="game"><div class="shade"></div><div class="flash" id="flash"></div>
+<div id="storyStage" class="storyStage"></div><div id="specialFX" class="specialFX"></div><div class="hud"><div class="side"><img class="portrait" src="fighting-club-assets/asset_003_9dc39b5d6536.png"><div><div class="name">TRUCKER LÖNHARD</div><div class="bar"><div class="fill" id="php"></div></div><div class="special"><div id="psp"></div></div><div class="dots" id="pd">○ ○</div></div></div><div class="timer"><small id="round">ROUND 1</small><b id="time">99</b></div><div class="side right"><div><div class="name" id="enemyName">FRIDOLIN</div><div class="bar"><div class="fill" id="ehp"></div></div><div class="special"><div id="esp"></div></div><div class="dots" id="ed">○ ○</div></div><img class="portrait" src="fighting-club-assets/asset_004_564a455c97bb.webp"></div></div>
+<div class="stage" id="stage"><div class="fighter player" id="p" style="left:10%"><img id="pi" src="fighting-club-assets/asset_005_84cb18071d2a.png"></div><div class="fighter enemy" id="e" style="left:70%"><img id="ei" src="fighting-club-assets/asset_004_564a455c97bb.webp"></div></div><div class="centerMsg" id="msg">FIGHT!</div>
+<div class="koSmoke" id="koSmoke">
+  <span class="puff s1"></span><span class="puff s2"></span><span class="puff s3"></span>
+  <span class="puff s4"></span><span class="puff s5"></span><span class="puff s6"></span>
+  <span class="star st1">★</span><span class="star st2">★</span>
+  <span class="star st3">★</span><span class="star st4">★</span>
+</div>
+<div class="winPanel" id="winPanel">
+  <div class="winTitle" id="winTitle">🏆 SIEG! 🏆</div>
+  <div class="winSub" id="winSub">TRUCKER LÖNHARD gewinnt den Kampf!</div>
+  <button class="nextBtn" id="nextBtn">NÄCHSTER KAMPF ▶</button>
+</div><div class="controls">← → LAUFEN · ↓ DUCKEN · ↑ BLOCKEN · LEERTASTE SPRINGEN · A = 3 · D = 7 · E = SPECIAL 15</div><div class="tag">BEST OF 3 · 2 RUNDENSIEGE ZUM SIEG</div></div>
+<script>
+const $=id=>document.getElementById(id), p=$('p'),e=$('e'),pi=$('pi'),ei=$('ei'); let px=10,ex=70,php=100,ehp=100,ps=0,es=0,pw=0,ew=0,r=1,t=99,playing=true,block=false,crouch=false,busy=false,ebusy=false,enemyBlock=false,enemyCrouch=false;
+let enemyMaxHp=100;
+let playerDamageMul=1,playerDefenseMul=1,enemyDamageMulSpecial=1,enemyDefenseMul=1;
+let playerModeUntil=0,enemyModeUntil=0,enemyInvincibleUntil=0;
+let enemySpecialReadyAt=0,enemySpecialDelay=2500;
+
+const EMBEDDED_ASSETS={"viko_ko":"fighting-club-assets/asset_006_0915dcbbd683.png","viko_d":"fighting-club-assets/asset_007_09348a64b819.png","trucker_run":"fighting-club-assets/asset_008_98ea237f8ff4.png","viko_block":"fighting-club-assets/asset_009_57561667975e.png","viko_hit":"fighting-club-assets/asset_010_67041061939a.png","trucker_idle":"fighting-club-assets/asset_003_9dc39b5d6536.png","viko_e":"fighting-club-assets/asset_011_c03b9e2dac9d.png","viko_run":"fighting-club-assets/asset_012_140bf1dc4b95.png","trucker_e":"fighting-club-assets/asset_013_aa8b0bf0fbef.png","trucker_crouch":"fighting-club-assets/asset_014_47ed5bcd8df4.png","arena":"fighting-club-assets/asset_015_f316382f930b.png","trucker_a":"fighting-club-assets/asset_016_28eef6f39bb7.png","trucker_ko":"fighting-club-assets/asset_017_d78035fbcb1f.png","viko_crouch":"fighting-club-assets/asset_018_ec249f065d7c.png","trucker_jump":"fighting-club-assets/asset_019_ebb48168d6ee.png","trucker_d":"fighting-club-assets/asset_020_510b2958e849.png","viko_a":"fighting-club-assets/asset_021_58025b6bcfe1.png","viko_idle":"fighting-club-assets/asset_022_9b03492e0762.png","viko_jump":"fighting-club-assets/asset_023_36bee444f2d3.png","trucker_hit":"fighting-club-assets/asset_024_a494b762ae60.png","trucker_block":"fighting-club-assets/asset_025_00681b6754f2.png","fridolin_idle":"fighting-club-assets/asset_004_564a455c97bb.webp","fridolin_run":"fighting-club-assets/asset_026_5ddcc0f3f549.webp","fridolin_jump":"fighting-club-assets/asset_027_12b88dd1f088.webp","fridolin_crouch":"fighting-club-assets/asset_028_934c8c6cf2cd.webp","fridolin_block":"fighting-club-assets/asset_029_9857534704f8.webp","fridolin_a":"fighting-club-assets/asset_030_fcb815e9ae0e.webp","fridolin_d":"fighting-club-assets/asset_031_9e1be9ea3d45.webp","fridolin_e":"fighting-club-assets/asset_032_32cea780778c.webp","fridolin_hit":"fighting-club-assets/asset_033_5780cb1592a3.webp","fridolin_ko":"fighting-club-assets/asset_034_59cda9dee6e9.webp","ghetto_idle":"fighting-club-assets/asset_035_b8b262f5d85d.webp","ghetto_run":"fighting-club-assets/asset_036_af3cdfe0d981.webp","ghetto_jump":"fighting-club-assets/asset_037_12cca3061d72.webp","ghetto_crouch":"fighting-club-assets/asset_038_d8ca2f3b6b00.webp","ghetto_block":"fighting-club-assets/asset_039_54ee63178a90.webp","ghetto_a":"fighting-club-assets/asset_040_5ba290e74858.webp","ghetto_d":"fighting-club-assets/asset_041_40bbc370fc2b.webp","ghetto_e":"fighting-club-assets/asset_042_5bf3b42dffa0.webp","ghetto_hit":"fighting-club-assets/asset_043_b4726e53fa6c.webp","ghetto_ko":"fighting-club-assets/asset_044_8d356d84d771.webp","mato_idle":"fighting-club-assets/asset_045_e36992d43cc0.webp","mato_run":"fighting-club-assets/asset_046_4337c4d8bfda.webp","mato_jump":"fighting-club-assets/asset_047_c06bcd83adf2.webp","mato_crouch":"fighting-club-assets/asset_048_63c7a076ca7a.webp","mato_block":"fighting-club-assets/asset_049_de2fa9af9e18.webp","mato_a":"fighting-club-assets/asset_050_3f0720054d0e.webp","mato_d":"fighting-club-assets/asset_051_267b124614d0.webp","mato_e":"fighting-club-assets/asset_052_0c7a202086db.webp","mato_hit":"fighting-club-assets/asset_053_a12f32a187e3.webp","mato_ko":"fighting-club-assets/asset_054_283715eb1166.webp","wolf_idle":"fighting-club-assets/asset_055_a98edbfe947c.webp","wolf_run":"fighting-club-assets/asset_056_3880f1958059.webp","wolf_jump":"fighting-club-assets/asset_057_3c71dc2796ae.webp","wolf_crouch":"fighting-club-assets/asset_058_b4e53e279df9.webp","wolf_block":"fighting-club-assets/asset_059_d1b209227244.webp","wolf_a":"fighting-club-assets/asset_060_e85548f50c53.webp","wolf_d":"fighting-club-assets/asset_061_63e22fad083f.webp","wolf_e":"fighting-club-assets/asset_062_d446e7f37550.webp","wolf_hit":"fighting-club-assets/asset_063_add0ed0d9032.webp","wolf_ko":"fighting-club-assets/asset_064_4f772a5f0878.webp"}; const src=(who,state)=>EMBEDDED_ASSETS[who+'_'+state] || EMBEDDED_ASSETS[who+'_idle']; let enemyKey='fridolin'; function imgP(s){pi.src=src('trucker',s)} function imgE(s){ei.src=src(enemyKey,s)}
+function hud(){
+ $('php').style.width=php+'%';$('ehp').style.width=Math.max(0,Math.min(100,(ehp/enemyMaxHp)*100))+'%';
+ $('psp').style.width=ps+'%';$('esp').style.width=es+'%';
+ $('psp').parentElement.classList.toggle('specialReady',ps>=100);
+ if(es>=100 && enemySpecialReadyAt===0){
+   enemySpecialReadyAt=Date.now();
+   enemySpecialDelay=800+Math.floor(Math.random()*3701);
+   const armedAt=enemySpecialReadyAt;
+   const delay=enemySpecialDelay;
+   setTimeout(()=>{
+     if(playing && es>=100 && enemySpecialReadyAt===armedAt){
+       enemySpecial(true);
+     }
+   },delay);
+ }
+ if(es<100) enemySpecialReadyAt=0;
+ $('esp').parentElement.classList.toggle('specialReady',es>=100);
+ $('pd').innerHTML='<span class="roundDotWin">'+'● '.repeat(pw)+'</span>'+'○ '.repeat(2-pw);
+ $('ed').innerHTML='<span class="roundDotWin">'+'● '.repeat(ew)+'</span>'+'○ '.repeat(2-ew);
+ $('round').textContent='ROUND '+r;$('time').textContent=t
+}
+function say(x,ms=800){$('msg').textContent=x;setTimeout(()=>{if($('msg').textContent===x)$('msg').textContent=''},ms)} function dist(){return Math.abs(px-ex)} function setPos(){if(!p.classList.contains('ko'))p.style.left=px+'%';if(!e.classList.contains('ko'))e.style.left=ex+'%'}
+function actP(state,dmg=0,gain=0){
+ if(!playing||busy||block)return;
+ if(state==='e'&&ps<100){say('SPECIAL NICHT BEREIT!',500);return}
+ busy=true;imgP(state);p.classList.add('attack');
+ setTimeout(()=>{
+   if(dist()<28&&dmg){
+     let real=enemyBlock?Math.max(1,Math.round(dmg*.2)):dmg; real=Math.max(1,Math.round(real*playerDamageMul*enemyDefenseMul));
+     ehp=Math.max(0,ehp-real);
+     ps=Math.min(100,state==='e'?0:ps+gain);
+     if(enemyBlock){
+       imgE('block');
+     }else{
+       e.classList.add('hit');imgE('hit');
+       setTimeout(()=>{e.classList.remove('hit');if(ehp>0&&!enemyBlock&&!enemyCrouch)imgE('idle')},180);
+     }
+     hud();if(ehp<=0)roundEnd('p')
+   }
+ },100);
+ setTimeout(()=>{p.classList.remove('attack');if(playing)imgP(crouch?'crouch':'idle');busy=false},330)
+}
+function enemyAttack(){
+ if(!playing||ebusy)return;
+ let kind,dmg,gain;
+
+ // Volle Spezialleiste hat Vorrang vor normalen Angriffen.
+ if(es>=100){
+   const specialWait=enemySpecialReadyAt ? Date.now()-enemySpecialReadyAt : 5000;
+   if(specialWait>=enemySpecialDelay){
+     enemySpecial(true);
+     return;
+   }
+ }
+
+ ebusy=true;
+ kind=Math.random()<.55?'a':'d';
+ dmg=kind==='a'?3:7;
+ gain=kind==='a'?5:8;
+ imgE(kind);e.classList.add('attack');hud();
+ setTimeout(()=>{
+   if(dist()<27){
+     let real=block?Math.max(1,Math.round(dmg*.2)):dmg;
+     if(Date.now()<enemyInvincibleUntil) real=0;
+real=Math.max(0,Math.round(real*((storyStarted&&STORY[storyIndex])?STORY[storyIndex].damageMul:1)*enemyDamageMulSpecial*playerDefenseMul));
+php=Math.max(0,php-real);
+     if(kind!=='e')es=Math.min(100,es+gain);
+     p.classList.add('hit');
+     if(!block)imgP('hit');
+     setTimeout(()=>{p.classList.remove('hit');if(php>0)imgP(block?'block':crouch?'crouch':'idle')},180);
+     hud();
+     if(php<=0)roundEnd('e');
+   }
+ },kind==='e'?150:110);
+ setTimeout(()=>{
+   e.classList.remove('attack');
+   if(playing)imgE('idle');
+   ebusy=false
+ },kind==='e'?520:350)
+}
+function showKOSmoke(side){
+ const smoke=$('koSmoke');
+ const pos=side==='e'?ex:px;
+ smoke.style.left=pos+'%';
+ smoke.style.bottom='18px';
+ smoke.classList.remove('show');
+ void smoke.offsetWidth;
+ smoke.classList.add('show');
+}
+function clearKOSmoke(){
+ const smoke=$('koSmoke');
+ if(smoke)smoke.classList.remove('show');
+}
+function roundEnd(w){
+ if(!playing)return; playing=false;
+ if(w==='p'){pw++;showKOSmoke('e');e.style.visibility='hidden';say('K.O.!',1200)}
+ else{ew++;showKOSmoke('p');p.style.visibility='hidden';say('K.O.!',1200)}
+ hud();
+ if(storyIndex===4 && w==='p' && pw===1 && !wolfRoundOneSceneShown){
+   wolfRoundOneSceneShown=true;
+   setTimeout(()=>{
+     clearKOSmoke();p.style.visibility='visible';e.style.visibility='visible';
+     openStoryReader(WOLF_ROUND2,()=>{
+       r++;php=100;ehp=enemyMaxHp;px=10;ex=70;t=99;block=false;crouch=false;enemyBlock=false;enemyCrouch=false;
+       p.classList.remove('ko');e.classList.remove('ko');clearKOSmoke();p.style.visibility='visible';e.style.visibility='visible';
+       imgP('idle');imgE('idle');setPos();hud();say('ROUND 2',700);
+       setTimeout(()=>{playing=true;say('FIGHT!',500)},750);
+     });
+   },1200);
+   return;
+ }
+ setTimeout(()=>{
+   if(pw>=2||ew>=2){
+     $('msg').textContent='';
+     if(pw>=2){
+       $('winTitle').textContent='🏆 SIEG! 🏆';
+       $('winSub').textContent='TRUCKER LÖNHARD gewinnt den Kampf mit '+pw+' : '+ew+'!';
+       $('nextBtn').textContent='NÄCHSTER KAMPF ▶'; $('nextBtn').onclick=storyAdvance;
+     }else{
+       $('winTitle').textContent='KAMPF VERLOREN';
+       $('winSub').textContent=STORY[storyIndex].name+' gewinnt mit '+ew+' : '+pw+'.';
+       $('nextBtn').textContent='NOCH EINMAL ↻'; $('nextBtn').onclick=storyRetry;
+     }
+     $('winPanel').classList.add('show');
+     return;
+   }
+   r++; php=100; ehp=enemyMaxHp; px=10; ex=70; t=99; block=false;crouch=false;enemyBlock=false;enemyCrouch=false;
+   p.classList.remove('ko');e.classList.remove('ko');clearKOSmoke();p.style.visibility='visible';e.style.visibility='visible';
+   imgP('idle');imgE('idle');setPos();hud();say('ROUND '+r,700);
+   setTimeout(()=>{playing=true;say('FIGHT!',500)},750)
+ },1450)
+}
+function startNextFight(){
+ $('winPanel').classList.remove('show');
+ p.classList.remove('ko');e.classList.remove('ko','hit','attack');clearKOSmoke();p.style.visibility='visible';e.style.visibility='visible';
+ pw=0;ew=0;r=1;t=99;php=100;ehp=100;ps=0;es=0;px=10;ex=70;
+ block=false;crouch=false;enemyBlock=false;enemyCrouch=false;busy=false;ebusy=false;
+ held.left=false;held.right=false;movingVisual=false;
+ imgP('idle');imgE('idle');setPos();hud();
+ say('ROUND 1',650);
+ setTimeout(()=>{playing=true;say('FIGHT!',500)},700);
+}
+
+const held={left:false,right:false};let lastMove=performance.now(),movingVisual=false;
+function movementLoop(now){
+  const dt=Math.min(32,now-lastMove); lastMove=now;
+  if(playing&&!busy&&!block&&!crouch){
+    let dir=(held.right?1:0)-(held.left?1:0);
+    if(dir){
+      px=Math.max(0,Math.min(78,px+dir*0.020*dt));
+      setPos();
+      if(!movingVisual){imgP('run');movingVisual=true}
+    }else if(movingVisual){
+      imgP('idle');movingVisual=false;
+    }
+  } else if(movingVisual && (!held.left&&!held.right || busy || block || crouch)){
+    movingVisual=false;
+  }
+  requestAnimationFrame(movementLoop);
+}
+requestAnimationFrame(movementLoop);
+
+addEventListener('keydown',ev=>{
+  if(['ArrowLeft','ArrowRight','ArrowDown','ArrowUp','Space'].includes(ev.code))ev.preventDefault();
+  if(!playing)return;
+  if(ev.code==='ArrowLeft')held.left=true;
+  if(ev.code==='ArrowRight')held.right=true;
+  if(ev.code==='ArrowDown'&&!ev.repeat){crouch=true;imgP('crouch')}
+  if(ev.code==='ArrowUp'&&!ev.repeat){block=true;imgP('block')}
+  if(ev.code==='Space'&&!busy&&!ev.repeat){busy=true;imgP('jump');p.classList.add('jump');setTimeout(()=>{p.classList.remove('jump');imgP((held.left||held.right)?'run':'idle');busy=false},560)}
+  if(ev.code==='KeyA'&&!ev.repeat)actP('a',3,2.5);
+  if(ev.code==='KeyD'&&!ev.repeat)actP('d',7,4.5);
+  if(ev.code==='KeyE'&&!ev.repeat)playerSpecial();
+});
+addEventListener('keyup',ev=>{
+  if(ev.code==='ArrowLeft')held.left=false;
+  if(ev.code==='ArrowRight')held.right=false;
+  if(ev.code==='ArrowUp'){block=false;if(!busy)imgP(crouch?'crouch':((held.left||held.right)?'run':'idle'))}
+  if(ev.code==='ArrowDown'){crouch=false;if(!busy&&!block)imgP((held.left||held.right)?'run':'idle')}
+});
+function enemyDefend(type){
+ if(!playing||ebusy||enemyBlock||enemyCrouch)return;
+ if(type==='block'){
+   enemyBlock=true;imgE('block');
+   setTimeout(()=>{enemyBlock=false;if(playing&&!ebusy)imgE('idle')},380+Math.random()*300);
+ }else{
+   enemyCrouch=true;imgE('crouch');
+   setTimeout(()=>{enemyCrouch=false;if(playing&&!ebusy)imgE('idle')},300+Math.random()*260);
+ }
+}
+setInterval(()=>{
+ if(!playing)return;
+ let d=dist();
+
+ // Reagiert auf Angriffe des Spielers: öfter blocken, manchmal ducken.
+ if(busy&&!enemyBlock&&!enemyCrouch&&!ebusy){
+   let react=Math.random();
+   if(react<.46){enemyDefend('block');return}
+   if(react<.61){enemyDefend('crouch');return}
+ }
+
+ if(enemyBlock||enemyCrouch)return;
+
+ // Gelegentlich vorsorglich blocken, wenn der Spieler in Reichweite ist.
+ if(d<26&&!ebusy&&Math.random()<.075){enemyDefend('block');return}
+
+ // Abstand intelligenter halten: herankommen, gelegentlich kurz zurückweichen.
+ if(d>23){
+   ex += ex>px ? -1.55 : 1.55;
+ }else if(d<13&&Math.random()<.20){
+   ex += ex>px ? 1.2 : -1.2;
+ }
+ ex=Math.max(5,Math.min(78,ex));setPos();
+
+ // Deutlich aktiver angreifen; bei voller Leiste bevorzugt Ultimate.
+ d=dist();
+ if(d<27&&!ebusy){
+   let chance=es>=100?.74:.66;
+   if(Math.random()<chance)enemyAttack();
+ }
+},270);setInterval(()=>{if(playing){t--;if(t<=0){if(ehp===php)roundEnd(Math.random()<.5?'p':'e');else roundEnd(ehp<php?'p':'e')}hud()}},1000);hud();setTimeout(()=>{$('msg').textContent=''},700);
+
+
+function fxLabel(text,ms=800){
+ const fx=$('specialFX'); const d=document.createElement('div'); d.className='modeLabel'; d.textContent=text;
+ fx.appendChild(d); setTimeout(()=>d.remove(),ms);
+}
+function playerSpecial(){
+ if(!playing||busy||block)return;
+ if(ps<100){say('SPECIAL NICHT BEREIT!',500);return}
+ ps=0; hud(); busy=true; imgP('e'); fxLabel('🚛 TRUCKER MODE!',900);
+ playerDamageMul=2; playerModeUntil=Date.now()+5000; p.classList.add('truckerMode');
+ setTimeout(()=>{busy=false;imgP('idle')},500);
+ setTimeout(()=>{if(Date.now()>=playerModeUntil){playerDamageMul=1;p.classList.remove('truckerMode');}},5050);
+}
+function enemySpecial(force=false){
+ const foe=STORY[storyIndex];
+ if(es<100||!playing)return false;
+ if(ebusy && !force)return false;
+ if(force){
+   ebusy=false;
+   enemyBlock=false;enemyCrouch=false;
+   e.classList.remove('attack','block','crouch');
+ }
+ es=0; enemySpecialReadyAt=0; hud(); ebusy=true; imgE('e'); say('SPECIAL!',650);
+
+ if(foe.key==='fridolin'){
+   fxLabel('🐍 TRANSFORMATION!',900);
+   enemyDamageMulSpecial=2; enemyDefenseMul=.45; enemyModeUntil=Date.now()+5000;
+   e.classList.add('transformMode');
+   setTimeout(()=>{enemyDamageMulSpecial=1;enemyDefenseMul=1;e.classList.remove('transformMode')},5000);
+ }
+ else if(foe.key==='ghetto'){
+   fxLabel('💦 MEGA WASSERSTRAHL!',700);
+   const beam=document.createElement('div');beam.className='waterBeam';$('specialFX').appendChild(beam);
+   setTimeout(()=>beam.remove(),750);
+   php=Math.max(0,php-25); hud(); if(php<=0)roundEnd('e');
+ }
+ else if(foe.key==='mato'){
+   fxLabel('🐃 BÜFFEL-STAMPEDE!',800);
+   ['',' b2',' b3'].forEach((c,i)=>{const b=document.createElement('div');b.className='buffaloRush'+c;b.textContent='🐃';$('specialFX').appendChild(b);setTimeout(()=>b.remove(),1300)});
+   // 3 Büffel, jeweils doppelter Standardschaden = 6 Schaden pro Treffer.
+   [180,380,580].forEach(delay=>setTimeout(()=>{if(playing){php=Math.max(0,php-6);hud();if(php<=0)roundEnd('e')}},delay));
+ }
+ else if(foe.key==='viko'){
+   fxLabel('🔥 SANGRIA RAGE!',800);
+   enemyDamageMulSpecial=2; enemyInvincibleUntil=Date.now()+5000; e.classList.add('invincibleMode');
+   setTimeout(()=>{enemyDamageMulSpecial=1;enemyInvincibleUntil=0;e.classList.remove('invincibleMode')},5000);
+ }
+ else if(foe.key==='wolf'){
+   fxLabel('🐺 BLOOD MOON!',800);
+   // Exakt die Hälfte der AKTUELLEN Lebensenergie.
+   const cut=Math.ceil(php/2); php=Math.max(0,php-cut); hud(); if(php<=0)roundEnd('e');
+ }
+ setTimeout(()=>{ebusy=false;imgE('idle')},650);
+ return true;
+}
+
+// ===== ECHTER STORYMODUS AUF FRISCHER V10-BASIS =====
+const STORY=[
+ {key:'fridolin',name:'FRIDOLIN',arena:1,maxHp:110,damageMul:1.08,aiMul:1.05},
+ {key:'ghetto',name:'GHETTOQUEENZ',arena:2,maxHp:120,damageMul:1.16,aiMul:1.12},
+ {key:'mato',name:'MATO MCLOVIN',arena:3,maxHp:130,damageMul:1.24,aiMul:1.19},
+ {key:'viko',name:'EL VIKO',arena:0,maxHp:140,damageMul:1.32,aiMul:1.26},
+ {key:'wolf',name:'WOLF · BOSS',arena:4,maxHp:190,damageMul:1.65,aiMul:1.50}
+];
+
+function prepareStoryOpening(){
+ enemyKey='fridolin';
+ const foe=STORY[0];
+ const nm=document.getElementById('enemyName');
+ if(nm) nm.textContent=foe.name;
+ const portrait=document.querySelector('.side.right .portrait');
+ if(portrait) portrait.src=src('fridolin','idle');
+ const enemyImg=document.getElementById('ei');
+ if(enemyImg) enemyImg.src=src('fridolin','idle');
+ const enemyBox=document.getElementById('e');
+ if(enemyBox) enemyBox.classList.remove('flipEnemy');
+}
+
+const EXTRA_ARENAS=[null,'fighting-club-assets/asset_065_8eb9cda93637.svg','fighting-club-assets/asset_066_193515151f06.svg','fighting-club-assets/asset_067_923229318a54.svg','fighting-club-assets/asset_068_ee49f4d86922.svg'];
+const FRIDOLIN_JUNGLE='fighting-club-assets/asset_001_af65e0c3bcd9.png';
+const WOLF_FOREST='fighting-club-assets/asset_069_c11293fb6f5c.png';
+const MATO_FARM='fighting-club-assets/asset_070_7c3727f36b48.png';
+const ELVIKO_MEXICO='fighting-club-assets/asset_071_874df388d917.png';
+const V10_ARENA='url("fighting-club-assets/asset_015_f316382f930b.png")';
+let storyIndex=0,storyStarted=false;
+
+
+
+function applyStoryOpponent(){
+ const foe=STORY[storyIndex];
+ enemyMaxHp=foe.maxHp||100;
+ enemyKey=foe.key;
+ const enemyBox=document.getElementById('e');
+ if(enemyBox){
+   enemyBox.classList.remove('flipEnemy');
+   enemyBox.classList.toggle('ghettoClean',enemyKey==='ghetto');
+ }
+ const name=document.getElementById('enemyName');
+ if(name) name.textContent=foe.name;
+ const portrait=document.querySelector('.side.right .portrait');
+ if(portrait) portrait.src=src(enemyKey,'idle');
+ const game=document.querySelector('.game');
+ if(foe.key==='fridolin'){
+   game.style.backgroundImage=`url("${FRIDOLIN_JUNGLE}")`;
+ }else if(foe.key==='ghetto'){
+   game.style.backgroundImage=V10_ARENA;
+ }else if(foe.key==='mato'){
+   game.style.backgroundImage=`url("${MATO_FARM}")`;
+ }else if(foe.key==='viko'){
+   game.style.backgroundImage=`url("${ELVIKO_MEXICO}")`;
+ }else if(foe.key==='wolf'){
+   game.style.backgroundImage=`url("${WOLF_FOREST}")`;
+ }else{
+   game.style.backgroundImage=`url("${EXTRA_ARENAS[foe.arena]}")`;
+ }
+ imgE('idle');
+ const st=document.getElementById('storyStage');
+ if(st){
+   st.textContent='KAMPF '+(storyIndex+1)+' / 5 · '+foe.name+' · '+foe.maxHp+' HP';
+   st.classList.add('show'); setTimeout(()=>st.classList.remove('show'),1300);
+ }
+}
+
+
+
+function styleFridolinScene(mode){
+ const f=document.querySelector('#comicScene .comicFrame');
+ f.classList.remove('fridolinChapter','vsMoment','victoryMoment');f.classList.add('fridolinChapter');
+ if(mode==='vs')f.classList.add('vsMoment');if(mode==='victory')f.classList.add('victoryMoment');
+ document.getElementById('comicTitle').classList.add('fridolinTitle');
+ document.querySelector('.comicVs').classList.add('fridolinVs');
+ document.getElementById('comicTruckBubble').classList.add('fridolinSpeech');
+ document.getElementById('comicEnemyBubble').classList.add('fridolinSpeech');
+ document.getElementById('chapterBadge').style.display='block';
+}
+function fridolinEncounter(done){
+ playing=false;styleFridolinScene('encounter');const o=$('comicScene');
+ $('comicKicker').textContent='STORY · KAPITEL 1';$('storyBeat').textContent='Lönhard sucht eine Abkürzung durch den Dschungel';$('chapterBadge').textContent='DSCHUNGEL · ERSTER GEGNER';
+ $('comicTitle').textContent='ETWAS RASCHELT IM GEBÜSCH...';$('comicTrucker').src=src('trucker','idle');$('comicEnemy').src=src('fridolin','idle');
+ $('comicTruckBubble').textContent='EY! WER SCHLÄNGELT DENN DA DURCH MEINE ROUTE?';
+ $('comicEnemyBubble').textContent='ICH BIN FRIDOLIN! UND DU SSSIEHST AUS WIE ÄRGER!';
+ $('sceneCaption').textContent='Trucker Lönhard wollte eigentlich nur eine Abkürzung nehmen. Natürlich ging das schief.';
+ document.querySelector('.comicVs').textContent='?!';o.classList.add('show');$('comicNext').textContent='NA UND? ▶';
+ $('comicNext').onclick=()=>{o.classList.remove('show');fridolinVS(done)};
+}
+function fridolinVS(done){
+ styleFridolinScene('vs');const o=$('comicScene');$('comicKicker').textContent='KAMPF 1 / 5';$('storyBeat').textContent='Der erste Schritt auf dem Weg zum Champion';$('chapterBadge').textContent='FRIDOLIN · DSCHUNGEL';
+ $('comicTitle').textContent='TRUCKER LÖNHARD VS FRIDOLIN';$('comicTrucker').src=src('trucker','d');$('comicEnemy').src=src('fridolin','a');
+ $('sceneCaption').textContent='Zwei Dickköpfe. Ein Dschungel. Keine Chance auf eine friedliche Lösung.';
+ document.querySelector('.comicVs').textContent='VS';o.classList.add('show');$('comicNext').textContent='KAMPF STARTEN! ▶';
+ $('comicNext').onclick=()=>{o.classList.remove('show');done&&done()};
+}
+function fridolinVictory(done){
+ playing=false;styleFridolinScene('victory');const o=$('comicScene');$('comicKicker').textContent='KAMPF GEWONNEN!';$('storyBeat').textContent='Fridolin schickt Lönhard weiter nach Matosville';$('chapterBadge').textContent='1 / 5 GESCHAFFT';
+ $('comicTitle').textContent='FRIDOLIN BESIEGT!';$('comicTrucker').src=src('trucker','idle');$('comicEnemy').src=src('fridolin','ko');
+ $('comicTruckBubble').textContent='TJA FRIDOLIN... ZU VIEL ZUCKER, ZU WENIG POWER!';
+ $('comicEnemyBubble').textContent='ICH HAB NUR KURZ DIE AUGEN ZUGEMACHT...';
+ $('sceneCaption').textContent='Fridolin braucht erst einmal eine Pause. Trucker Lönhard natürlich nicht.';
+ document.querySelector('.comicVs').textContent='';o.classList.add('show');$('comicNext').textContent='WEITER NACH MATOSVILLE ▶';
+ $('comicNext').onclick=()=>{o.classList.remove('show');done&&done()};
+}
+
+
+const INTRO_STORY=[
+{chapter:`PROLOG`,title:`EINE SCHWERE KINDHEIT`,text:`Als Kind war Lönhard kleiner und ruhiger als die anderen. Genau deshalb suchte sich eine Gruppe ihn immer wieder als Ziel aus.`,quote:`„Schau mal, der Schwächling!“`,img:`fighting-club-assets/asset_072_388343672002.webp`},
+{chapter:`PROLOG`,title:`DIE BANDE`,text:`Fridolin, GHETTOQUEENZ, Mato und EL VIKO gehörten zur Gruppe. Angeführt wurden sie vom Wolf, vor dem selbst die anderen Respekt hatten.`,quote:`„Du wirst immer ein Schwächling bleiben, Lönhard.“`,img:`fighting-club-assets/asset_073_6a611a47f5b9.webp`},
+{chapter:`PROLOG`,title:`ALLEIN`,text:`Nach außen versuchte Lönhard, sich nichts anmerken zu lassen. Doch viele Abende verbrachte er allein und fragte sich, ob der Wolf vielleicht recht hatte.`,quote:`„Irgendwann werde ich stärker.“`,img:`fighting-club-assets/asset_074_b43b234132c4.webp`},
+{chapter:`PROLOG`,title:`DER ENTSCHLUSS`,text:`Eines Tages hatte er genug. Nicht weil er sich rächen wollte – sondern weil er nie wieder hilflos sein wollte.`,quote:`„Ich lasse mir von niemandem mehr alles gefallen.“`,img:`fighting-club-assets/asset_075_01839f97bd4c.webp`},
+{chapter:`PROLOG`,title:`TRAINING`,text:`Er begann zu trainieren. Anfangs klappte fast gar nichts. Er fiel hin, stand wieder auf und machte am nächsten Tag weiter.`,quote:`„Puh … morgen vielleicht nur zehn Liegestütze.“`,img:`fighting-club-assets/asset_076_70f29f4e3449.webp`},
+{chapter:`JAHRE SPÄTER`,title:`TRUCKER LÖNHARD`,text:`Aus dem kleinen Jungen wurde ein Fernfahrer. Lönhard lebte noch immer eher für sich – aber völlig allein war er nicht.`,quote:`„Komm, Kumpel. Route 69 wartet.“`,img:`fighting-club-assets/asset_077_31d77519ebf7.webp`},
+{chapter:`JAHRE SPÄTER`,title:`SEIN BESTER FREUND`,text:`Sein Hund begleitete ihn überallhin. Rastplätze, Werkstätten, endlose Straßen: Die beiden waren ein Team.`,quote:`„Du bist der beste Beifahrer der Welt.“`,img:`fighting-club-assets/asset_078_75b11e11f537.webp`},
+{chapter:`WENDEPUNKT`,title:`ETWAS STIMMT NICHT`,text:`Doch eines Tages frisst sein Hund nicht mehr und kann kaum aufstehen. Lönhard bringt ihn sofort zum Tierarzt.`,quote:`„Bitte halt durch, alter Freund.“`,img:`fighting-club-assets/asset_079_8953d845240f.webp`},
+{chapter:`WENDEPUNKT`,title:`DIE DIAGNOSE`,text:`Der Tierarzt erklärt ihm, dass sein Hund dringend operiert werden muss. Die Behandlung ist möglich – aber sehr teuer.`,quote:`„Ohne die Operation wird es kritisch.“`,img:`fighting-club-assets/asset_080_9182a8a96f66.webp`},
+{chapter:`WENDEPUNKT`,title:`ZU WENIG GELD`,text:`Lönhard zählt alles zusammen, was er besitzt. Es reicht nicht annähernd für die Notoperation.`,quote:`„Verdammt … wo soll ich so viel Geld herbekommen?“`,img:`fighting-club-assets/asset_081_1397f0d42fb6.webp`},
+{chapter:`WENDEPUNKT`,title:`DAS PLAKAT`,text:`Auf dem Heimweg entdeckt er ein Plakat: MATOSVILLE GRAND FIGHTING TOURNAMENT. Fünf Kämpfe. Ein Champion. Ein großes Preisgeld.`,quote:`„Das könnte reichen …“`,img:`fighting-club-assets/asset_082_2c197352356c.webp`},
+{chapter:`WENDEPUNKT`,title:`DAS VERSPRECHEN`,text:`Zu Hause nimmt Lönhard ein Foto seines Hundes in die Hand. Seine Entscheidung steht fest.`,quote:`„Ich habe dir versprochen, immer für dich da zu sein. Jetzt kämpfe ich für dich.“`,img:`fighting-club-assets/asset_083_6d4e6e027911.webp`},
+{chapter:`GEHEIMNIS`,title:`WAS ER NOCH NICHT WEISS`,text:`Die Teilnehmerliste kennt Lönhard noch nicht. Seine Gegner sind ausgerechnet Fridolin, GHETTOQUEENZ, Mato, EL VIKO – und als Champion der Wolf.`,quote:`Die Vergangenheit wartet bereits auf ihn …`,img:`fighting-club-assets/asset_084_95ac4870ef2d.webp`},
+{chapter:`AUFBRUCH`,title:`KEIN ZURÜCK`,text:`Lönhard setzt seine Kappe auf und steigt in den Truck. Diesmal geht es weder um Stolz noch um Rache.`,quote:`„Ich muss niemandem etwas beweisen. Ich muss meinen Freund retten.“`,img:`fighting-club-assets/asset_085_bab5f2e49704.webp`},
+{chapter:`KAPITEL 1`,title:`WERDE ZUM CHAMP`,text:`Fünf Gegner. Eine Reise. Ein Ziel. Und am Ende vielleicht eine zweite Chance – für mehr als nur Lönhard.`,quote:`DIE REISE BEGINNT`,img:`fighting-club-assets/asset_086_a067595978a4.webp`}
+];
+const FRIDOLIN_PRE=[
+{chapter:`KAPITEL 1 · FRIDOLIN`,title:`DAS WIEDERSEHEN`,text:`Lönhard erreicht das Turniergelände. Zwischen den Zuschauern entdeckt er ausgerechnet Fridolin – einen derjenigen, die ihm seine Kindheit schwer gemacht haben.`,quote:`„Fridolin?!“`,img:`fighting-club-assets/asset_087_73fb55aa6c3b.webp`},
+{chapter:`KAPITEL 1 · FRIDOLIN`,title:`ZWEI ALTE BEKANNTE`,text:`Auch Fridolin erkennt ihn sofort. Für einen Moment wissen beide nicht, was sie sagen sollen. Dann versucht Fridolin, seine Unsicherheit hinter einem Grinsen zu verstecken.`,quote:`„L-Lönhard? Du bist wirklich hier?“`,img:`fighting-club-assets/asset_088_851e49ab5ef9.webp`},
+{chapter:`FRIDOLINS RÜCKBLICK`,title:`AUCH FRIDOLIN WAR SCHWACH`,text:`Bevor Fridolin Teil der Bande wurde, war er selbst klein, unsicher und ein leichtes Ziel für stärkere Kinder. Er hatte ständig Angst, der Nächste zu sein.`,quote:`„Ich wollte nur, dass sie mich in Ruhe lassen …“`,img:`fighting-club-assets/asset_089_adecc9dd85ff.webp`},
+{chapter:`FRIDOLINS RÜCKBLICK`,title:`SCHUTZ BEIM WOLF`,text:`Der Wolf bot Fridolin einen Platz in seiner Gruppe an. Fridolin glaubte, dort endlich sicher zu sein. Dafür machte er bei Dingen mit, von denen er wusste, dass sie falsch waren.`,quote:`„Wenn ich zu ihnen gehöre, tut mir niemand mehr etwas.“`,img:`fighting-club-assets/asset_090_abd313481361.webp`},
+{chapter:`KAPITEL 1 · FRIDOLIN`,title:`JETZT STEHEN SIE SICH GEGENÜBER`,text:`Zurück in der Gegenwart wird beiden klar: Bevor sie über damals sprechen können, müssen sie den Turnierkampf austragen.`,quote:`„Diesmal kämpfen wir auf Augenhöhe.“`,img:`fighting-club-assets/asset_091_17728160ba5c.webp`}
+];
+const FRIDOLIN_POST=[
+{chapter:`NACH DEM KAMPF`,title:`EINE EHRLICHE ENTSCHULDIGUNG`,text:`Nach seiner Niederlage erzählt Fridolin Lönhard die Wahrheit. Er schloss sich der Bande aus Angst an – und machte Lönhard zum Opfer, damit er selbst keines mehr sein musste.`,quote:`„Es tut mir leid, Lönhard. Ich war feige.“`,img:`fighting-club-assets/asset_092_c8d9c1b60725.webp`},
+{chapter:`NACH DEM KAMPF`,title:`ZWEITE CHANCE`,text:`Lönhard erinnert ihn daran, dass Fridolin damals auch neben ihm hätte stehen können. Trotzdem reicht er ihm die Hand. Fridolin nimmt sie an.`,quote:`„Komm. Wir können die Vergangenheit nicht ändern – aber was wir jetzt tun.“`,img:`fighting-club-assets/asset_093_8c15448d3463.webp`},
+{chapter:`KAPITEL 2`,title:`GEMEINSAM WEITER`,text:`Fridolin lässt Lönhard nicht allein weiterziehen. Gemeinsam gehen sie zum nächsten Kampf. Dort wartet bereits GHETTOQUEENZ.`,quote:`„Die Nächste ist GHETTOQUEENZ. Diesmal gehe ich mit dir.“`,img:`fighting-club-assets/asset_094_9e50b512e5ac.webp`}
+];
+let readerPages=[],readerIndex=0,readerDone=null;
+function openStoryReader(pages,onDone){
+ playing=false;readerPages=pages;readerIndex=0;readerDone=onDone||null;
+ document.getElementById('storyReader').classList.add('show');renderStoryPage();
+}
+function renderStoryPage(){
+ const s=readerPages[readerIndex];
+ $('storyChapter').textContent=s.chapter;$('storyCount').textContent=(readerIndex+1)+' / '+readerPages.length;
+ $('storyImage').src=s.img;$('storyTitle').textContent=s.title;$('storyText').textContent=s.text;$('storyQuote').textContent=s.quote||'';
+ $('storyPrev').style.visibility=readerIndex===0?'hidden':'visible';
+ $('storyNext').textContent=readerIndex===readerPages.length-1?'WEITER ▶':'WEITER ▶';
+}
+$('storyPrev').onclick=()=>{if(readerIndex>0){readerIndex--;renderStoryPage()}};
+$('storyNext').onclick=()=>{
+ if(readerIndex<readerPages.length-1){readerIndex++;renderStoryPage();return}
+ $('storyReader').classList.remove('show');const cb=readerDone;readerDone=null;cb&&cb();
+};
+
+
+const GHETTO_PRE=[
+{chapter:`KAPITEL 2 · GHETTOQUEENZ`,title:`IMMER UNTERSCHÄTZT`,text:`Schon als Mädchen hörte GHETTOQUEENZ ständig, sie sei zu klein und könne als Frau niemals so viel erreichen wie ein Mann – geschweige denn über einem stehen.`,quote:`„Du schaffst das niemals.“`,img:`fighting-club-assets/asset_095_b6475efa4207.webp`},
+{chapter:`GHETTOQUEENZ' RÜCKBLICK`,title:`SIE WOLLTE DAS GEGENTEIL BEWEISEN`,text:`Gerade diese Sprüche machten sie ehrgeizig. Sie trainierte härter und wollte irgendwann selbst bestimmen, wie weit sie kommen konnte.`,quote:`„Ich entscheide selbst, was ich erreichen kann.“`,img:`fighting-club-assets/asset_096_25bbb90a4ab7.webp`},
+{chapter:`GHETTOQUEENZ' RÜCKBLICK`,title:`DAS VERSPRECHEN DES WOLFS`,text:`Der Wolf bemerkte ihren Ehrgeiz. Er versprach ihr Einfluss, Respekt und eine Position, in der sie über allen stehen könne – wenn sie sich seiner Bande anschließt.`,quote:`„Bei mir kannst du höher stehen als jeder andere.“`,img:`fighting-club-assets/asset_097_c744c5084298.webp`},
+{chapter:`GHETTOQUEENZ' RÜCKBLICK`,title:`TEIL DER BANDE`,text:`GHETTOQUEENZ glaubte ihm und machte bei der Bande mit. Sie dachte, sie hätte endlich einen Ort gefunden, an dem ihre Stärke anerkannt würde.`,quote:`Doch der Wolf hatte andere Pläne.`,img:`fighting-club-assets/asset_098_fa3db5d57ab1.webp`},
+{chapter:`GHETTOQUEENZ' RÜCKBLICK`,title:`ALLES NUR EINE LÜGE`,text:`Mit der Zeit erkannte sie, dass der Wolf sie nur benutzt hatte. Seine Versprechen waren leer und hinter ihrem Rücken machte er sich über sie lustig.`,quote:`„Für ihn war ich nie gleichwertig.“`,img:`fighting-club-assets/asset_099_6919055c6e41.webp`},
+{chapter:`KAPITEL 2 · GHETTOQUEENZ`,title:`IHRE EIGENE RACHE`,text:`Deshalb nimmt GHETTOQUEENZ am Turnier teil. Sie kämpft nicht für den Wolf – sie will sich bis zu ihm vorkämpfen und ihm selbst zeigen, dass er sie unterschätzt hat.`,quote:`„Diesmal kämpfe ich für mich.“`,img:`fighting-club-assets/asset_100_bf994de96a76.webp`}
+];
+const GHETTO_POST=[
+{chapter:`NACH DEM KAMPF`,title:`DER KAMPF IST ENTSCHIEDEN`,text:`Der Kampf zwischen Lönhard und GHETTOQUEENZ ist vorbei. Was als Duell zweier alter Bekannter begann, endet mit neuem Respekt füreinander.`,quote:`Beide haben gezeigt, wie weit sie gekommen sind.`,img:`fighting-club-assets/asset_101_4b0b42e838cf.webp`},
+{chapter:`NACH DEM KAMPF`,title:`RESPEKT`,text:`Lönhard gewinnt, behandelt GHETTOQUEENZ aber nicht von oben herab. Er hilft ihr wieder auf die Beine.`,quote:`„Ein Sieg macht mich nicht mehr wert als dich.“`,img:`fighting-club-assets/asset_102_1b30e54c918b.webp`},
+{chapter:`NACH DEM KAMPF`,title:`DIE WAHRHEIT`,text:`GHETTOQUEENZ erzählt ihm, dass sie damals glaubte, beim Wolf endlich Anerkennung zu finden. Erst später begriff sie, dass auch sie manipuliert worden war.`,quote:`„Ich wollte nur beweisen, dass ich genauso viel erreichen kann.“`,img:`fighting-club-assets/asset_103_2d0dd218a185.webp`},
+{chapter:`NACH DEM KAMPF`,title:`NICHT MEHR FÜR IHN`,text:`Zum ersten Mal muss sie niemandem mehr etwas beweisen. Sie beschließt, Lönhard zu begleiten – nicht nur aus Rache, sondern um den Wolf gemeinsam zur Rede zu stellen.`,quote:`„Ich kämpfe nicht mehr für ihn. Ich kämpfe für mich.“`,img:`fighting-club-assets/asset_104_298412fd4765.webp`},
+{chapter:`KAPITEL 2 · ENDE`,title:`DIE GRUPPE WÄCHST`,text:`Lönhard, Fridolin und GHETTOQUEENZ ziehen gemeinsam weiter. Aus früheren Gegnern werden langsam Verbündete.`,quote:`Die Vergangenheit trennt sie nicht mehr.`,img:`fighting-club-assets/asset_105_fd43768a7a41.webp`},
+{chapter:`KAPITEL 3`,title:`DER NÄCHSTE GEGNER`,text:`Auf dem Turnierplan erscheint der nächste Name: MATO MCLOVIN. Lönhard kennt auch ihn noch von früher.`,quote:`„Dann sehen wir mal, was aus Mato geworden ist.“`,img:`fighting-club-assets/asset_106_928ab841534c.webp`}
+];
+
+const MATO_PRE=[
+{chapter:`KAPITEL 3 · MATO`,title:`SEIN LIEBLINGSBÜFFEL`,text:`Mato wuchs mit seinen Wasserbüffeln auf. Einer von ihnen war für ihn etwas ganz Besonderes – nicht einfach ein Tier, sondern Familie.`,quote:`„Familie. Freunde. Alles, was ich brauche.“`,img:`fighting-club-assets/asset_107_8250cfb18329.webp`},
+{chapter:`MATOS RÜCKBLICK`,title:`DER VERLUST`,text:`Eines Tages wurde sein Lieblingsbüffel getötet. Mato schwor sich herauszufinden, wer dafür verantwortlich war.`,quote:`Seine Trauer wurde zu einem Plan.`,img:`fighting-club-assets/asset_108_e826d834ca8f.webp`},
+{chapter:`MATOS RÜCKBLICK`,title:`DIE SPUR ZUM WOLF`,text:`Mato fand heraus, dass Mitglieder aus der Familie des Wolfs den Büffel getötet hatten – und dass sie dabei auf direkten Auftrag des Wolfs handelten.`,quote:`„Irgendwann werde ich dich dafür zur Rechenschaft ziehen.“`,img:`fighting-club-assets/asset_109_81b13de0aacb.webp`},
+{chapter:`MATOS RÜCKBLICK`,title:`DIE GEHEIME MISSION`,text:`Allein konnte Mato nichts ausrichten. Deshalb schlich er sich in die Bande ein und tat so, als würde er die Ziele des Wolfs teilen. Er wartete auf den richtigen Moment.`,quote:`Niemand durfte erfahren, warum er wirklich dort war.`,img:`fighting-club-assets/asset_110_f109a63a2a75.webp`},
+{chapter:`MATOS RÜCKBLICK`,title:`MATO UND EL VIKO`,text:`Bei den Angriffen auf den jungen Lönhard machten Mato und EL VIKO so wenig wie möglich mit. Wenn der Wolf hinsah, spielten sie ihre Rolle – sonst hielten sie sich bewusst zurück.`,quote:`Sie waren Teil der Bande, aber nicht aus demselben Grund.`,img:`fighting-club-assets/asset_111_62857d17c172.webp`},
+{chapter:`KAMPF 3 / 5`,title:`TRUCKER LÖNHARD VS MATO MCLOVIN`,text:`Nun stehen sich Mato und der erwachsene Lönhard im Turnier gegenüber. Mato kann seine Tarnung noch nicht aufgeben. Der Kampf muss stattfinden.`,quote:`„Danach erzähle ich dir alles.“`,img:`fighting-club-assets/asset_112_c87c38db090d.webp`}
+];
+const MATO_POST=[
+{chapter:`NACH DEM KAMPF`,title:`DIE MASKE FÄLLT`,text:`Nach seiner Niederlage muss Mato seine geheime Mission nicht länger verbergen. Zum ersten Mal erzählt er Lönhard die ganze Wahrheit.`,quote:`„Der Tod meines Büffels war der Anfang.“`,img:`fighting-club-assets/asset_113_24a5cea08102.webp`},
+{chapter:`NACH DEM KAMPF`,title:`WARUM ER BLIEB`,text:`Mato erklärt, dass er all die Jahre in der Bande blieb, um irgendwann nah genug an den Wolf heranzukommen und ihn zur Rechenschaft zu ziehen.`,quote:`„Ich wollte warten, bis meine Chance kommt.“`,img:`fighting-club-assets/asset_114_310be6d66283.webp`},
+{chapter:`NACH DEM KAMPF`,title:`STOLZ AUF LÖNHARD`,text:`Mato blickt auf den Mann, der vor ihm steht, und erinnert sich an den Jungen von damals.`,quote:`„Lönhard … du bist immer wieder aufgestanden. Ich bin stolz darauf, was aus dir geworden ist.“`,img:`fighting-club-assets/asset_115_507cc18b1a77.webp`},
+{chapter:`NACH DEM KAMPF`,title:`NICHT MEHR ALLEIN`,text:`Lönhard fordert Mato auf, seine Rache nicht länger alleine zu tragen. Mato reicht ihm die Hand.`,quote:`„Ab heute stehe ich an deiner Seite.“`,img:`fighting-club-assets/asset_116_b5871da56395.webp`},
+{chapter:`KAPITEL 3 · ENDE`,title:`EINER FEHLT NOCH`,text:`Mato erzählt von EL VIKO. Auch er machte damals nur das Nötigste mit – und möglicherweise weiß er mehr darüber, was der Wolf wirklich vorhat.`,quote:`„Wenn einer mehr weiß, dann EL VIKO.“`,img:`fighting-club-assets/asset_117_24a327631a83.webp`},
+{chapter:`KAPITEL 4`,title:`GEMEINSAM ZU EL VIKO`,text:`Lönhard zieht nun mit Fridolin, GHETTOQUEENZ und Mato weiter. Das nächste Ziel ist EL VIKO.`,quote:`„Gemeinsam geht es weiter.“`,img:`fighting-club-assets/asset_118_f69397aab49b.webp`}
+];
+
+const ELVIKO_PRE=[
+{chapter:`KAPITEL 4 · EL VIKO`,title:`ALLEIN ZURÜCKGELASSEN`,text:`Als kleines Wasserbüffel-Kind wurde EL VIKO von seinen Eltern verstoßen und allein in Mexiko zurückgelassen.`,quote:`Er hatte niemanden, der auf ihn wartete.`,img:`fighting-club-assets/asset_119_acd1efefacf5.webp`},
+{chapter:`EL VIKOS RÜCKBLICK`,title:`DER HARTE ALLTAG`,text:`EL VIKO musste sich allein durchschlagen. Hunger, Gefahr und Einsamkeit gehörten zu seinem Alltag – trotzdem gab er nicht auf.`,quote:`„Irgendwo muss es auch für mich einen Platz geben.“`,img:`fighting-club-assets/asset_120_75c771b90b7d.webp`},
+{chapter:`EL VIKOS RÜCKBLICK`,title:`MATOS FARM`,text:`Eines Tages kam EL VIKO zufällig an Matos Wasserbüffelfarm vorbei. Mato nahm ihn bei sich auf und zog ihn wie ein eigenes Familienmitglied groß.`,quote:`Zum ersten Mal hatte EL VIKO ein Zuhause.`,img:`fighting-club-assets/asset_121_66fe75480570.webp`},
+{chapter:`EL VIKOS RÜCKBLICK`,title:`EINE NEUE FAMILIE`,text:`Mato gab EL VIKO Sicherheit, Freundschaft und eine Aufgabe. Aus den beiden wurde weit mehr als Farmer und Büffel – sie wurden Familie.`,quote:`„Du gehörst jetzt zu uns.“`,img:`fighting-club-assets/asset_122_fa7da2eecba0.webp`},
+{chapter:`EL VIKOS RÜCKBLICK`,title:`SEIN COUSIN`,text:`Jahre später erfuhr EL VIKO, dass Matos ermordeter Lieblingsbüffel sein eigener Cousin gewesen war – und dass die Familie des Wolfs auf dessen Befehl gehandelt hatte.`,quote:`Nun war Matos Kampf auch seiner.`,img:`fighting-club-assets/asset_123_8ba56a5a0291.webp`},
+{chapter:`EL VIKOS RÜCKBLICK`,title:`DER GEMEINSAME PLAN`,text:`Mato und EL VIKO beschlossen, beide undercover in die Bande einzutreten. Nach außen taten sie sogar so, als würden sie sich kaum kennen. Heimlich verfolgten sie dasselbe Ziel: den Wolf zu Fall zu bringen.`,quote:`Niemand durfte ihre Verbindung entdecken.`,img:`fighting-club-assets/asset_124_b91b5b1f8114.webp`},
+{chapter:`KAMPF 4 / 5 · ENDE`,title:`DIE TARNUNG ENDET`,text:`Nach dem Kampf erkennt EL VIKO, dass es keinen Grund mehr gibt, seine Wahrheit vor Lönhard zu verbergen.`,quote:`„Jetzt erfährst du alles, Amigo.“`,img:`fighting-club-assets/asset_125_76e969c1c54b.webp`}
+];
+const ELVIKO_POST=[
+{chapter:`NACH DEM KAMPF`,title:`MATO UND EL VIKO`,text:`Mato tritt zu EL VIKO. Vor Lönhard geben beide erstmals offen zu, dass sie die ganze Zeit zusammengearbeitet haben.`,quote:`Ihre jahrelange Tarnung ist vorbei.`,img:`fighting-club-assets/asset_126_e27c4ac46381.webp`},
+{chapter:`NACH DEM KAMPF`,title:`EL VIKOS WAHRHEIT`,text:`EL VIKO erzählt Lönhard, was Mato für ihn bedeutet und warum der Tod seines Cousins auch zu seinem eigenen Kampf gegen den Wolf wurde.`,quote:`„Mato gab mir eine Familie, als ich keine mehr hatte.“`,img:`fighting-club-assets/asset_127_228cb3bce1ec.webp`},
+{chapter:`NACH DEM KAMPF`,title:`FÜNF VERBÜNDETE`,text:`Mato und EL VIKO beschließen endgültig, ihre Tarnung auffliegen zu lassen. Fridolin und GHETTOQUEENZ stehen ebenfalls bei ihnen.`,quote:`„Dann sind wir jetzt fünf.“`,img:`fighting-club-assets/asset_128_1ba7bdcc303b.webp`},
+{chapter:`KAPITEL 5`,title:`DER WOLF`,text:`Lönhard, Fridolin, GHETTOQUEENZ, Mato und EL VIKO ziehen gemeinsam Richtung dunkler Wald. Nur noch der Wolf steht zwischen ihnen und dem Ende ihrer Vergangenheit.`,quote:`„Es fehlt nur noch einer.“`,img:`fighting-club-assets/asset_129_28b578cfd6d9.webp`},
+{chapter:`KAPITEL 5 · AUFBRUCH`,title:`GEMEINSAM GEGEN DEN WOLF`,text:`Zum ersten Mal verfolgen alle fünf dasselbe Ziel. Nicht mehr als Bande – sondern als Verbündete. Gemeinsam betreten sie den Weg in den dunklen Wald.`,quote:`Die Reise endet erst, wenn der Wolf zur Rechenschaft gezogen wurde.`,img:`fighting-club-assets/asset_130_bcdded901310.webp`}
+];
+
+const WOLF_PRE=[
+{chapter:`KAPITEL 5 · DER WOLF`,title:`DIE FESTUNG`,text:`Lönhard, Fridolin, GHETTOQUEENZ, Mato und EL VIKO erreichen gemeinsam die Festung des Wolfs. Nach all den Jahren stehen sie endlich wieder vor ihm.`,quote:`Diesmal kommt Lönhard nicht allein.`,img:`fighting-club-assets/asset_131_e1d388d8c0f4.webp`},
+{chapter:`DAS FINALE`,title:`DER WOLF LACHT`,text:`Der Wolf sieht die Gruppe und beginnt nur zu lachen. Für ihn sind sie noch immer dieselben Menschen, die er früher kontrollieren konnte.`,quote:`„Was machen denn all diese Loser hier?“`,img:`fighting-club-assets/asset_132_a7c0b0b8cfdd.webp`},
+{chapter:`DAS FINALE`,title:`LÖNHARDS ANTWORT`,text:`Lönhard tritt vor. Er hat keine Angst mehr vor demjenigen, der ihm als Kind eingeredet hat, er sei schwach.`,quote:`„Wir sind hier, um dich zu vernichten.“`,img:`fighting-club-assets/asset_133_51df7906c620.webp`},
+{chapter:`DAS FINALE`,title:`DIE HERAUSFORDERUNG`,text:`Der Wolf lacht erneut und fordert Lönhard heraus. Für ihn ist das alles nur ein weiteres Spiel.`,quote:`„Dann zeig mir, was du draufhast.“`,img:`fighting-club-assets/asset_134_0a40ea998ab1.webp`},
+{chapter:`DAS FINALE`,title:`LÖNHARD TRITT VOR`,text:`Lönhard nimmt die Herausforderung an. Seine Freunde stehen hinter ihm.`,quote:`„Ich werde es dir zeigen.“`,img:`fighting-club-assets/asset_135_a40bc5416eb0.webp`},
+{chapter:`DAS FINALE`,title:`DIE WOLFSARMEE`,text:`Plötzlich tauchen aus der Dunkelheit unzählige weitere Wölfe auf. Hunderte – scheinbar Tausende – stürmen auf Fridolin, GHETTOQUEENZ, Mato und EL VIKO zu.`,quote:`Der Wolf hatte längst vorgesorgt.`,img:`fighting-club-assets/asset_136_4c77eee9e845.webp`},
+{chapter:`DAS FINALE`,title:`DIE CREW WIRD ANGEGRIFFEN`,text:`Lönhard will sofort zurück zu seinen Freunden. Doch sie werden von der Wolfsmeute umzingelt und müssen sich gemeinsam verteidigen.`,quote:`„Ich muss ihnen helfen!“`,img:`fighting-club-assets/asset_137_1037ef94459b.webp`},
+{chapter:`DAS FINALE`,title:`DAS TOR SCHLIESST SICH`,text:`Bevor Lönhard zurücklaufen kann, fällt das schwere Tor zwischen ihm und seiner Crew zu. Er ist mit dem Wolf allein.`,quote:`Jetzt gibt es keinen Weg zurück.`,img:`fighting-club-assets/asset_138_0d146148932d.webp`},
+{chapter:`KAMPF 5 · ENDBOSS`,title:`TRUCKER LÖNHARD VS DER WOLF`,text:`Hinter dem geschlossenen Tor beginnt der Kampf, während Lönhards Freunde draußen gegen die Wolfsmeute bestehen müssen.`,quote:`Der Endkampf beginnt.`,img:`fighting-club-assets/asset_139_f0a5985831b6.webp`}
+];
+const WOLF_ROUND2=[
+{chapter:`ZWISCHENSEQUENZ`,title:`DIE WAHRHEIT ÜBER DAS TURNIER`,text:`Nachdem Lönhard den Wolf zum ersten Mal zu Boden gebracht hat, beginnt dieser zu lachen. Dann verrät er, dass das gesamte Turnier von Anfang an Betrug war.`,quote:`„Ich habe alle Teilnehmer nur verarscht. Ihr wart für mich nie mehr als Unterhaltung.“`,img:`fighting-club-assets/asset_140_91d7e8168f0e.webp`},
+{chapter:`ZWISCHENSEQUENZ`,title:`LÖNHARD WIRD WÜTEND`,text:`Lönhard begreift, dass selbst das Preisgeld, mit dem er seinen Hund retten wollte, Teil der Lüge sein könnte. Seine Wut explodiert.`,quote:`„DU VERDAMMTER DRECKSACK!“`,img:`fighting-club-assets/asset_141_20a6f284964c.webp`},
+{chapter:`RUNDE 2`,title:`JETZT ERST RECHT`,text:`Der Wolf steht wieder auf. Lönhard denkt an seinen Hund, seine Freunde und alles, was der Wolf ihnen genommen hat.`,quote:`Jetzt beginnt die zweite Runde.`,img:`fighting-club-assets/asset_142_8cdf03231e43.webp`}
+];
+
+const WOLF_EPILOGUE=[
+{chapter:`FINALE`,title:`DER WOLF LIEGT AM BODEN`,text:`Nach dem letzten Kampf liegt der Wolf besiegt am Boden. Lönhard tritt vor und will den Kampf endgültig beenden.`,quote:`„Das war es.“`,img:`fighting-club-assets/asset_143_1515a75b4a24.webp`},
+{chapter:`FINALE`,title:`DER ANRUF`,text:`Plötzlich klingelt Lönhards Telefon. Der Anruf kommt vom Tierarzt.`,quote:`Etwas stimmt nicht.`,img:`fighting-club-assets/asset_144_11e04eddcf2d.webp`},
+{chapter:`FINALE`,title:`KEINE ZEIT MEHR`,text:`Der Arzt sagt ihm, dass sich der Zustand seines Hundes dramatisch verschlechtert hat. Er soll sofort zurückkommen – sein Hund könnte jeden Moment sterben.`,quote:`„Ich komme sofort!“`,img:`fighting-club-assets/asset_145_221742a04c00.webp`},
+{chapter:`FINALE`,title:`LÖNHARD RENNT LOS`,text:`Lönhard vergisst den Wolf augenblicklich und rennt los. Jetzt zählt nur noch sein bester Freund.`,quote:`Der Wolf bleibt zurück.`,img:`fighting-club-assets/asset_146_1f48cbb75452.webp`},
+{chapter:`FINALE`,title:`DER WOLF LACHT`,text:`Hinter ihm richtet sich der Wolf wieder auf und beginnt zu lachen. Er glaubt, dass Lönhard endgültig verloren hat.`,quote:`Doch der Kampf ist noch nicht vorbei.`,img:`fighting-club-assets/asset_147_36bfeda0f056.webp`},
+{chapter:`TIERARZT`,title:`SEIN BESTER FREUND`,text:`Lönhard erreicht die Tierklinik und sieht seinen Hund in einem erschreckend schwachen Zustand.`,quote:`„Bitte halt durch …“`,img:`fighting-club-assets/asset_148_46d0019f7e33.webp`},
+{chapter:`TIERARZT`,title:`FAST ZU SPÄT`,text:`Der Tierarzt erklärt, dass die Lage inzwischen nahezu aussichtslos ist. Ohne sofortige Operation bleibt kaum noch Hoffnung.`,quote:`Lönhard bricht in Tränen aus.`,img:`fighting-club-assets/asset_149_4918ecfd2bcf.webp`},
+{chapter:`TIERARZT`,title:`DIE FREUNDE KOMMEN`,text:`Da betreten EL VIKO, Mato, Fridolin und GHETTOQUEENZ den Raum. Gemeinsam haben sie genug Geld für die Operation zusammengelegt.`,quote:`„Das ist unsere Wiedergutmachung.“`,img:`fighting-club-assets/asset_150_fec2f98e77f1.webp`},
+{chapter:`TIERARZT`,title:`DANKE`,text:`Lönhard kann seine Tränen nicht zurückhalten. Zum ersten Mal muss er diese Last nicht alleine tragen.`,quote:`„Ich kann euch gar nicht genug danken.“`,img:`fighting-club-assets/asset_151_749614169871.webp`},
+{chapter:`TIERARZT`,title:`DIE OPERATION BEGINNT`,text:`Die Ärzte bringen den Hund sofort in den Operationssaal. Jede Minute zählt.`,quote:`Jetzt können sie nur noch warten.`,img:`fighting-club-assets/asset_152_11c3ab2bb8a3.webp`},
+{chapter:`TIERARZT`,title:`WARTEN`,text:`Die Freunde sitzen gemeinsam vor dem Operationssaal. Lönhard verspricht, zum Wolf zurückzukehren, sobald sein Hund außer Gefahr ist.`,quote:`„Dann wird er dafür büßen.“`,img:`fighting-club-assets/asset_153_08c672e95dae.webp`},
+{chapter:`FINALE`,title:`DARUM HABEN WIR UNS GEKÜMMERT`,text:`Mato hält Lönhard zurück. Die anderen haben den Wolf nicht vergessen.`,quote:`„Das haben wir bereits erledigt.“`,img:`fighting-club-assets/asset_154_8159966fcc05.webp`},
+{chapter:`FINALE`,title:`GEMEINSAME SPEZIALATTACKE`,text:`Während Lönhard zur Klinik eilte, stellten sich Fridolin, GHETTOQUEENZ, Mato und EL VIKO gemeinsam dem Wolf. Sie vereinten ihre Spezialattacken.`,quote:`Zum ersten Mal kämpfen sie wirklich als Team.`,img:`fighting-club-assets/asset_155_d2d6f738e6c7.webp`},
+{chapter:`FINALE`,title:`AB ZUM MOND`,text:`Die gemeinsame Attacke trifft den Wolf mit voller Kraft und schleudert ihn weit aus der Festung – bis hinauf zum Mond.`,quote:`Der Wolf ist endgültig weg.`,img:`fighting-club-assets/asset_156_d6885cb508e7.webp`},
+{chapter:`TIERARZT`,title:`EINIGE ZEIT SPÄTER`,text:`Die Operation dauert lange. Schließlich kommt der Tierarzt mit ernstem Gesicht aus dem Operationsbereich. Lönhard und die anderen rechnen mit dem Schlimmsten.`,quote:`Für einen Moment sagt niemand ein Wort.`,img:`fighting-club-assets/asset_157_7dbcd58c187a.webp`},
+{chapter:`TIERARZT`,title:`DANN TRITT ER ZUR SEITE`,text:`Der Arzt wirkt traurig und lässt Lönhard noch einen Augenblick im Ungewissen. Dann tritt er zur Seite – und plötzlich kommt Bewegung aus dem Raum.`,quote:`Lönhard wagt kaum hinzusehen.`,img:`fighting-club-assets/asset_158_c5ef5b5f754a.webp`},
+{chapter:`TIERARZT`,title:`ER HAT ES GESCHAFFT!`,text:`Lönhards Hund springt ihm direkt in die Arme, schleckt ihm das Gesicht ab und wirft ihn vor Freude beinahe um. Die Operation war erfolgreich.`,quote:`„DU LEBST! MEIN JUNGE!“`,img:`fighting-club-assets/asset_159_7994fba37c11.webp`},
+{chapter:`EINIGE ZEIT SPÄTER`,title:`EIN NEUER ANFANG`,text:`Einige Zeit später treffen sich Lönhard, sein wieder gesunder Hund und seine neuen Freunde gemeinsam im Park zu einem großen Picknick.`,quote:`Aus ehemaligen Gegnern ist eine echte Gemeinschaft geworden.`,img:`fighting-club-assets/asset_160_7ac8690955c3.webp`},
+{chapter:`EINIGE ZEIT SPÄTER`,title:`DER KLEINE CHAMPION`,text:`Lönhards Hund ist wieder voller Energie. Mit seinen Boxhandschuhen tut er so, als würde er selbst am nächsten Turnier teilnehmen.`,quote:`Vielleicht ist der nächste Champion schon gefunden.`,img:`fighting-club-assets/asset_161_87c93e6950c3.webp`},
+{chapter:`ENDE`,title:`FREUNDE · ZWEITE CHANCEN · EIN NEUES LEBEN`,text:`Am Ende sitzen alle gemeinsam zusammen und genießen den Sonnenuntergang. Was mit Angst und Rache begann, endet mit Freundschaft, Vergebung und einem neuen Leben.`,quote:`Manchmal führen die schwersten Kämpfe zu den wichtigsten Dingen im Leben.`,img:`fighting-club-assets/asset_162_e8419d49ddd9.webp`}
+];
+const STORY_SCENES={
+ intro:{title:'DIE REISE BEGINNT!',beat:'Route 69 · Irgendwo zwischen Ärger und noch mehr Ärger',
+  truck:'FÜNF GEGNER? NA DANN MAL LOS!',enemy:'PSSST... DER ERSTE KAMPF WARTET SCHON.',
+  caption:'Lönhard hört von einem Championtitel, den noch niemand auf ehrliche Weise erreicht hat.'},
+ fridolin:{title:'FRIDOLIN BESIEGT!',beat:'Kapitel 1 geschafft',
+  truck:'ZU VIEL ZUCKER, ZU WENIG POWER!',enemy:'DAS WAR NUR... AUFWÄRRMEN!',
+  caption:'Fridolin verrät Lönhard, dass in Matosville eine selbsternannte Sheriff-Dame auf ihn wartet.'},
+ ghetto:{title:'GHETTOQUEENZ BESIEGT!',beat:'Matosville · Das Gesetz macht kurz Pause',
+  truck:'SHERIFF DOWN! ZEIT FÜR SHOPPING!',enemy:'DU FREUST DICH ZU FRÜH! MATO WARTET AUF SEINER FARM!',
+  caption:'GHETTOQUEENZ zeigt widerwillig Richtung Büffelfarm. Dort soll Mato bereits von Lönhards Reise gehört haben.'},
+ mato:{title:'MATO BESIEGT!',beat:'Büffelfarm · Ein Weg führt weiter nach Süden',
+  truck:'DREI BÜFFEL UND TROTZDEM KEIN SIEG!',enemy:'FAHR NACH MEXIKO. EL VIKO WIRD DIR ZEIGEN, WAS STÄRKE IST!',
+  caption:'Mato akzeptiert die Niederlage und schickt Lönhard weiter zu EL VIKO – dem härtesten Gegner vor dem Wolf.'},
+ viko:{title:'EL VIKO BESIEGT!',beat:'Mexiko · Die Fiesta verstummt für einen Moment',
+  truck:'STARKER KAMPF, AMIGO! JETZT ERST MAL SANGRIA!',enemy:'DU HAST DIR MEINEN RESPEKT VERDIENT. ABER DER WOLF WARTET IM DUNKLEN WALD.',
+  caption:'EL VIKO warnt Lönhard: Wer den Wald betritt, kommt selten als derselbe Mensch wieder heraus.'},
+ wolf:{title:'DER WOLF IST BESIEGT!',beat:'Finale · Der Wald wird still',
+  truck:'DER ENDBOSS LIEGT! DER TITEL GEHÖRT MIR!',enemy:'GRRRR...',
+  caption:'Nach fünf Kämpfen steht nur noch einer. Trucker Lönhard hat sich den Championtitel erkämpft.'}
+};
+function showComic(kind,onDone){
+ playing=false;
+ const sc=STORY_SCENES[kind];
+ const overlay=document.getElementById('comicScene');
+ const frame=document.querySelector('#comicScene .comicFrame');
+ frame.classList.remove('fridolinChapter','vsMoment','victoryMoment','elvikoScene');
+ frame.classList.add('storyTalk');
+ if(kind==='viko')frame.classList.add('elvikoScene');
+ document.getElementById('comicTitle').classList.remove('fridolinTitle');
+ document.getElementById('comicTitle').textContent=sc.title;
+ document.getElementById('storyBeat').textContent=sc.beat||'';
+ document.getElementById('comicTruckBubble').textContent=sc.truck;
+ document.getElementById('comicEnemyBubble').textContent=sc.enemy;
+ document.getElementById('sceneCaption').textContent=sc.caption||'';
+ document.getElementById('comicTrucker').src=src('trucker','idle');
+ const enemyKind=kind==='intro'?'fridolin':kind;
+ document.getElementById('comicEnemy').src=src(enemyKind,kind==='intro'?'idle':'ko');
+ document.getElementById('comicKicker').textContent=kind==='intro'?'STORY':'KAMPF GEWONNEN!';
+ document.getElementById('chapterBadge').style.display='none';
+ document.querySelector('.comicVs').textContent=kind==='intro'?'?!':'';
+ overlay.classList.add('show');
+ const btn=document.getElementById('comicNext');
+ btn.textContent=kind==='wolf'?'ZUM FINALE ▶':'WEITER ▶';
+ btn.onclick=()=>{overlay.classList.remove('show');onDone&&onDone()};
+}
+function showChampion(){
+ playing=false;storyStarted=false;
+ document.getElementById('championScene').classList.add('show');
+}
+
+function beginStoryFight(){
+ playerDamageMul=1;playerDefenseMul=1;enemyDamageMulSpecial=1;enemyDefenseMul=1;enemyInvincibleUntil=0;enemySpecialReadyAt=0;enemySpecialDelay=2500;
+ p.classList.remove('truckerMode');e.classList.remove('transformMode','invincibleMode');
+ const foe=STORY[storyIndex];
+ enemyKey=foe.key;
+ const nm=document.getElementById('enemyName');
+ if(nm) nm.textContent=foe.name;
+ const portrait=document.querySelector('.side.right .portrait');
+ if(portrait) portrait.src=src(foe.key,'idle');
+ const enemyImg=document.getElementById('ei');
+ if(enemyImg) enemyImg.src=src(foe.key,'idle');
+ applyStoryOpponent();
+ startNextFight();
+ const foeAfterReset=STORY[storyIndex];
+ enemyMaxHp=foeAfterReset.maxHp||100;
+ ehp=enemyMaxHp;
+ hud();
+ applyStoryOpponent();
+}
+
+
+let ghettoIntroShown=false;
+const _storyBeginFight=beginStoryFight;
+beginStoryFight=function(){
+ if(storyIndex===1 && !ghettoIntroShown){
+   ghettoIntroShown=true;
+   openStoryReader(GHETTO_PRE,()=>_storyBeginFight());
+   return;
+ }
+ _storyBeginFight();
+};
+
+
+let matoIntroShown=false;
+const _matoBeginFight=beginStoryFight;
+beginStoryFight=function(){
+ if(storyIndex===2 && !matoIntroShown){
+   matoIntroShown=true;
+   openStoryReader(MATO_PRE,()=>_matoBeginFight());
+   return;
+ }
+ _matoBeginFight();
+};
+
+
+let elvikoIntroShown=false;
+const _elvikoBeginFight=beginStoryFight;
+beginStoryFight=function(){
+ if(storyIndex===3 && !elvikoIntroShown){
+   elvikoIntroShown=true;
+   openStoryReader(ELVIKO_PRE,()=>_elvikoBeginFight());
+   return;
+ }
+ _elvikoBeginFight();
+};
+
+
+let wolfIntroShown=false;
+let wolfRoundOneSceneShown=false;
+const _wolfBeginFight=beginStoryFight;
+beginStoryFight=function(){
+ if(storyIndex===4 && !wolfIntroShown){
+   wolfIntroShown=true;
+   openStoryReader(WOLF_PRE,()=>_wolfBeginFight());
+   return;
+ }
+ _wolfBeginFight();
+};
+
+function storyAdvance(){
+ $('winPanel').classList.remove('show');
+ const defeated=STORY[storyIndex].key;
+ const afterVictory=()=>{
+   if(storyIndex < STORY.length-1){storyIndex++;beginStoryFight();}
+   else{showChampion();}
+ };
+ if(defeated==='fridolin')openStoryReader(FRIDOLIN_POST,afterVictory);
+ else if(defeated==='ghetto')openStoryReader(GHETTO_POST,afterVictory);
+ else if(defeated==='mato')openStoryReader(MATO_POST,afterVictory);
+ else if(defeated==='viko')openStoryReader(ELVIKO_POST,afterVictory);
+ else if(defeated==='wolf')openStoryReader(WOLF_EPILOGUE,()=>showChampion());
+ else showComic(defeated,afterVictory);
+}
+function storyRetry(){
+ $('winPanel').classList.remove('show');
+ beginStoryFight();
+}
+
+document.getElementById('champStart').addEventListener('click',()=>{
+ storyStarted=true;storyIndex=0;enemyKey='fridolin';
+ prepareStoryOpening();
+ document.getElementById('champMenu').style.display='none';
+ openStoryReader(INTRO_STORY,()=>openStoryReader(FRIDOLIN_PRE,()=>beginStoryFight()));
+});
+
+
+function preloadStorySprites(){
+ const keys=['fridolin','ghetto','mato','viko','wolf'];
+ const states=['idle','run','jump','crouch','block','a','d','e','hit','ko'];
+ keys.forEach(k=>states.forEach(s=>{
+   const im=new Image(); im.decoding='async'; im.src=src(k,s);
+ }));
+}
+window.addEventListener('load',preloadStorySprites,{once:true});
+
+prepareStoryOpening();
+
+setInterval(()=>{
+ if(!playing||es<100)return;
+ if(enemySpecialReadyAt===0){
+   enemySpecialReadyAt=Date.now();
+   enemySpecialDelay=800+Math.floor(Math.random()*3701);
+ }
+ if(Date.now()-enemySpecialReadyAt>=enemySpecialDelay){
+   enemySpecial(true);
+ }
+},100);
+
+// Hinter dem Menü darf v10 nicht schon gegen EL VIKO loslaufen.
+playing=false;
+
+
+document.getElementById('championAgain').addEventListener('click',()=>{
+ document.getElementById('championScene').classList.remove('show');
+ storyStarted=true;storyIndex=0;enemyKey='fridolin';
+ prepareStoryOpening();
+ openStoryReader(INTRO_STORY,()=>openStoryReader(FRIDOLIN_PRE,()=>beginStoryFight()));
+});
+
+</script></body></html>
