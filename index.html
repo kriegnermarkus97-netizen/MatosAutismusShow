@@ -93,7 +93,7 @@
    void track.offsetWidth;
    const distance=track.scrollWidth+(track.parentElement?track.parentElement.clientWidth:400);
    track.style.setProperty('--news-distance',distance+'px');
-   track.style.setProperty('--news-duration',Math.max(12,distance/55)+'s');
+   track.style.setProperty('--news-duration',Math.max(28,distance/18)+'s');
    track.classList.add('news-run');
  }
  track.addEventListener('animationend',nextNews);
