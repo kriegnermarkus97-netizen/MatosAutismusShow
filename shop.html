@@ -80,7 +80,8 @@
 <div class="shop-toast" id="toast">Zum fiktiven Warenkorb hinzugefügt.</div>
 <script>
 const START_BALANCE=1000000;
-let balance=Number(localStorage.getItem('matosAlphaKroetenBalance'));
+const savedBalance=localStorage.getItem('matosAlphaKroetenBalance');
+let balance=savedBalance===null ? START_BALANCE : Number(savedBalance);
 if(!Number.isFinite(balance)) balance=START_BALANCE;
 let basket=[];
 const fmt=n=>n.toLocaleString('de-DE');
