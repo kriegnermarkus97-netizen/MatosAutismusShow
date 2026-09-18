@@ -83,7 +83,13 @@ const badges=[
 {id:'wolfjaeger',icon:'🐺',name:'WOLFJÄGER',desc:'Besiege den Wolf endgültig im FIGHTING CLUB.'},
 {id:'truckershonor',icon:'🏆',name:'TRUCKERS HONOR',desc:'Erreiche das Champion-Ende von FIGHTING CLUB – TRUCKERS HONOR.'}
 ];
-const secretBadges=[];
+const secretBadges=[
+{id:'secret_knappesbier',icon:'🍺',name:'DAS WAR DOCH NOCH GUT!',desc:'Verpasse in TRUCKER RUN eine Bierdose extrem knapp.'},
+{id:'secret_letztemuenze',icon:'🎰',name:'SPIELSUCHT HAT SICH GELOHNT',desc:'Drehe bei GAMBLING ON THE ROAD mit deiner letzten Münze und gewinne.'},
+{id:'secret_letzterbueffel',icon:'🐃',name:'ICH DACHTE, DER KANN DAS',desc:'Setze beim Wasserbüffelrennen auf den Büffel, der Letzter wird.'},
+{id:'secret_einhp',icon:'🥊',name:'WAR SO GEPLANT',desc:'Gewinne im FIGHTING CLUB einen Kampf mit exakt 1 HP.'},
+{id:'secret_schnelltod',icon:'💀',name:'DAS MUSS MAN ERST MAL SCHAFFEN',desc:'Stirb in MATOSVILLE MAYHEM innerhalb der ersten 10 Sekunden.'}
+];
 function load(){try{return JSON.parse(localStorage.getItem(KEY))||{badges:{},stats:{}}}catch(e){return{badges:{},stats:{}}}}
 function save(x){localStorage.setItem(KEY,JSON.stringify(x))}
 function unlock(id){const x=load();x.badges=x.badges||{};x.badges[id]=true;save(x);render()}
