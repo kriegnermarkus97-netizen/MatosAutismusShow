@@ -20,6 +20,9 @@ frame.addEventListener('load',()=>{
  const d=frame.contentDocument;
  const s=d.createElement('script');
  s.textContent=`
+ const ACH_KEY='truckerLoehnhardProgressV1';
+ const ACH_NAMES={casino_win:'🎰 ERSTER GEWINN',casino_beer:'🍺 DREI BIER',casino_truck:'🚚 TRUCK-JACKPOT',casino_joker:'🃏 JOKER!',casino_100coins:'🪙 DICKE TASCHEN',secret_letztemuenze:'🎰 SPIELSUCHT HAT SICH GELOHNT'};
+ function achUnlock(id,secret=false){let x;try{x=JSON.parse(localStorage.getItem(ACH_KEY))||{badges:{},stats:{}}}catch(e){x={badges:{},stats:{}}}x.badges=x.badges||{};if(x.badges[id])return;x.badges[id]=true;localStorage.setItem(ACH_KEY,JSON.stringify(x));let t=document.getElementById('achToast');if(!t){t=document.createElement('div');t.id='achToast';t.style.cssText='position:fixed;left:50%;bottom:22px;transform:translate(-50%,140px);z-index:99999;background:#17110d;color:#fff;border:4px solid #ffd15a;border-radius:14px;padding:13px 22px;box-shadow:0 10px 35px #000b;text-align:center;opacity:0;transition:.4s;pointer-events:none;font-family:Arial,sans-serif;font-weight:900';document.body.appendChild(t)}t.style.borderColor=secret?'#b66cff':'#ffd15a';t.style.background=secret?'#241331':'#17110d';t.innerHTML='<b style="display:block;color:'+(secret?'#d7b8ff':'#ffd15a')+'">'+(secret?'✦ GEHEIMES ABZEICHEN ENTDECKT ✦':'🏆 ABZEICHEN FREIGESCHALTET!')+'</b><span>'+ACH_NAMES[id]+'</span>';requestAnimationFrame(()=>{t.style.transform='translate(-50%,0)';t.style.opacity='1'});setTimeout(()=>{t.style.transform='translate(-50%,140px)';t.style.opacity='0'},4200)}
  function drawMatrix(matrix){
    $('reels').innerHTML='';
    for(let c=0;c<3;c++){
@@ -36,6 +39,7 @@ frame.addEventListener('load',()=>{
  function resolveNormal(s){let n=s.v;if(doubleNext){n*=2;doubleNext=false}coins+=n;return n}
  spin=async function(){
    if(busy||coins<1)return;
+   const wasLastCoin=coins===1;
    busy=true; hideResult(); coins--; ui();
    for(let i=0;i<13;i++){drawMatrix(randomMatrix());await sleep(55)}
    const m=randomMatrix(); drawMatrix(m);
@@ -43,6 +47,9 @@ frame.addEventListener('load',()=>{
    for(let r=0;r<3;r++){if(m[r][0].id===m[r][1].id&&m[r][1].id===m[r][2].id)wins.push({row:r,s:m[r][0]})}
    if(wins.length){
      wins.forEach(x=>flashRow(x.row));
+     if(wins.some(x=>x.s.id==='beer'))achUnlock('casino_beer');
+     if(wins.some(x=>x.s.id==='truck'))achUnlock('casino_truck');
+     if(wins.some(x=>x.s.id==='joker'))achUnlock('casino_joker');
      let total=0, messages=[];
      for(const x of wins){
        const s=x.s,k=s.id;
@@ -60,6 +67,8 @@ frame.addEventListener('load',()=>{
          let n=resolveNormal(s);total+=n;messages.push('+'+n)
        }
      }
+     if(total>0){achUnlock('casino_win');if(wasLastCoin)achUnlock('secret_letztemuenze',true)}
+     if(coins>=100)achUnlock('casino_100coins');
      if(messages.length===1) showResult(messages[0],total<0?'bad':wins[0].s.id==='joker'?'special':'good');
      else showResult(wins.length+' REIHEN! '+(total>0?'+'+total:total<0?total:'')+(messages.some(x=>x.includes('JOKER'))?' · JOKER':''),total<0?'bad':'good');
    }
