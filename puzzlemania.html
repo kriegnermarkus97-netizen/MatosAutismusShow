@@ -283,19 +283,22 @@ function startTimer(){
  timerId=setInterval(()=>{const s=Math.floor((Date.now()-startedAt)/1000),m=Math.floor(s/60),r=s%60;
  document.getElementById("timer").textContent=`Zeit: ${String(m).padStart(2,"0")}:${String(r).padStart(2,"0")}`; },500);
 }
-function unlockPuzzleBadge(){
+function unlockPuzzleBadge(id='puzzlemeister',label='🧩 PUZZLEMEISTER'){
  const KEY='truckerLoehnhardProgressV1';
  let data;try{data=JSON.parse(localStorage.getItem(KEY))||{badges:{},stats:{}}}catch(e){data={badges:{},stats:{}}}
- data.badges=data.badges||{};
- const first=!data.badges.puzzlemeister;
- data.badges.puzzlemeister=true;
- data.stats=data.stats||{};data.stats.puzzlesSolved=(data.stats.puzzlesSolved||0)+1;
+ data.badges=data.badges||{};data.stats=data.stats||{};
+ const first=!data.badges[id];data.badges[id]=true;
+ if(id==='puzzlemeister')data.stats.puzzlesSolved=(data.stats.puzzlesSolved||0)+1;
  localStorage.setItem(KEY,JSON.stringify(data));
- if(first){const t=document.getElementById('achievementToast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),4200)}
+ if(first){const t=document.getElementById('achievementToast');t.querySelector('span').textContent=label;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),4200)}
 }
 function win(){
- unlockPuzzleBadge();
  clearInterval(timerId);const s=Math.floor((Date.now()-startedAt)/1000);
+ unlockPuzzleBadge();
+ const pieces=cols*rows;
+ if(pieces===12)unlockPuzzleBadge('puzzle12','🧩 KLEINER PUZZLER');
+ if(pieces===48)unlockPuzzleBadge('puzzle48','🧠 48 TEILE CHAOS');
+ if(s<180)unlockPuzzleBadge('puzzle_speed','⏱️ PUZZLE-SPRINTER');
  document.getElementById("winStats").textContent=`${cols*rows} Teile · ${moves} Versuche · ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")} Minuten`;
  document.getElementById("win").style.display="grid";
 }
