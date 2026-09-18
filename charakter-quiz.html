@@ -51,7 +51,7 @@ body{margin:0;background:#0d0c0a;color:#f8f1df;font-family:Arial,Helvetica,sans-
 .restart{margin-top:18px;width:100%}
 .footer-note{text-align:center;color:#88765b;font-size:.78rem;letter-spacing:2px;margin-top:20px}
 @media(max-width:680px){.answers{grid-template-columns:1fr}.result-grid{grid-template-columns:1fr}.character-frame{max-width:420px;margin:auto}.quiz-card{padding:15px}.controls{position:sticky;bottom:8px;background:rgba(11,10,8,.92);padding:8px;border-radius:14px}.btn{flex:1}}
-</style>
+#achievementToast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,140px);z-index:9999;background:#17110d;color:#fff;border:4px solid #ffd15a;border-radius:14px;padding:13px 22px;box-shadow:0 10px 35px #000b;text-align:center;opacity:0;transition:.4s;pointer-events:none;font-family:Arial,sans-serif;font-weight:900}#achievementToast.show{transform:translate(-50%,0);opacity:1}#achievementToast b{display:block;color:#ffd15a}</style>
 </head>
 <body>
 <header class="topbar">
@@ -122,6 +122,10 @@ const Q=[
 ["Du kannst 24 Stunden lang alles machen, ohne Konsequenzen. Was passiert?",[["Das wird der größte Tag meines Lebens. Einzelheiten unterliegen der Geheimhaltung.",{TL:3,GQ:2}],["Ich esse sämtliche Süßigkeiten, die ich finden kann, und probiere jeden Unsinn aus.",{FR:3}],["Ich nehme meine Freunde mit und wir machen uns gemeinsam einen perfekten Tag.",{EV:3,MM:2}],["Es gibt ein paar Leute, die diesen Tag weniger genießen werden als ich.",{WO:3}]]],
 ["Wenn dein Leben ein Film wäre – welche Rolle wärst du?",[["Natürlich die Hauptfigur. Wer denn sonst?",{TL:3}],["Der entspannte Typ, den alle mögen und der plötzlich zeigt, was wirklich in ihm steckt.",{EV:3}],["Die völlig verrückte Nebenfigur, die am Ende überraschend wichtig wird.",{FR:3}],["Der Charakter, bei dem bis zum Schluss niemand weiß, was er wirklich vorhat.",{WO:3}]]]
 ];
+const ACH_KEY='truckerLoehnhardProgressV1';
+const ACH_NAMES={quiz_finish:'❓ WER BIN ICH?',quiz_allresults:'🎭 ALLE GESICHTER MATOSVILLES'};
+function quizAchievement(id){let x;try{x=JSON.parse(localStorage.getItem(ACH_KEY))||{badges:{},stats:{}}}catch(e){x={badges:{},stats:{}}}x.badges=x.badges||{};if(x.badges[id])return;x.badges[id]=true;localStorage.setItem(ACH_KEY,JSON.stringify(x));const t=document.getElementById('achievementToast');t.querySelector('span').textContent=ACH_NAMES[id];t.classList.add('show');setTimeout(()=>t.classList.remove('show'),4200)}
+function recordQuizResult(w){let x;try{x=JSON.parse(localStorage.getItem(ACH_KEY))||{badges:{},stats:{}}}catch(e){x={badges:{},stats:{}}}x.stats=x.stats||{};x.stats.quizResults=x.stats.quizResults||{};x.stats.quizResults[w]=true;localStorage.setItem(ACH_KEY,JSON.stringify(x));quizAchievement('quiz_finish');if(Object.keys(x.stats.quizResults).length>=6)quizAchievement('quiz_allresults')}
 let current=0,selections=Array(Q.length).fill(null);
 const $=s=>document.querySelector(s);
 const qEl=$("#question"),answersEl=$("#answers"),next=$("#nextBtn"),back=$("#backBtn");
@@ -135,7 +139,7 @@ function calc(indices){const s={TL:0,FR:0,EV:0,GQ:0,MM:0,WO:0};(indices||Q.map((
 function maxima(){const m={TL:0,FR:0,EV:0,GQ:0,MM:0,WO:0};Q.forEach(q=>Object.keys(m).forEach(k=>m[k]+=Math.max(...q[1].map(a=>a[1][k]||0))));return m}
 function finish(){
  const s=calc(),m=maxima(),tie=calc([3,4,11,13,17]);let ranked=Object.keys(s).sort((a,b)=>(s[b]-s[a])||(tie[b]-tie[a]));
- const w=ranked[0],c=characters[w];$("#quizCard").style.display="none";$("#resultCard").style.display="block";
+ const w=ranked[0],c=characters[w];recordQuizResult(w);$("#quizCard").style.display="none";$("#resultCard").style.display="block";
  $("#resultImage").src=c.img;$("#resultImage").alt=c.name;$("#resultPlate").textContent=c.name;$("#resultTitle").textContent="DU BIST … "+c.name+"!";$("#resultTitle").style.color=c.color;$("#resultQuote").textContent=c.quote;$("#resultText").textContent=c.text;
  const box=$("#scores");box.innerHTML="<div class='eyebrow'>DEINE WERTE</div>";
  ranked.forEach(k=>{const pct=m[k]?Math.round(s[k]/m[k]*100):0,d=document.createElement("div");d.className="score";d.innerHTML=`<div class="score-top"><span>${characters[k].name}</span><span>${pct}%</span></div><div class="bar"><span style="width:${pct}%;background:${characters[k].color}"></span></div>`;box.appendChild(d)});
@@ -146,5 +150,5 @@ back.addEventListener("click",()=>{if(current>0){current--;render()}});
 $("#restartBtn").addEventListener("click",()=>{current=0;selections.fill(null);$("#resultCard").style.display="none";$("#quizCard").style.display="block";render();window.scrollTo({top:0,behavior:"smooth"})});
 render();
 </script>
-</body>
+<div id="achievementToast"><b>🏆 ABZEICHEN FREIGESCHALTET!</b><span></span></div></body>
 </html>
