@@ -2324,5 +2324,5 @@
 .matos-news-track{display:inline-block;white-space:nowrap;font-size:12px;color:#fff;will-change:transform}
 .matos-news:hover .matos-news-track{animation-play-state:paused}
 .matos-news-track.news-run{animation:matosTicker var(--news-duration,18s) linear 1}
-@keyframes matosTicker{from{transform:translateX(100%)}to{transform:translateX(calc(-1 * var(--news-distance,900px)))}}
+@keyframes matosTicker{from{transform:translateX(var(--news-start,500px))}to{transform:translateX(calc(-1 * var(--news-width,500px)))}}
 @media(max-width:1100px){.matos-news{display:none}}
