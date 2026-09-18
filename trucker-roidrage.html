@@ -279,9 +279,12 @@ function pressD(){
  enemies.forEach(e=>{if(e.active&&!e.dead&&rectHit(hit,e))damageEnemy(e,player.rage?9999:34,player.dir*112)});
  hitMachines(hit,34);
 }
+const ACH_KEY='truckerLoehnhardProgressV1';
+const ROID_ACH={roid_firstkill:'👊 ROAD RAGE BEGINNT',roid_rage:'😡 VOLLE RAGE',roid_finish:'💪 ROIDRAGE ÜBERLEBT'};
+function roidAch(id){let x;try{x=JSON.parse(localStorage.getItem(ACH_KEY))||{badges:{},stats:{}}}catch(e){x={badges:{},stats:{}}}x.badges=x.badges||{};if(x.badges[id])return;x.badges[id]=true;localStorage.setItem(ACH_KEY,JSON.stringify(x));let t=document.getElementById('roidAchToast');if(!t){t=document.createElement('div');t.id='roidAchToast';t.style.cssText='position:fixed;left:50%;bottom:22px;transform:translate(-50%,140px);z-index:99999;background:#17110d;color:#fff;border:4px solid #ffd15a;border-radius:14px;padding:13px 22px;box-shadow:0 10px 35px #000b;text-align:center;opacity:0;transition:.4s;pointer-events:none;font:900 16px Arial';document.body.appendChild(t)}t.innerHTML='<b style="display:block;color:#ffd15a">🏆 ABZEICHEN FREIGESCHALTET!</b><span>'+ROID_ACH[id]+'</span>';requestAnimationFrame(()=>{t.style.transform='translate(-50%,0)';t.style.opacity=1});setTimeout(()=>{t.style.transform='translate(-50%,140px)';t.style.opacity=0},4200)}
 function pressRage(){
  if(gameOver||won||transitioning||player.rage||player.rageKills<RAGE_KILLS)return;
- player.rage=true;player.rageT=RAGE_TIME;player.state='rage';player.stateT=.45;
+ roidAch('roid_rage');player.rage=true;player.rageT=RAGE_TIME;player.state='rage';player.stateT=.45;
  document.getElementById('msg').textContent='⚡ TRUCKER RAGE! ⚡';
  setTimeout(()=>{if(player.rage)document.getElementById('msg').textContent=''},700);
  updateHUD();
@@ -293,7 +296,7 @@ function damageEnemy(e,dmg,knock){
  e.hitT=.18;
  hitSparks.push({x:e.x-knock*.18,y:e.y-35,t:.18,max:.18});
  if(e.hp<=0){
-   e.hp=0;e.dead=true;e.deathT=.65;score+=e.boss?1000:150;
+   e.hp=0;e.dead=true;e.deathT=.65;score+=e.boss?1000:150;roidAch('roid_firstkill');
    if(!e.boss&&!player.rage)player.rageKills=Math.min(RAGE_KILLS,player.rageKills+1);
  }
  updateHUD();
@@ -365,7 +368,7 @@ function updateSectionProgress(){
 function finishLevel(){
  if(transitioning||won)return;
  if(currentLevel===LEVELS.length-1){
-   won=true;document.getElementById('msg').textContent='🏆 DER WOLF IST BESIEGT!\nDU HAST DAS SPIEL GESCHAFFT!';
+   won=true;roidAch('roid_finish');document.getElementById('msg').textContent='🏆 DER WOLF IST BESIEGT!\nDU HAST DAS SPIEL GESCHAFFT!';
    return;
  }
  transitioning=true;
