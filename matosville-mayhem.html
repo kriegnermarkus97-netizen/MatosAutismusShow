@@ -22,7 +22,7 @@ h1{margin:0;color:#f23bbb;-webkit-text-stroke:2px #111;text-shadow:4px 4px #111;
 .weaponPick{font:inherit;min-width:200px;padding:12px;background:#1b1820;color:white;border:4px solid #111;border-radius:9px;box-shadow:4px 4px #111;cursor:pointer}
 .weaponPick strong{display:block;color:#63eaff;font-size:20px;margin-bottom:4px}
 .weaponPick small{font-family:"Trebuchet MS",sans-serif;font-weight:900}
-</style></head><body><div id="wrap"><div id="box"><canvas id="c" width="1280" height="720"></canvas>
+#achievementToast{position:absolute;left:50%;bottom:80px;transform:translate(-50%,140px);z-index:80;background:#17110d;color:#fff;border:4px solid #ffd15a;border-radius:14px;padding:13px 22px;box-shadow:0 10px 35px #000b;text-align:center;opacity:0;transition:.4s;pointer-events:none;min-width:min(430px,90%)}#achievementToast.show{transform:translate(-50%,0);opacity:1}#achievementToast.secret{border-color:#b66cff;background:#241331;box-shadow:0 0 34px #8d46ff99}#achievementToast b{display:block;color:#ffd15a;font-size:21px}#achievementToast.secret b{color:#d7b8ff}</style></head><body><div id="wrap"><div id="box"><canvas id="c" width="1280" height="720"></canvas>
 <div id="hp" class="panel">❤️ SHERIFF GHETTOQUEENS <span id="hpT">100 / 100</span><div id="bar"><div id="fill"></div></div></div>
 <div id="wave" class="panel">WELLE <span id="w">1</span><br><small>GEGNER: <span id="rem">0</span></small></div>
 <div id="score" class="panel">PUNKTE<br><span id="pts">0</span></div>
@@ -33,7 +33,7 @@ h1{margin:0;color:#f23bbb;-webkit-text-stroke:2px #111;text-shadow:4px 4px #111;
 <button id="pauseBtn">⏸ PAUSE</button>
 <button id="music">♫ MUSIK: AN</button>
 </div>
-<div id="bn" class="banner"></div>
+<div id="bn" class="banner"></div><div id="achievementToast"><b></b><span></span></div>
 <div id="pauseOverlay" style="position:absolute;inset:0;background:#0f0d11c9;display:none;place-items:center;z-index:25;text-align:center">
   <div style="background:#f1cf94;color:#18100b;border:6px solid #28160e;border-radius:14px;padding:26px 34px;box-shadow:8px 8px #000">
     <div style="font-size:44px;color:#f23bbb;-webkit-text-stroke:1px #111;text-shadow:3px 3px #111">⏸ PAUSE</div>
@@ -62,6 +62,9 @@ function playTrack(i){ti=(i+TRACKS.length)%TRACKS.length;audio.src=TRACKS[ti];if
 audio.addEventListener('ended',()=>playTrack(ti+1));
 const c=document.getElementById('c'),g=c.getContext('2d'),W=c.width,H=c.height;
 const $=id=>document.getElementById(id),U={hp:$('hpT'),fill:$('fill'),w:$('w'),rem:$('rem'),pts:$('pts'),wn:$('wn'),bn:$('bn'),ov:$('overlay')};
+const ACH_KEY='truckerLoehnhardProgressV1';let mayhemStartedAt=0;
+const ACH_NAMES={mayhem_firstwave:'💦 ERSTE WELLE',mayhem_boss:'👹 BOSSJÄGER',mayhem_weapon:'🔫 AUFGERÜSTET',mayhem_wave10:'🔥 MAYHEM!',mayhem_score10000:'💥 MATOSVILLE VERTEIDIGT',secret_schnelltod:'💀 DAS MUSS MAN ERST MAL SCHAFFEN'};
+function achUnlock(id,secret=false){let x;try{x=JSON.parse(localStorage.getItem(ACH_KEY))||{badges:{},stats:{}}}catch(e){x={badges:{},stats:{}}}x.badges=x.badges||{};if(x.badges[id])return;x.badges[id]=true;localStorage.setItem(ACH_KEY,JSON.stringify(x));const t=$('achievementToast');t.classList.toggle('secret',secret);t.querySelector('b').textContent=secret?'✦ GEHEIMES ABZEICHEN ENTDECKT ✦':'🏆 ABZEICHEN FREIGESCHALTET!';t.querySelector('span').textContent=ACH_NAMES[id]||id;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),4200)}
 let run=false,paused=false,last=0,wave=1,score=0,keys={},mouse={x:640,y:360,down:false},bul=[],ebul=[],ens=[],drops=[],parts=[],next=0,between=false,bossActive=false,choosingWeapon=false;
 const p={x:640,y:360,r:24,hp:100,speed:255,weapon:'WASSERPISTOLE',baseWeapon:'WASSERPISTOLE',baseDamage:13,weaponLevel:0,power:0,inv:0};
 const rnd=(a,b)=>a+Math.random()*(b-a),cl=(v,a,b)=>Math.max(a,Math.min(b,v)),D=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -93,13 +96,14 @@ function showWeaponChoice(){
  choosingWeapon=true;run=false;mouse.down=false;audio.pause();$('weaponChoice').style.display='grid';
 }
 function chooseWeapon(name){
+ achUnlock('mayhem_weapon');
  p.weaponLevel++;p.baseDamage*=2;p.baseWeapon=name;p.weapon=name;p.power=0;
  $('weaponChoice').style.display='none';choosingWeapon=false;bossActive=false;wave++;between=false;run=true;last=performance.now();
  if(musicOn)audio.play().catch(()=>{});
  banner('NEUE WAFFE x2!');
  spawn();ui();
 }
-function reset(){wave=1;score=0;bul=[];ebul=[];ens=[];drops=[];parts=[];between=false;bossActive=false;choosingWeapon=false;paused=false;$('pauseOverlay').style.display='none';$('pauseBtn').textContent='⏸ PAUSE';Object.assign(p,{x:640,y:360,hp:100,weapon:'WASSERPISTOLE',baseWeapon:'WASSERPISTOLE',baseDamage:13,weaponLevel:0,power:0,inv:0});spawn();ui()}
+function reset(){mayhemStartedAt=performance.now();wave=1;score=0;bul=[];ebul=[];ens=[];drops=[];parts=[];between=false;bossActive=false;choosingWeapon=false;paused=false;$('pauseOverlay').style.display='none';$('pauseBtn').textContent='⏸ PAUSE';Object.assign(p,{x:640,y:360,hp:100,weapon:'WASSERPISTOLE',baseWeapon:'WASSERPISTOLE',baseDamage:13,weaponLevel:0,power:0,inv:0});spawn();ui()}
 function fire(t){
  if(t<next)return;
  let temp=t<p.power;
@@ -119,26 +123,28 @@ function enemyFire(e,t){
  for(let i=0;i<shots;i++){let z=a+(shots>1?(i-(shots-1)/2)*.14:0);ebul.push({x:e.x,y:e.y,vx:Math.cos(z)*(e.boss?285+tier*12:230+wave*4),vy:Math.sin(z)*(e.boss?285+tier*12:230+wave*4),r:e.boss?8:6,d:e.boss?8+wave*.5+tier*1.5:4+wave*.45,l:4})}
 }
 function drop(e){let q=Math.random();if(q<.08)drops.push({x:e.x,y:e.y,t:'h',r:18});else if(q<.16)drops.push({x:e.x,y:e.y,t:'c',r:21})}
-function over(){run=false;audio.pause();U.ov.style.display='grid';document.querySelector('#card h1').textContent='GAME OVER';document.querySelector('#card p').innerHTML=`Matosville wurde überrannt.<br><b>Punkte: ${score.toLocaleString('de-DE')} · Welle ${wave}</b>`;$('start').textContent='NOCHMAL'}
+function over(){if(mayhemStartedAt&&performance.now()-mayhemStartedAt<=10000)achUnlock('secret_schnelltod',true);run=false;audio.pause();U.ov.style.display='grid';document.querySelector('#card h1').textContent='GAME OVER';document.querySelector('#card p').innerHTML=`Matosville wurde überrannt.<br><b>Punkte: ${score.toLocaleString('de-DE')} · Welle ${wave}</b>`;$('start').textContent='NOCHMAL'}
 function update(dt,t){
  let dx=(keys.d||keys.ArrowRight?1:0)-(keys.a||keys.ArrowLeft?1:0),dy=(keys.s||keys.ArrowDown?1:0)-(keys.w||keys.ArrowUp?1:0);if(dx||dy){let l=Math.hypot(dx,dy);p.x+=dx/l*p.speed*dt;p.y+=dy/l*p.speed*dt}p.x=cl(p.x,30,W-30);p.y=cl(p.y,75,H-30);if(mouse.down)fire(t);if(t>p.power&&p.weapon!==p.baseWeapon)p.weapon=p.baseWeapon;
  for(const b of bul){b.x+=b.vx*dt;b.y+=b.vy*dt;b.l-=dt}for(const b of ebul){b.x+=b.vx*dt;b.y+=b.vy*dt;b.l-=dt;if(D(b,p)<b.r+p.r&&t>p.inv){b.l=0;p.hp-=b.d;p.inv=t+350;banner('TREFFER!');if(p.hp<=0){p.hp=0;ui();over();return}}}
  bul=bul.filter(b=>b.l>0);ebul=ebul.filter(b=>b.l>0);
  for(const e of ens){let d=D(e,p),a=Math.atan2(p.y-e.y,p.x-e.x);if(e.shoot&&d<500){enemyFire(e,t);if(d<240){e.x-=Math.cos(a)*e.spd*.5*dt;e.y-=Math.sin(a)*e.spd*.5*dt}else if(d>370){e.x+=Math.cos(a)*e.spd*.65*dt;e.y+=Math.sin(a)*e.spd*.65*dt}}else{e.x+=Math.cos(a)*e.spd*dt;e.y+=Math.sin(a)*e.spd*dt}
  if(D(e,p)<e.r+p.r&&t>p.inv){p.hp-=e.dmg;p.inv=t+650;banner('AUTSCH!');if(p.hp<=0){p.hp=0;ui();over();return}}}
- for(const b of bul)for(const e of ens)if(!b.dead&&!e.dead&&D(b,e)<b.r+e.r){b.dead=1;e.hp-=b.d;if(e.hp<=0){e.dead=1;score+=e.boss?2500:e.brute?250:e.shoot?175:100;if(!e.boss)drop(e);else e.wasBoss=true}}bul=bul.filter(b=>!b.dead);ens=ens.filter(e=>!e.dead);
+ for(const b of bul)for(const e of ens)if(!b.dead&&!e.dead&&D(b,e)<b.r+e.r){b.dead=1;e.hp-=b.d;if(e.hp<=0){e.dead=1;score+=e.boss?2500:e.brute?250:e.shoot?175:100;if(score>=10000)achUnlock('mayhem_score10000');if(!e.boss)drop(e);else e.wasBoss=true}}bul=bul.filter(b=>!b.dead);ens=ens.filter(e=>!e.dead);
  for(const q of drops)if(D(q,p)<q.r+p.r){q.dead=1;if(q.t==='h'){p.hp=Math.min(100,p.hp+25);banner('+25 LEBEN!')}else{p.weapon=Math.random()<.5?'DOPPEL-WASSERPISTOLE':'WASSER-SCHROTFLINTE';p.power=t+8000;banner(p.weapon+'!')}}drops=drops.filter(q=>!q.dead);ui();
  if(!ens.length&&!between){
  between=true;
  if(bossActive){
+   achUnlock('mayhem_boss');
    banner('🏆 BOSS BESIEGT!');
    setTimeout(()=>showWeaponChoice(),900);
  }else if(wave%5===0){
    banner('BOSS KOMMT!');
    setTimeout(()=>{if(run){between=false;spawnBoss()}},1300);
  }else{
+   if(wave===1)achUnlock('mayhem_firstwave');
    banner('WELLE GESCHAFFT!');
-   setTimeout(()=>{if(run){wave++;between=false;spawn();ui()}},1700);
+   setTimeout(()=>{if(run){wave++;if(wave>=10)achUnlock('mayhem_wave10');between=false;spawn();ui()}},1700);
  }
 }
 }
