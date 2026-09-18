@@ -292,6 +292,10 @@ border-radius:16px;text-align:center;color:#fff;overflow:hidden;box-shadow:0 20p
 <script>
 const $=id=>document.getElementById(id), p=$('p'),e=$('e'),pi=$('pi'),ei=$('ei'); let px=10,ex=70,php=100,ehp=100,ps=0,es=0,pw=0,ew=0,r=1,t=99,playing=true,block=false,crouch=false,busy=false,ebusy=false,enemyBlock=false,enemyCrouch=false;
 let enemyMaxHp=100;
+const ACH_KEY='truckerLoehnhardProgressV1';
+const ACH_NAMES={fight_first:'🥊 ERSTER KAMPFSIEG',wolfjaeger:'🐺 WOLFJÄGER',truckershonor:'🏆 TRUCKERS HONOR',secret_einhp:'🥊 WAR SO GEPLANT'};
+function fightAchievement(id,secret=false){let x;try{x=JSON.parse(localStorage.getItem(ACH_KEY))||{badges:{},stats:{}}}catch(err){x={badges:{},stats:{}}}x.badges=x.badges||{};if(x.badges[id])return;x.badges[id]=true;localStorage.setItem(ACH_KEY,JSON.stringify(x));let n=document.getElementById('fightAchToast');if(!n){n=document.createElement('div');n.id='fightAchToast';n.style.cssText='position:fixed;left:50%;bottom:22px;transform:translate(-50%,140px);z-index:99999;background:#17110d;color:#fff;border:4px solid #ffd15a;border-radius:14px;padding:13px 22px;box-shadow:0 10px 35px #000b;text-align:center;opacity:0;transition:.4s;pointer-events:none;font:900 16px Arial';document.body.appendChild(n)}n.style.borderColor=secret?'#b66cff':'#ffd15a';n.style.background=secret?'#241331':'#17110d';n.innerHTML='<b style="display:block;color:'+(secret?'#d7b8ff':'#ffd15a')+'">'+(secret?'✦ GEHEIMES ABZEICHEN ENTDECKT ✦':'🏆 ABZEICHEN FREIGESCHALTET!')+'</b><span>'+ACH_NAMES[id]+'</span>';requestAnimationFrame(()=>{n.style.transform='translate(-50%,0)';n.style.opacity='1'});setTimeout(()=>{n.style.transform='translate(-50%,140px)';n.style.opacity='0'},4200)}
+
 let playerDamageMul=1,playerDefenseMul=1,enemyDamageMulSpecial=1,enemyDefenseMul=1;
 let playerModeUntil=0,enemyModeUntil=0,enemyInvincibleUntil=0;
 let enemySpecialReadyAt=0,enemySpecialDelay=2500;
@@ -412,6 +416,9 @@ function roundEnd(w){
    if(pw>=2||ew>=2){
      $('msg').textContent='';
      if(pw>=2){
+       fightAchievement('fight_first');
+       if(php===1)fightAchievement('secret_einhp',true);
+       if(storyIndex===4)fightAchievement('wolfjaeger');
        $('winTitle').textContent='🏆 SIEG! 🏆';
        $('winSub').textContent='TRUCKER LÖNHARD gewinnt den Kampf mit '+pw+' : '+ew+'!';
        $('nextBtn').textContent='NÄCHSTER KAMPF ▶'; $('nextBtn').onclick=storyAdvance;
@@ -866,6 +873,7 @@ function showComic(kind,onDone){
  btn.onclick=()=>{overlay.classList.remove('show');onDone&&onDone()};
 }
 function showChampion(){
+ fightAchievement('truckershonor');
  playing=false;storyStarted=false;
  document.getElementById('championScene').classList.add('show');
 }
