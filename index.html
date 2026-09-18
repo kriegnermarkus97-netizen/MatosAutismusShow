@@ -86,18 +86,24 @@
 (function(){
  const news=["Ghettoqueens gießt Blumen ausschließlich mit Fanta – Pflanzen äußern sich bisher nicht dazu.","EL VIKO spricht fließend Mexikanisch – Experten überrascht, da die Sprache nicht existiert.","Trucker Lönhard verspielt gesamtes Erbe bei GAMBLING ON THE ROAD – fordert anschließend Erbe zurück.","Wolf offenbar nur Hund im Kostüm – Wolf weist Vorwürfe bellend zurück.","Mato baut Wasserbüffelfarm zum Freizeitpark um – Wasserbüffel erfahren es aus den NEWS.","Fridolin bricht sich das Bein – Ermittler rätseln weiterhin, welches.","Trucker Lönhard fährt seit drei Stunden im Kreis – bezeichnet Strecke als Abkürzung.","EL VIKO kauft Sombrero – stellt zuhause fest, dass er bereits einen trägt.","Ghettoqueens erklärt Wasserpistole zur offiziellen Polizei-Spezialeinheit.","Fridolin besteht Führerscheinprüfung – besitzt weder Führerschein noch Fahrzeug.","Mato sucht vermissten Wasserbüffel – sitzt während Interview auf ihm.","Wolf gewinnt Wettbewerb „Bester Hund“ – legt anschließend Beschwerde ein.","Route 69 über Nacht auf Route 70 umbenannt – am Morgen wieder rückgängig gemacht.","EL VIKO trinkt zwei Liter Sangria, um herauszufinden, ob Sangria nach Sangria schmeckt.","Trucker Lönhard meldet Truck als gestohlen – steht hinter ihm.","Ghettoqueens verhaftet sich selbst – verweigert anschließend die Aussage.","Fridolin eröffnet Schuhgeschäft – Sortiment besteht ausschließlich aus linken Schuhen.","Mato führt Eintrittspreis für Wasserbüffelfarm ein – Wasserbüffel müssen ebenfalls bezahlen.","Wolf seit Dienstag vermisst – wurde am Mittwoch gesehen, gilt trotzdem weiter als vermisst.","EL VIKO zum Bürgermeister von Mexiko gewählt – Mexiko bestreitet, einen Bürgermeister zu haben.","Trucker Lönhard gewinnt Nichtraucher-Wettbewerb – Disqualifikation nach sieben Sekunden.","Fridolin fällt vom Fahrrad – Fahrrad konnte am Tatort nicht gefunden werden.","Ghettoqueens bestellt Pizza ohne Käse – beschwert sich anschließend über fehlenden Käse.","Mato zählt seine Wasserbüffel – kommt nach drei Stunden auf Donnerstag.","EL VIKO eröffnet Sprachschule für Mexikanisch – erster Kurs bereits komplett ausgebucht.","Wolf behauptet, kein Wolf zu sein – neue Ermittlungen bestätigen: möglicherweise Dienstag.","Trucker Lönhard tankt 80 Liter Diesel – vergisst dabei den Truck.","Fridolin gewinnt Marathon – war laut Veranstalter überhaupt nicht angemeldet und schlief währenddessen.","Ghettoqueens erklärt Montag offiziell für illegal – Montag erscheint trotzdem.","Mato verkauft Wasserbüffelfarm an sich selbst – spricht von bestem Geschäft meines Lebens.","EL VIKO verliert Sombrero – zweiter Sombrero darunter entdeckt.","Route 69 wegen Straße vorübergehend gesperrt.","Fridolin behauptet, Vögel könnten fliegen – Wissenschaftler wollen Behauptung prüfen.","Trucker Lönhard fährt rückwärts nach Hause, weil er Hinweg bereits vorwärts gefahren ist.","Matosville meldet Rekordtemperatur von 14 Uhr.","Ghettoqueens sucht seit Stunden ihre Wasserpistole – hält sie während Pressekonferenz in der Hand.","Mato eröffnet Streichelzoo – Tiere dürfen Besucher streicheln.","EL VIKO bestellt alkoholfreien Sangria – Polizei untersucht möglichen Identitätsdiebstahl.","Wolf beißt Hund – beide Seiten werfen sich gegenseitig vor, der Wolf zu sein.","Fridolin zum Mitarbeiter des Monats gewählt – niemand weiß, wo er arbeitet."];
  const track=document.getElementById('newsTrack');
- function nextNews(){
-   const msg=news[Math.floor(Math.random()*news.length)];
-   track.textContent='+++ '+msg+' +++';
-   track.classList.remove('news-run');
-   void track.offsetWidth;
-   const distance=track.scrollWidth+(track.parentElement?track.parentElement.clientWidth:400);
-   track.style.setProperty('--news-distance',distance+'px');
-   track.style.setProperty('--news-duration',Math.max(19,distance/30)+'s');
-   track.classList.add('news-run');
+ function shuffleNews(){
+   const items=[...news];
+   for(let i=items.length-1;i>0;i--){
+     const j=Math.floor(Math.random()*(i+1));
+     [items[i],items[j]]=[items[j],items[i]];
+   }
+   return items;
  }
- track.addEventListener('animationend',nextNews);
- nextNews();
+ const items=shuffleNews();
+ track.textContent=items.map(msg=>'+++ '+msg+' +++').join('     ');
+ requestAnimationFrame(()=>{
+   const start=track.parentElement ? track.parentElement.clientWidth : 500;
+   const width=track.scrollWidth;
+   track.style.setProperty('--news-start',start+'px');
+   track.style.setProperty('--news-width',width+'px');
+   track.style.setProperty('--news-duration',((start+width)/30)+'s');
+   track.classList.add('news-run');
+ });
 })();
 </script>
 
