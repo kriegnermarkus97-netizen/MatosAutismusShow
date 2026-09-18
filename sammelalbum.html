@@ -33,69 +33,57 @@
 <script>
 const KEY='truckerLoehnhardProgressV1';
 const badges=[
-{id:'run_bier20',icon:'🍺',name:'ERSTER SCHWIPS',desc:'Sammle 20 Bierdosen in einer Runde TRUCKER RUN.'},
+{id:'tr_firstbeer',icon:'🍺',name:'ERSTES KÜHLES',desc:'Sammle deine erste Bierdose in TRUCKER RUN.'},
+{id:'tr_drunk',icon:'🥴',name:'20 BIER SPÄTER',desc:'Sammle in einer Runde 20 Bierdosen und löse den Betrunken-Effekt aus.'},
 {id:'bierkoenig',icon:'🍻',name:'BIERKÖNIG',desc:'Sammle insgesamt 100 Bierdosen in TRUCKER RUN.'},
-{id:'run_score5000',icon:'🚛',name:'ROUTE-69-ROOKIE',desc:'Erreiche 5.000 Punkte in einer Runde TRUCKER RUN.'},
-{id:'run_score10000',icon:'🏁',name:'HIGHWAY-HELD',desc:'Erreiche 10.000 Punkte in einer Runde TRUCKER RUN.'},
+{id:'tr_nacho',icon:'🧀',name:'NACHO-NOTFALL',desc:'Sammle Nachos in TRUCKER RUN.'},
+{id:'tr_score5000',icon:'🚛',name:'ROUTE-69-PROFI',desc:'Erreiche 5.000 Punkte in TRUCKER RUN.'},
+{id:'tr_survivor',icon:'❤️',name:'FERNFAHRER',desc:'Erreiche 10.000 Punkte in einer Runde TRUCKER RUN.'},
 
-{id:'mayhem_wave5',icon:'💥',name:'DIE ERSTE HORDE',desc:'Erreiche Welle 5 in MATOSVILLE MAYHEM.'},
-{id:'mayhem_boss',icon:'👹',name:'BOSS BEZWUNGEN',desc:'Besiege einen Boss in MATOSVILLE MAYHEM.'},
-{id:'mayhem_wave10',icon:'🔥',name:'MAYHEM-HELD',desc:'Erreiche Welle 10 in MATOSVILLE MAYHEM.'},
-{id:'mayhem_score10000',icon:'👑',name:'MAYHEM-LEGENDE',desc:'Erreiche 10.000 Punkte in MATOSVILLE MAYHEM.'},
+{id:'mayhem_firstwave',icon:'💦',name:'ERSTE WELLE',desc:'Überstehe die erste Gegnerwelle in MATOSVILLE MAYHEM.'},
+{id:'mayhem_boss',icon:'👹',name:'BOSSJÄGER',desc:'Besiege einen Boss in MATOSVILLE MAYHEM.'},
+{id:'mayhem_weapon',icon:'🔫',name:'AUFGERÜSTET',desc:'Wähle nach einem Boss eine neue Waffe in MATOSVILLE MAYHEM.'},
+{id:'mayhem_wave10',icon:'🔥',name:'MAYHEM!',desc:'Erreiche Welle 10 in MATOSVILLE MAYHEM.'},
+{id:'mayhem_score10000',icon:'💥',name:'MATOSVILLE VERTEIDIGT',desc:'Erreiche 10.000 Punkte in MATOSVILLE MAYHEM.'},
 
-{id:'casino_win',icon:'🎰',name:'ERSTER GEWINN',desc:'Gewinne erstmals Münzen bei GAMBLING ON THE ROAD.'},
+{id:'casino_win',icon:'🎰',name:'ERSTER GEWINN',desc:'Erziele deinen ersten Gewinn bei GAMBLING ON THE ROAD.'},
+{id:'casino_beer',icon:'🍺',name:'DREI BIER',desc:'Lande drei Bier-Symbole in einer Gewinnreihe.'},
+{id:'casino_truck',icon:'🚚',name:'TRUCK-JACKPOT',desc:'Lande drei Truck-Symbole in einer Gewinnreihe.'},
 {id:'casino_joker',icon:'🃏',name:'JOKER!',desc:'Lande drei Joker in einer Gewinnreihe.'},
-{id:'casino_multi',icon:'💰',name:'MEHRFACHGEWINN',desc:'Gewinne mit mindestens zwei Reihen in einem einzigen Spin.'},
-{id:'casino_100coins',icon:'🪙',name:'MÜNZENKÖNIG',desc:'Besitze mindestens 100 Münzen bei GAMBLING ON THE ROAD.'},
+{id:'casino_100coins',icon:'🪙',name:'DICKE TASCHEN',desc:'Besitze mindestens 100 Münzen bei GAMBLING ON THE ROAD.'},
 
 {id:'puzzlemeister',icon:'🧩',name:'PUZZLEMEISTER',desc:'Schließe ein Puzzle in PUZZLEMANIA ab.'},
-{id:'puzzle3',icon:'🧠',name:'PUZZLE-PROFI',desc:'Schließe insgesamt 3 Puzzle ab.'},
-{id:'puzzle10',icon:'🏆',name:'PUZZLE-MARATHON',desc:'Schließe insgesamt 10 Puzzle ab.'},
-{id:'puzzle_speed',icon:'⏱️',name:'PUZZLE-SPRINTER',desc:'Löse ein Puzzle in weniger als 60 Sekunden.'},
+{id:'puzzle12',icon:'🧩',name:'KLEINER PUZZLER',desc:'Löse ein Puzzle mit 12 Teilen.'},
+{id:'puzzle48',icon:'🧠',name:'48 TEILE CHAOS',desc:'Löse ein Puzzle mit 48 Teilen.'},
+{id:'puzzle_speed',icon:'⏱️',name:'PUZZLE-SPRINTER',desc:'Löse ein Puzzle in weniger als 3 Minuten.'},
 
-{id:'bueffelreiter',icon:'🐃',name:'BÜFFELREITER',desc:'Gewinne ein Wasserbüffelrennen auf der Matosville-Kirwa.'},
+{id:'kirwa_cans',icon:'🥫',name:'ABGERÄUMT!',desc:'Räume beim Dosenwerfen alle 10 Dosen ab.'},
 {id:'scharfschuetze',icon:'🎯',name:'SCHARFSCHÜTZE',desc:'Erreiche mindestens 100 Punkte am Matosville-Schießstand.'},
-{id:'dosenwerfer',icon:'🥫',name:'DOSEN-ABRÄUMER',desc:'Räume beim Dosenwerfen alle 10 Dosen ab.'},
-{id:'armchamp',icon:'💪',name:'ARMDRÜCK-CHAMPION',desc:'Gewinne das Armdrück-Turnier auf der Matosville-Kirwa.'},
-{id:'basketprofi',icon:'🏀',name:'KIRWA-BALLER',desc:'Gewinne beim Basketball-Spiel auf der Matosville-Kirwa.'},
+{id:'bueffelreiter',icon:'🐃',name:'BÜFFELREITER',desc:'Gewinne ein Wasserbüffelrennen auf der Matosville-Kirwa.'},
+{id:'kirwa_arm',icon:'💪',name:'STARKER ARM',desc:'Gewinne beim Armdrücken auf der Matosville-Kirwa.'},
+{id:'kirwa_wheel',icon:'🎡',name:'HAUPTGEWINN',desc:'Triff den 10.000-Taler-Hauptgewinn am Glücksrad.'},
+{id:'kirwa_shop',icon:'🛍️',name:'SOUVENIRJÄGER',desc:'Kaufe deinen ersten Gegenstand im Kirwa-Shop.'},
+{id:'kirwa_rich',icon:'🎟️',name:'TALER-SAMMLER',desc:'Besitze mindestens 1.000 Kirwa-Taler.'},
 
-{id:'quizstarter',icon:'❓',name:'WER BIN ICH?',desc:'Spiele das CHARAKTER QUIZ einmal vollständig durch.'},
-{id:'quiz_loenhard',icon:'🚛',name:'ECHTER TRUCKER',desc:'Erhalte im CHARAKTER QUIZ Trucker Lönhard als Ergebnis.'},
-{id:'quiz_fridolin',icon:'🐍',name:'SÜSSIGKEITEN-CHAOS',desc:'Erhalte im CHARAKTER QUIZ Fridolin als Ergebnis.'},
+{id:'quiz_finish',icon:'❓',name:'WER BIN ICH?',desc:'Beende das CHARAKTER QUIZ und erhalte dein Charakter-Ergebnis.'},
+{id:'quiz_allresults',icon:'🎭',name:'ALLE GESICHTER MATOSVILLES',desc:'Erhalte im CHARAKTER QUIZ im Laufe mehrerer Runden alle sechs Charakter-Ergebnisse.'},
 
-{id:'horror_chapter',icon:'🧟',name:'ERSTE ETAPPE ÜBERLEBT',desc:'Schließe das erste Kapitel von MATOSVILLE HORROTRIP ab.'},
-{id:'horror_half',icon:'🩸',name:'MITTEN IM HORROR',desc:'Erreiche die zweite Hälfte von MATOSVILLE HORROTRIP.'},
-{id:'horrortrip',icon:'👻',name:'HORRORTRIP ÜBERLEBT',desc:'Spiele MATOSVILLE HORROTRIP vollständig durch.'},
+{id:'horror_chapter',icon:'🧟',name:'ERSTES KAPITEL',desc:'Schließe das erste Kapitel von MATOSVILLE HORROTRIP ab.'},
+{id:'horror_finish',icon:'👻',name:'HORRORTRIP ÜBERLEBT',desc:'Schließe alle sieben Kapitel von MATOSVILLE HORROTRIP ab.'},
 
-{id:'roid_rage',icon:'⚡',name:'TRUCKER RAGE!',desc:'Aktiviere in TRUCKER ROIDRAGE erstmals den Rage-Modus nach 10 Gegnern.'},
-{id:'roid_level',icon:'💪',name:'STRASSENSÄUBERER',desc:'Schließe ein Level in TRUCKER ROIDRAGE ab.'},
-{id:'roidrage',icon:'🔨',name:'ROIDRAGE-CHAMPION',desc:'Spiele TRUCKER ROIDRAGE vollständig durch.'},
+{id:'roid_firstkill',icon:'👊',name:'ROAD RAGE BEGINNT',desc:'Besiege deinen ersten Gegner in TRUCKER ROIDRAGE.'},
+{id:'roid_rage',icon:'😡',name:'VOLLE RAGE',desc:'Aktiviere den Rage-Modus in TRUCKER ROIDRAGE.'},
+{id:'roid_finish',icon:'💪',name:'ROIDRAGE ÜBERLEBT',desc:'Schließe TRUCKER ROIDRAGE erfolgreich ab.'},
 
-{id:'wolfescape',icon:'🐺',name:'DEM WOLF ENTKOMMEN',desc:'Spiele ESCAPE FROM THE WOLF erfolgreich durch.'},
-{id:'escape_parts',icon:'🔧',name:'ALLES DABEI',desc:'Sammle alle benötigten Teile in ESCAPE FROM THE WOLF.'},
+{id:'escape_puzzle',icon:'🔦',name:'RÄTSELKNACKER',desc:'Löse dein erstes Gebäuderätsel in ESCAPE FROM THE WOLF.'},
+{id:'escape_parts',icon:'🔧',name:'MECHANIKER',desc:'Sammle alle fünf benötigten Fahrzeugteile in ESCAPE FROM THE WOLF.'},
+{id:'escape_finish',icon:'🌲',name:'DEM WOLF ENTKOMMEN',desc:'Schließe ESCAPE FROM THE WOLF erfolgreich ab.'},
 
-{id:'ersteRunde',icon:'🥊',name:'ERSTER SIEG',desc:'Gewinne deinen ersten Kampf im FIGHTING CLUB.'},
-{id:'fridolinbesiegt',icon:'🐍',name:'SCHLANGENBÄNDIGER',desc:'Besiege Fridolin im FIGHTING CLUB.'},
-{id:'ghettobesiegt',icon:'💦',name:'SHERIFF GESTÜRZT',desc:'Besiege GHETTOQUEENZ im FIGHTING CLUB.'},
-{id:'matobesiegt',icon:'🤠',name:'FARM-FIGHTER',desc:'Besiege Mato McLovin im FIGHTING CLUB.'},
-{id:'vikobesiegt',icon:'🐃',name:'EL VIKO BEZWUNGEN',desc:'Besiege EL VIKO im FIGHTING CLUB.'},
-{id:'wolfjaeger',icon:'🌕',name:'WOLFJÄGER',desc:'Besiege den Wolf endgültig im FIGHTING CLUB.'},
-{id:'truckershonor',icon:'🏆',name:'TRUCKERS HONOR',desc:'Spiele FIGHTING CLUB – TRUCKERS HONOR vollständig durch.'},
-
-{id:'weltenbummler',icon:'🗺️',name:'MATOSVILLE-WELTENBUMMLER',desc:'Starte mindestens 5 verschiedene Spiele der Sammlung.'}
+{id:'fight_first',icon:'🥊',name:'ERSTER KAMPFSIEG',desc:'Besiege deinen ersten Gegner in FIGHTING CLUB – TRUCKERS HONOR.'},
+{id:'wolfjaeger',icon:'🐺',name:'WOLFJÄGER',desc:'Besiege den Wolf endgültig im FIGHTING CLUB.'},
+{id:'truckershonor',icon:'🏆',name:'TRUCKERS HONOR',desc:'Erreiche das Champion-Ende von FIGHTING CLUB – TRUCKERS HONOR.'}
 ];
-const secretBadges=[
-{id:'secret_bierdurst',icon:'🍺',name:'NUR NOCH EINS…',desc:'Du hast etwas getan, das Lönhard sehr gefallen würde.'},
-{id:'secret_pechvogel',icon:'🍀',name:'PECHVOGEL',desc:'Manchmal läuft wirklich alles schief.'},
-{id:'secret_bueffel',icon:'🐃',name:'BÜFFELFLÜSTERER',desc:'Ein Wasserbüffel hat dich offenbar akzeptiert.'},
-{id:'secret_snake',icon:'🐍',name:'FRIDOLINS FREUND',desc:'Du hast ein ungewöhnliches Schlangen-Geheimnis entdeckt.'},
-{id:'secret_wolf',icon:'🌕',name:'HEUL DOCH!',desc:'Du hast dem Wolf einen ganz besonderen Moment beschert.'},
-{id:'secret_perfect',icon:'✨',name:'PERFEKT!',desc:'Eine makellose Leistung, die nicht jeder schafft.'},
-{id:'secret_speed',icon:'⚡',name:'WAS ZUM…?!',desc:'Das ging absurd schnell.'},
-{id:'secret_chaos',icon:'🎲',name:'CHAOS GEFUNDEN',desc:'Du bist über etwas gestolpert, das du eigentlich nicht finden solltest.'},
-{id:'secret_lul',icon:'🚬',name:'ECHTER LÖNHARD',desc:'Du hast dich verdächtig authentisch verhalten.'},
-{id:'secret_matosville',icon:'🏆',name:'LEGEND OF MATOSVILLE',desc:'Ein extrem seltenes Ereignis hat dich zur Legende gemacht.'}
-];
+const secretBadges=[];
 function load(){try{return JSON.parse(localStorage.getItem(KEY))||{badges:{},stats:{}}}catch(e){return{badges:{},stats:{}}}}
 function save(x){localStorage.setItem(KEY,JSON.stringify(x))}
 function unlock(id){const x=load();x.badges=x.badges||{};x.badges[id]=true;save(x);render()}
