@@ -13,6 +13,9 @@
 .badge-icon{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;font-size:60px;background:#281a2d;border:5px solid #74517e;filter:grayscale(1);opacity:.35}
 .badge-card.unlocked{border-color:#d49b3e}.badge-card.unlocked .badge-icon{filter:none;opacity:1;background:#4a263e;border-color:#ffd15a;box-shadow:0 0 28px #d49b3e66}
 .badge-card h2{margin:14px 0 7px}.badge-card p{margin:0;color:#d7cbbb;line-height:1.4}.badge-state{margin-top:14px;font-weight:900;color:#8f8580}.unlocked .badge-state{color:#ffd15a}
+.badge-card.secret{border-color:#7c4cff;background:radial-gradient(circle at 50% 20%,#34204d,#120d18 68%);box-shadow:0 14px 35px #0008,0 0 28px #7c4cff55}
+.badge-card.secret .badge-icon{filter:none;opacity:1;border-color:#c28cff;background:#29163e;box-shadow:0 0 30px #9b5cff88}
+.badge-card.secret .badge-state{color:#d7b8ff}.secret-head{text-align:center;margin:48px 0 20px;color:#d7b8ff;font-size:clamp(28px,4vw,44px)}
 .album-note{text-align:center;color:#b9abbc;margin-top:28px}.testbox{max-width:760px;margin:32px auto 0;padding:18px;border:2px dashed #76577f;border-radius:14px;text-align:center}
 .testbox button{margin:6px;padding:10px 14px;border:0;border-radius:8px;font-weight:900;cursor:pointer}.reset{background:#522;color:#fff}
 </style>
@@ -22,6 +25,7 @@
 <main class="album-page"><section class="album-hero"><p class="eyebrow">MATOS AUTISMUS SHOW</p><h1>🏆 SAMMELALBUM</h1><p>Spiele, knacke Rekorde und schalte Abzeichen aus der Welt von Trucker Lönhard frei.</p>
 <div class="album-progress"><div class="album-bar"><div id="progress"></div></div><div class="album-count" id="count"></div></div></section>
 <section class="badge-grid" id="grid"></section>
+<div id="secretArea" style="display:none"><h2 class="secret-head">✦ GEHEIME ABZEICHEN ✦</h2><section class="badge-grid" id="secretGrid"></section></div>
 <p class="album-note">Der Fortschritt wird auf diesem Gerät in deinem Browser gespeichert.</p>
 <section class="testbox"><b>TESTMODUS</b><br><span>Damit wir das System ausprobieren können, lassen sich die ersten Abzeichen hier testweise freischalten.</span><br>
 <button onclick="unlock('bierkoenig')">🍺 Bierkönig testen</button><button onclick="unlock('bueffelreiter')">🐃 Büffelreiter testen</button><button onclick="unlock('scharfschuetze')">🎯 Scharfschütze testen</button><button class="reset" onclick="resetBadges()">Test-Fortschritt löschen</button></section>
@@ -30,17 +34,70 @@
 const KEY='truckerLoehnhardProgressV1';
 const badges=[
 {id:'bierkoenig',icon:'🍺',name:'BIERKÖNIG',desc:'Sammle insgesamt 100 Bierdosen in TRUCKER RUN.'},
-{id:'bueffelreiter',icon:'🐃',name:'BÜFFELREITER',desc:'Gewinne mindestens ein Wasserbüffelrennen auf der Matosville-Kirwa.'},
+{id:'bierlegende',icon:'🍻',name:'BIERLEGENDE',desc:'Sammle insgesamt 500 Bierdosen in TRUCKER RUN.'},
+{id:'roadrunner',icon:'🚛',name:'ROAD RUNNER',desc:'Lege in TRUCKER RUN eine besonders lange Strecke zurück.'},
+{id:'unfallfrei',icon:'🛣️',name:'UNFALLFREI',desc:'Erreiche in TRUCKER RUN einen Abschnitt ohne Zusammenstoß.'},
+{id:'highwayheld',icon:'🏁',name:'HIGHWAY-HELD',desc:'Erreiche einen hohen TRUCKER-RUN-Score.'},
+{id:'bueffelreiter',icon:'🐃',name:'BÜFFELREITER',desc:'Gewinne ein Wasserbüffelrennen auf der Matosville-Kirwa.'},
+{id:'bueffelchamp',icon:'🏇',name:'BÜFFEL-CHAMPION',desc:'Gewinne mehrere Wasserbüffelrennen.'},
 {id:'scharfschuetze',icon:'🎯',name:'SCHARFSCHÜTZE',desc:'Erreiche mindestens 100 Punkte am Schießstand.'},
+{id:'kirmeskoenig',icon:'🎡',name:'KIRWA-KÖNIG',desc:'Meistere alle Hauptattraktionen auf der Matosville-Kirwa.'},
+{id:'kirwastammgast',icon:'🎪',name:'KIRWA-STAMMGAST',desc:'Spiele KIRWASPASS IN MATOSVILLE mehrfach.'},
+{id:'puzzlemeister',icon:'🧩',name:'PUZZLEMEISTER',desc:'Schließe ein Puzzle in PUZZLEMANIA ab.'},
+{id:'puzzleprofi',icon:'🧠',name:'PUZZLE-PROFI',desc:'Schließe mehrere verschiedene Puzzle ab.'},
+{id:'puzzlesprinter',icon:'⏱️',name:'PUZZLE-SPRINTER',desc:'Löse ein Puzzle besonders schnell.'},
+{id:'puzzlemarathon',icon:'🧩',name:'PUZZLE-MARATHON',desc:'Schließe ein großes Puzzle erfolgreich ab.'},
+{id:'quizstarter',icon:'❓',name:'QUIZ-STARTER',desc:'Beende das CHARAKTER QUIZ einmal.'},
+{id:'charakterkenner',icon:'📚',name:'CHARAKTER-KENNER',desc:'Erreiche einen starken Score im CHARAKTER QUIZ.'},
+{id:'alleswisser',icon:'🧠',name:'ALLESWISSER',desc:'Beantworte alle Fragen einer Quizrunde richtig.'},
+{id:'mayhemrookie',icon:'💥',name:'MAYHEM-ROOKIE',desc:'Überstehe deine erste Runde MATOSVILLE MAYHEM.'},
+{id:'mayhemheld',icon:'🔥',name:'MAYHEM-HELD',desc:'Überstehe mehrere Gegnerwellen in MATOSVILLE MAYHEM.'},
+{id:'mayhemlegende',icon:'👑',name:'MAYHEM-LEGENDE',desc:'Erreiche einen außergewöhnlich hohen Mayhem-Score.'},
+{id:'zocker',icon:'🎰',name:'ZOCKER',desc:'Gewinne erstmals bei GAMBLING ON THE ROAD.'},
+{id:'jackpot',icon:'💰',name:'JACKPOT!',desc:'Triff einen Jackpot bei GAMBLING ON THE ROAD.'},
+{id:'muenzenkoenig',icon:'🪙',name:'MÜNZENKÖNIG',desc:'Erreiche einen großen Münzbestand.'},
+{id:'horrortrip',icon:'👻',name:'HORRORTRIP ÜBERLEBT',desc:'Beende MATOSVILLE HORROTRIP.'},
+{id:'nervenstark',icon:'😱',name:'NERVENSTARK',desc:'Erreiche einen wichtigen Abschnitt im HORROTRIP.'},
+{id:'roidrage',icon:'💪',name:'ROID RAGE',desc:'Beende eine Runde TRUCKER ROIDRAGE.'},
+{id:'zerstoerer',icon:'🔨',name:'DER ZERSTÖRER',desc:'Erreiche einen hohen Score in TRUCKER ROIDRAGE.'},
+{id:'wolfescape',icon:'🌲',name:'WOLF-ESCAPE',desc:'Entkomme dem Wolf in ESCAPE FROM THE WOLF.'},
+{id:'fluchtprofi',icon:'🏃',name:'FLUCHTPROFI',desc:'Schaffe eine besonders starke Flucht.'},
 {id:'truckershonor',icon:'🥊',name:'TRUCKERS HONOR',desc:'Spiele FIGHTING CLUB – TRUCKERS HONOR vollständig durch.'},
+{id:'ersteRunde',icon:'🥊',name:'ERSTER SIEG',desc:'Gewinne deinen ersten Kampf im FIGHTING CLUB.'},
+{id:'fridolinbesiegt',icon:'🐍',name:'SCHLANGENBÄNDIGER',desc:'Besiege Fridolin im FIGHTING CLUB.'},
+{id:'ghettobesiegt',icon:'💦',name:'SHERIFF GESTÜRZT',desc:'Besiege GHETTOQUEENZ im FIGHTING CLUB.'},
+{id:'matobesiegt',icon:'🤠',name:'FARM-FIGHTER',desc:'Besiege Mato im FIGHTING CLUB.'},
+{id:'vikobesiegt',icon:'🐃',name:'EL VIKO BEZWUNGEN',desc:'Besiege EL VIKO im FIGHTING CLUB.'},
 {id:'wolfjaeger',icon:'🐺',name:'WOLFJÄGER',desc:'Besiege den Wolf im FIGHTING CLUB.'},
-{id:'puzzlemeister',icon:'🧩',name:'PUZZLEMEISTER',desc:'Schließe ein Puzzle in PUZZLEMANIA ab.'}
+{id:'specialist',icon:'⚡',name:'SPECIALIST',desc:'Setze im FIGHTING CLUB mehrere Spezialattacken ein.'},
+{id:'comeback',icon:'❤️‍🔥',name:'COMEBACK-KID',desc:'Gewinne einen besonders knappen Kampf.'},
+{id:'weltenbummler',icon:'🗺️',name:'MATOSVILLE-WELTENBUMMLER',desc:'Spiele mindestens fünf verschiedene Spiele.'},
+{id:'arcadefan',icon:'🕹️',name:'ARCADE-FAN',desc:'Spiele alle veröffentlichten Hauptspiele mindestens einmal.'}
+];
+const secretBadges=[
+{id:'secret_bierdurst',icon:'🍺',name:'NUR NOCH EINS…',desc:'Du hast etwas getan, das Lönhard sehr gefallen würde.'},
+{id:'secret_pechvogel',icon:'🍀',name:'PECHVOGEL',desc:'Manchmal läuft wirklich alles schief.'},
+{id:'secret_bueffel',icon:'🐃',name:'BÜFFELFLÜSTERER',desc:'Ein Wasserbüffel hat dich offenbar akzeptiert.'},
+{id:'secret_snake',icon:'🐍',name:'FRIDOLINS FREUND',desc:'Du hast ein ungewöhnliches Schlangen-Geheimnis entdeckt.'},
+{id:'secret_wolf',icon:'🌕',name:'HEUL DOCH!',desc:'Du hast dem Wolf einen ganz besonderen Moment beschert.'},
+{id:'secret_perfect',icon:'✨',name:'PERFEKT!',desc:'Eine makellose Leistung, die nicht jeder schafft.'},
+{id:'secret_speed',icon:'⚡',name:'WAS ZUM…?!',desc:'Das ging absurd schnell.'},
+{id:'secret_chaos',icon:'🎲',name:'CHAOS GEFUNDEN',desc:'Du bist über etwas gestolpert, das du eigentlich nicht finden solltest.'},
+{id:'secret_lul',icon:'🚬',name:'ECHTER LÖNHARD',desc:'Du hast dich verdächtig authentisch verhalten.'},
+{id:'secret_matosville',icon:'🏆',name:'LEGEND OF MATOSVILLE',desc:'Ein extrem seltenes Ereignis hat dich zur Legende gemacht.'}
 ];
 function load(){try{return JSON.parse(localStorage.getItem(KEY))||{badges:{},stats:{}}}catch(e){return{badges:{},stats:{}}}}
 function save(x){localStorage.setItem(KEY,JSON.stringify(x))}
 function unlock(id){const x=load();x.badges=x.badges||{};x.badges[id]=true;save(x);render()}
 function resetBadges(){if(confirm('Test-Fortschritt wirklich löschen?')){localStorage.removeItem(KEY);render()}}
-function render(){const x=load(),u=badges.filter(b=>x.badges&&x.badges[b.id]).length;document.getElementById('count').textContent=u+' / '+badges.length+' ABZEICHEN FREIGESCHALTET';document.getElementById('progress').style.width=(u/badges.length*100)+'%';
-document.getElementById('grid').innerHTML=badges.map(b=>{const on=x.badges&&x.badges[b.id];return '<article class="badge-card '+(on?'unlocked':'')+'"><div class="badge-icon">'+(on?b.icon:'?')+'</div><h2>'+(on?b.name:'???')+'</h2><p>'+b.desc+'</p><div class="badge-state">'+(on?'✓ FREIGESCHALTET':'🔒 GESPERRT')+'</div></article>'}).join('')}
+function render(){
+ const x=load(),u=badges.filter(b=>x.badges&&x.badges[b.id]).length;
+ document.getElementById('count').textContent=u+' / '+badges.length+' NORMALE ABZEICHEN FREIGESCHALTET';
+ document.getElementById('progress').style.width=(u/badges.length*100)+'%';
+ document.getElementById('grid').innerHTML=badges.map(b=>{const on=x.badges&&x.badges[b.id];return '<article class="badge-card '+(on?'unlocked':'')+'"><div class="badge-icon">'+(on?b.icon:'?')+'</div><h2>'+(on?b.name:'???')+'</h2><p>'+b.desc+'</p><div class="badge-state">'+(on?'✓ FREIGESCHALTET':'🔒 GESPERRT')+'</div></article>'}).join('');
+ const found=secretBadges.filter(b=>x.badges&&x.badges[b.id]);
+ const area=document.getElementById('secretArea');area.style.display=found.length?'block':'none';
+ document.getElementById('secretGrid').innerHTML=found.map(b=>'<article class="badge-card unlocked secret"><div class="badge-icon">'+b.icon+'</div><h2>'+b.name+'</h2><p>'+b.desc+'</p><div class="badge-state">✦ GEHEIMES ABZEICHEN ✦</div></article>').join('');
+}
 render();
 </script></body></html>
