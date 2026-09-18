@@ -28,6 +28,8 @@
 .price{font-weight:900;font-size:19px;color:#f0c1ff}.price span{font-size:12px;color:#9f8ba5}
 .buy{margin-top:12px;width:100%;padding:11px;border:1px solid #713486;border-radius:10px;background:#26102d;color:#fff;font-weight:900;cursor:pointer}.buy:hover{background:#8b24ad}
 .shop-toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,30px);opacity:0;pointer-events:none;padding:13px 18px;border-radius:12px;background:#e9b9ff;color:#16071b;font-weight:900;transition:.25s;z-index:100}.shop-toast.show{opacity:1;transform:translate(-50%,0)}
+
+.checkout-overlay{position:fixed;inset:0;background:#050207ee;z-index:200;display:none;align-items:center;justify-content:center;padding:20px}.checkout-overlay.open{display:flex}.checkout-panel{width:min(760px,100%);max-height:88vh;overflow:auto;border:1px solid #6e3380;border-radius:22px;background:#130a17;padding:28px;box-shadow:0 25px 90px #000}.checkout-panel h2{font-size:clamp(28px,5vw,44px);margin:0 0 8px}.checkout-panel>p{color:#baaabd}.cart-row{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid #39203f}.cart-row button{border:0;background:#301338;color:#fff;border-radius:8px;cursor:pointer}.checkout-total{display:flex;justify-content:space-between;font-size:21px;font-weight:900;padding:20px 0;color:#efc1ff}.checkout-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.checkout-actions button{padding:12px 17px;border-radius:11px;border:1px solid #713486;background:#25102c;color:#fff;font-weight:900;cursor:pointer}.checkout-actions .primary{background:#8b24ad}.choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:20px 0}.choice{padding:15px;border:1px solid #55305e;border-radius:13px;background:#0d080f;cursor:pointer}.choice.selected{border-color:#dc78ff;background:#2a1032}.choice input{margin-right:8px}.finish{text-align:center;padding:25px 0}.finish .big{font-size:60px}.finish h2{color:#e18aff}.empty-cart{color:#a994ae;text-align:center;padding:30px}
 @media(max-width:700px){.shop-page{padding:95px 14px 60px}.shop-bar{align-items:flex-start}.shop-grid{grid-template-columns:1fr 1fr}.product{min-height:280px;padding:16px}.product-icon{font-size:46px}.product h2{font-size:17px}}
 @media(max-width:460px){.shop-grid{grid-template-columns:1fr}}
 </style>
@@ -44,7 +46,7 @@
 <p>Merch, Sammlerstücke und völlig unnötiger Kram direkt aus Matosville. Alles hier gehört zum fiktiven Universum von MatosAutismusShow.</p>
 <div class="shop-warning">⚠ FIKTIVER SHOP · KEIN ECHTES GELD · KEINE ECHTEN BESTELLUNGEN</div>
 </section>
-<div class="shop-bar"><div class="shop-currency">DEIN KONTO: <b id="coins">6.969</b> 🪙 <span>ALPHA KRÖTEN</span></div><button class="cart" id="cart">🛒 WARENKORB (0)</button></div>
+<div class="shop-bar"><div class="shop-currency">DEIN KONTO: <b id="coins">1.000.000</b> 🐢 <span>ALPHA KRÖTEN</span></div><button class="cart" id="cart">🛒 WARENKORB (0)</button></div>
 <div class="categories" id="categories">
 <button class="cat active" data-cat="all">ALLE</button>
 <button class="cat" data-cat="kleidung">KLAMOTTEN</button>
@@ -73,17 +75,70 @@
 <article class="product" data-cat="karten"><div class="product-icon">🃏</div><small>SAMMELKARTEN</small><h2>MATOSVILLE CARD PACK</h2><p>Fünf zufällige Karten. Vielleicht EL VIKO. Vielleicht fünfmal Wolf. Pech gehabt.</p><div class="price">169 🪙 <span>ALPHA KRÖTEN</span></div><button class="buy">IN DEN WARENKORB</button></article>
 </section>
 </main>
+
+<div class="checkout-overlay" id="checkoutOverlay"><div class="checkout-panel" id="checkoutPanel"></div></div>
 <div class="shop-toast" id="toast">Zum fiktiven Warenkorb hinzugefügt.</div>
 <script>
-let cart=0;
+const START_BALANCE=1000000;
+let balance=Number(localStorage.getItem('matosAlphaKroetenBalance'));
+if(!Number.isFinite(balance)) balance=START_BALANCE;
+let basket=[];
+const fmt=n=>n.toLocaleString('de-DE');
+const coins=document.getElementById('coins');
+const cartBtn=document.getElementById('cart');
+const overlay=document.getElementById('checkoutOverlay');
+const panel=document.getElementById('checkoutPanel');
+function saveBalance(){localStorage.setItem('matosAlphaKroetenBalance',String(balance));coins.textContent=fmt(balance)}
+saveBalance();
+function updateCart(){cartBtn.textContent='🛒 WARENKORB ('+basket.length+')'}
 document.querySelectorAll('.cat').forEach(btn=>btn.onclick=()=>{
  document.querySelectorAll('.cat').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
  const cat=btn.dataset.cat;document.querySelectorAll('.product').forEach(p=>p.style.display=(cat==='all'||p.dataset.cat===cat)?'flex':'none');
 });
-document.querySelectorAll('.buy').forEach(btn=>btn.onclick=()=>{
- cart++;document.getElementById('cart').textContent='🛒 WARENKORB ('+cart+')';
- const t=document.getElementById('toast');t.classList.add('show');clearTimeout(window.shopToast);window.shopToast=setTimeout(()=>t.classList.remove('show'),1600);
+document.querySelectorAll('.product').forEach(product=>{
+ const btn=product.querySelector('.buy');
+ btn.onclick=()=>{
+  const name=product.querySelector('h2').textContent;
+  const price=parseInt(product.querySelector('.price').textContent.replace(/\D/g,''),10);
+  basket.push({name,price});updateCart();
+  const t=document.getElementById('toast');t.classList.add('show');clearTimeout(window.shopToast);window.shopToast=setTimeout(()=>t.classList.remove('show'),1600);
+ };
 });
+function total(){return basket.reduce((s,x)=>s+x.price,0)}
+function closeCheckout(){overlay.classList.remove('open')}
+function shopButton(){return '<button onclick="closeCheckout()">← ZURÜCK ZUM SHOP / WEITER SHOPPEN</button>'}
+function renderCart(){
+ panel.innerHTML='<h2>🛒 DEIN WARENKORB</h2><p>Kontostand: <b>'+fmt(balance)+' 🐢 Alpha Kröten</b></p>'+
+ (basket.length?basket.map((x,i)=>'<div class="cart-row"><span>'+x.name+'</span><b>'+fmt(x.price)+' 🐢 <button onclick="removeItem('+i+')">✕</button></b></div>').join(''):'<div class="empty-cart">Dein Warenkorb ist leer.</div>')+
+ '<div class="checkout-total"><span>GESAMTPREIS</span><span>'+fmt(total())+' 🐢</span></div>'+
+ '<div class="checkout-actions">'+shopButton()+(basket.length?'<button class="primary" onclick="renderPayment()">WEITER →</button>':'')+'</div>';
+}
+function removeItem(i){basket.splice(i,1);updateCart();renderCart()}
+function renderPayment(){
+ panel.innerHTML='<h2>ZAHLUNGSART</h2><p>Womit möchtest du deine '+fmt(total())+' Alpha Kröten bezahlen?</p><div class="choice-grid" id="payChoices">'+
+ ['💵 Bargeld','💳 MATOVILLE BANK Kreditkarte','🅿️ PLAY PAL','🧾 Kauf auf Rechnung','📆 Ratenkauf'].map((x,i)=>'<label class="choice"><input type="radio" name="pay" value="'+x+'" '+(i===0?'checked':'')+'>'+x+'</label>').join('')+
+ '</div><div class="checkout-actions">'+shopButton()+'<button onclick="renderCart()">← ZURÜCK</button><button class="primary" onclick="renderAddress()">WEITER →</button></div>';
+ document.querySelectorAll('.choice').forEach(x=>x.onclick=()=>{document.querySelectorAll('.choice').forEach(y=>y.classList.remove('selected'));x.classList.add('selected')});document.querySelector('.choice').classList.add('selected');
+}
+const addresses=[
+ 'Route 69, Rastplatz 420, 6969 Matosville',
+ 'Wasserbüffelfarm EL VIKO, Weide 7, 6969 Matosville',
+ 'Sheriffbüro Ghettoqueens, Wasserpistolenweg 1, 6969 Matosville',
+ 'Fridolins Süßigkeitenbunker, Buschstraße 33, 6969 Matosville',
+ 'Mato McLovin Ranch, Krötenallee 0815, 6969 Matosville'
+];
+function renderAddress(){
+ panel.innerHTML='<h2>LIEFERADRESSE</h2><p>Wähle einen garantiert existierenden Ort in Matosville.</p><div class="choice-grid">'+addresses.map((x,i)=>'<label class="choice '+(i===0?'selected':'')+'"><input type="radio" name="addr" '+(i===0?'checked':'')+'>'+x+'</label>').join('')+'</div><div class="checkout-total"><span>ZU ZAHLEN</span><span>'+fmt(total())+' 🐢</span></div><div class="checkout-actions">'+shopButton()+'<button onclick="renderPayment()">← ZURÜCK</button><button class="primary" onclick="purchase()">JETZT KAUFEN</button></div>';
+ document.querySelectorAll('.choice').forEach(x=>x.onclick=()=>{document.querySelectorAll('.choice').forEach(y=>y.classList.remove('selected'));x.classList.add('selected')});
+}
+function purchase(){
+ const sum=total();
+ if(sum>balance){panel.innerHTML='<div class="finish"><div class="big">💸</div><h2>ZU WENIG ALPHA KRÖTEN</h2><p>Selbst die MATOVILLE BANK lehnt diesen finanziellen Totalschaden ab.</p><div class="checkout-actions" style="justify-content:center">'+shopButton()+'<button onclick="renderCart()">ZURÜCK ZUM WARENKORB</button></div></div>';return}
+ balance-=sum;saveBalance();basket=[];updateCart();
+ panel.innerHTML='<div class="finish"><div class="big">🐢📦</div><h2>DANKE FÜR IHREN EINKAUF!</h2><p>Die Lieferzeit beträgt ungefähr <b>33 Jahre</b> und kommt vielleicht gar nicht an.</p><p>Neuer Kontostand: <b>'+fmt(balance)+' Alpha Kröten</b></p><div class="checkout-actions" style="justify-content:center"><button class="primary" onclick="closeCheckout()">ZURÜCK ZUM SHOP</button><button onclick="closeCheckout()">BEENDEN</button></div></div>';
+}
+cartBtn.onclick=()=>{overlay.classList.add('open');renderCart()};
+overlay.onclick=e=>{if(e.target===overlay)closeCheckout()};
 </script>
 </body>
 </html>
