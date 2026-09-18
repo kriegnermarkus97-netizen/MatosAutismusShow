@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#120016"><title>Sammelalbum – Trucker Lönhard</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.album-page{max-width:1180px;margin:auto;padding:42px 22px 80px}.album-hero{text-align:center;margin-bottom:28px}
+.album-hero h1{font-size:clamp(46px,8vw,92px);margin:4px 0}.album-progress{max-width:680px;margin:20px auto;background:#170d1d;border:3px solid #7b3f91;border-radius:18px;padding:18px}
+.album-bar{height:18px;background:#09060b;border-radius:20px;overflow:hidden}.album-bar>div{height:100%;background:linear-gradient(90deg,#8d38aa,#efb83e);width:0;transition:.5s}
+.album-count{font-weight:900;margin-top:10px}.badge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.badge-card{background:#17110d;border:4px solid #4d3a2b;border-radius:18px;padding:24px;text-align:center;min-height:285px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 14px 35px #0008}
+.badge-icon{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;font-size:60px;background:#281a2d;border:5px solid #74517e;filter:grayscale(1);opacity:.35}
+.badge-card.unlocked{border-color:#d49b3e}.badge-card.unlocked .badge-icon{filter:none;opacity:1;background:#4a263e;border-color:#ffd15a;box-shadow:0 0 28px #d49b3e66}
+.badge-card h2{margin:14px 0 7px}.badge-card p{margin:0;color:#d7cbbb;line-height:1.4}.badge-state{margin-top:14px;font-weight:900;color:#8f8580}.unlocked .badge-state{color:#ffd15a}
+.album-note{text-align:center;color:#b9abbc;margin-top:28px}.testbox{max-width:760px;margin:32px auto 0;padding:18px;border:2px dashed #76577f;border-radius:14px;text-align:center}
+.testbox button{margin:6px;padding:10px 14px;border:0;border-radius:8px;font-weight:900;cursor:pointer}.reset{background:#522;color:#fff}
+</style>
+</head><body>
+<header class="topbar"><a class="brand" href="index.html"><span class="brand-small">TRUCKER</span><span class="brand-script">Lönhard</span></a>
+<nav><a href="index.html">HOME</a><a href="comics.html">COMICS</a><a href="info.html">FIGUREN</a><a href="games.html">GAMES</a><a class="active" href="sammelalbum.html">SAMMELALBUM</a><a href="bonus.html">BONUS</a></nav></header>
+<main class="album-page"><section class="album-hero"><p class="eyebrow">MATOS AUTISMUS SHOW</p><h1>🏆 SAMMELALBUM</h1><p>Spiele, knacke Rekorde und schalte Abzeichen aus der Welt von Trucker Lönhard frei.</p>
+<div class="album-progress"><div class="album-bar"><div id="progress"></div></div><div class="album-count" id="count"></div></div></section>
+<section class="badge-grid" id="grid"></section>
+<p class="album-note">Der Fortschritt wird auf diesem Gerät in deinem Browser gespeichert.</p>
+<section class="testbox"><b>TESTMODUS</b><br><span>Damit wir das System ausprobieren können, lassen sich die ersten Abzeichen hier testweise freischalten.</span><br>
+<button onclick="unlock('bierkoenig')">🍺 Bierkönig testen</button><button onclick="unlock('bueffelreiter')">🐃 Büffelreiter testen</button><button onclick="unlock('scharfschuetze')">🎯 Scharfschütze testen</button><button class="reset" onclick="resetBadges()">Test-Fortschritt löschen</button></section>
+</main>
+<script>
+const KEY='truckerLoehnhardProgressV1';
+const badges=[
+{id:'bierkoenig',icon:'🍺',name:'BIERKÖNIG',desc:'Sammle insgesamt 100 Bierdosen in TRUCKER RUN.'},
+{id:'bueffelreiter',icon:'🐃',name:'BÜFFELREITER',desc:'Gewinne mindestens ein Wasserbüffelrennen auf der Matosville-Kirwa.'},
+{id:'scharfschuetze',icon:'🎯',name:'SCHARFSCHÜTZE',desc:'Erreiche mindestens 100 Punkte am Schießstand.'},
+{id:'truckershonor',icon:'🥊',name:'TRUCKERS HONOR',desc:'Spiele FIGHTING CLUB – TRUCKERS HONOR vollständig durch.'},
+{id:'wolfjaeger',icon:'🐺',name:'WOLFJÄGER',desc:'Besiege den Wolf im FIGHTING CLUB.'},
+{id:'puzzlemeister',icon:'🧩',name:'PUZZLEMEISTER',desc:'Schließe ein Puzzle in PUZZLEMANIA ab.'}
+];
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{badges:{},stats:{}}}catch(e){return{badges:{},stats:{}}}}
+function save(x){localStorage.setItem(KEY,JSON.stringify(x))}
+function unlock(id){const x=load();x.badges=x.badges||{};x.badges[id]=true;save(x);render()}
+function resetBadges(){if(confirm('Test-Fortschritt wirklich löschen?')){localStorage.removeItem(KEY);render()}}
+function render(){const x=load(),u=badges.filter(b=>x.badges&&x.badges[b.id]).length;document.getElementById('count').textContent=u+' / '+badges.length+' ABZEICHEN FREIGESCHALTET';document.getElementById('progress').style.width=(u/badges.length*100)+'%';
+document.getElementById('grid').innerHTML=badges.map(b=>{const on=x.badges&&x.badges[b.id];return '<article class="badge-card '+(on?'unlocked':'')+'"><div class="badge-icon">'+(on?b.icon:'?')+'</div><h2>'+(on?b.name:'???')+'</h2><p>'+b.desc+'</p><div class="badge-state">'+(on?'✓ FREIGESCHALTET':'🔒 GESPERRT')+'</div></article>'}).join('')}
+render();
+</script></body></html>
