@@ -2323,6 +2323,6 @@
 .matos-news-window{position:relative;overflow:hidden;flex:1;display:flex;align-items:center}
 .matos-news-track{display:inline-block;white-space:nowrap;font-size:12px;color:#fff;will-change:transform}
 .matos-news:hover .matos-news-track{animation-play-state:paused}
-.matos-news-track.news-run{animation:matosTicker var(--news-duration,18s) linear 1}
+.matos-news-track.news-run{animation:matosTicker var(--news-duration,180s) linear infinite}
 @keyframes matosTicker{from{transform:translateX(var(--news-start,500px))}to{transform:translateX(calc(-1 * var(--news-width,500px)))}}
 @media(max-width:1100px){.matos-news{display:none}}
