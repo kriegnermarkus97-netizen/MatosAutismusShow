@@ -523,6 +523,7 @@ function renderHunterTower(){
 function inspectHunterClue(i){
  if(forestSave.hunterPuzzle.clues[i])return;
  forestSave.hunterPuzzle.clues[i]=true;saveForestProgress();
+ if(['battery','belt','plugs','fuel','hose'].every(k=>forestSave.parts[k]))escapeAch('escape_parts');
  const b=document.getElementById('checkpointBanner');
  if(b){b.textContent='HINWEIS GEFUNDEN: '+HUNTER_CLUES[i].name;b.style.display='block';setTimeout(()=>b.style.display='none',1800);}
 }
@@ -725,9 +726,13 @@ function updatePartsHUD(){
   if(cel){cel.textContent=(done?'✓ ':'☐ ')+name;cel.classList.toggle('done',done);}
  }
 }
+const ACH_KEY='truckerLoehnhardProgressV1';
+const ESC_ACH={escape_puzzle:'🔦 RÄTSELKNACKER',escape_parts:'🔧 MECHANIKER',escape_finish:'🌲 DEM WOLF ENTKOMMEN'};
+function escapeAch(id){let x;try{x=JSON.parse(localStorage.getItem(ACH_KEY))||{badges:{},stats:{}}}catch(e){x={badges:{},stats:{}}}x.badges=x.badges||{};if(x.badges[id])return;x.badges[id]=true;localStorage.setItem(ACH_KEY,JSON.stringify(x));let t=document.getElementById('escapeAchToast');if(!t){t=document.createElement('div');t.id='escapeAchToast';t.style.cssText='position:fixed;left:50%;bottom:22px;transform:translate(-50%,140px);z-index:99999;background:#17110d;color:#fff;border:4px solid #ffd15a;border-radius:14px;padding:13px 22px;box-shadow:0 10px 35px #000b;text-align:center;opacity:0;transition:.4s;pointer-events:none;font:900 16px Arial';document.body.appendChild(t)}t.innerHTML='<b style="display:block;color:#ffd15a">🏆 ABZEICHEN FREIGESCHALTET!</b><span>'+ESC_ACH[id]+'</span>';requestAnimationFrame(()=>{t.style.transform='translate(-50%,0)';t.style.opacity=1});setTimeout(()=>{t.style.transform='translate(-50%,140px)';t.style.opacity=0},4200)}
 function collectCarPart(id,x){
  if(forestSave.parts[id])return;
  forestSave.parts[id]=true;
+ escapeAch('escape_puzzle');
  forestSave.checkpointX=x;
  saveForestProgress();
  const b=document.getElementById('checkpointBanner');
@@ -861,6 +866,7 @@ function beginTruckRepair(){
  if(rc)rc.classList.add('on');
 }
 function startEscapeScene(){
+ escapeAch('escape_finish');
  truckRepairDone=true;win=true;
  wolf.active=false;wolf.visible=false;
  const scene=document.getElementById('escapeScene');
