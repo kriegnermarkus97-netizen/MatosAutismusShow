@@ -95,9 +95,9 @@
    return items;
  }
  const items=shuffleNews();
- track.textContent=items.map(msg=>'+++ '+msg+' +++').join('     ');
+ track.textContent=items.map(msg=>'+++ '+msg+' +++').join('   •   ');
  requestAnimationFrame(()=>{
-   const start=track.parentElement ? track.parentElement.clientWidth : 500;
+   const start=8;
    const width=track.scrollWidth;
    track.style.setProperty('--news-start',start+'px');
    track.style.setProperty('--news-width',width+'px');
