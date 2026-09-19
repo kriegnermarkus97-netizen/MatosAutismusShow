@@ -59,6 +59,10 @@
 
 /* Matosville character beer sets */
 .beer-product{min-height:570px}.beer-packshot{height:345px;margin:-8px -8px 18px;border-radius:14px;background:#1a0d09;overflow:hidden;box-shadow:inset 0 0 0 1px #d7a66a55,0 10px 28px #0009}.beer-packshot canvas{width:100%;height:100%;display:block}.beer-product small{color:#d6a4ff}.beer-product .price{margin-top:auto}@media(max-width:700px){.beer-product{min-height:510px}.beer-packshot{height:295px}}
+
+/* Click-to-enlarge product preview */
+.merch-img,.figure-packshot,.comic-cover,.mug-packshot,.beer-packshot,.game-cover{cursor:zoom-in}
+.product-lightbox{position:fixed;inset:0;z-index:99999;background:#050108eF;display:none;align-items:center;justify-content:center;padding:28px;backdrop-filter:blur(8px)}.product-lightbox.open{display:flex}.product-lightbox-inner{position:relative;max-width:min(1100px,94vw);max-height:92vh;background:#17091f;border:2px solid #9b32e8;border-radius:20px;padding:18px;box-shadow:0 0 60px #000}.product-lightbox canvas,.product-lightbox img{display:block;max-width:88vw;max-height:82vh;width:auto;height:auto;object-fit:contain;border-radius:12px}.product-lightbox-close{position:absolute;right:-14px;top:-14px;width:44px;height:44px;border:0;border-radius:50%;background:#8d20dc;color:white;font-size:27px;font-weight:900;cursor:pointer;box-shadow:0 5px 20px #000}
 </style>
 <style>
 html,body.matos-wood-page{background:#2b160b url("matosville-holz-bg.png") center top/cover fixed no-repeat!important}
@@ -375,6 +379,32 @@ function purchase(){
 }
 cartBtn.onclick=()=>{overlay.classList.add('open');renderCart()};
 overlay.onclick=e=>{if(e.target===overlay)closeCheckout()};
+
+// Large product preview: click any product image/canvas.
+const productLightbox=document.getElementById('productLightbox');
+const productLightboxMedia=document.getElementById('productLightboxMedia');
+function openProductPreview(source){
+ productLightboxMedia.innerHTML='';
+ let preview;
+ if(source.tagName==='CANVAS'){
+  preview=document.createElement('img');preview.src=source.toDataURL('image/png');preview.alt='Produktvorschau';
+ }else if(source.tagName==='IMG'){
+  preview=source.cloneNode(true);preview.removeAttribute('style');
+ }else{
+  const media=source.querySelector('canvas,img');if(!media)return;return openProductPreview(media);
+ }
+ productLightboxMedia.appendChild(preview);productLightbox.classList.add('open');productLightbox.setAttribute('aria-hidden','false');
+}
+document.addEventListener('click',e=>{
+ const area=e.target.closest('.merch-img,.figure-packshot,.comic-cover,.mug-packshot,.beer-packshot,.game-cover');
+ if(area){e.preventDefault();openProductPreview(area);}
+});
+function closeProductPreview(){productLightbox.classList.remove('open');productLightbox.setAttribute('aria-hidden','true');productLightboxMedia.innerHTML='';}
+productLightbox.querySelector('.product-lightbox-close').onclick=closeProductPreview;
+productLightbox.onclick=e=>{if(e.target===productLightbox)closeProductPreview()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&productLightbox.classList.contains('open'))closeProductPreview()});
+
 </script>
+<div class="product-lightbox" id="productLightbox" aria-hidden="true"><div class="product-lightbox-inner"><button class="product-lightbox-close" type="button" aria-label="Schließen">×</button><div id="productLightboxMedia"></div></div></div>
 </body>
 </html>
