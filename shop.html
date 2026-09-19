@@ -118,7 +118,7 @@ body.matos-wood-page:before{content:"";position:fixed;inset:0;background:rgba(20
 
 <div class="checkout-overlay" id="checkoutOverlay"><div class="checkout-panel" id="checkoutPanel"></div></div>
 <div class="shop-toast" id="toast">Zum fiktiven Warenkorb hinzugefügt.</div>
-<script>
+<div class="product-lightbox" id="productLightbox" aria-hidden="true"><div class="product-lightbox-inner"><button class="product-lightbox-close" type="button" aria-label="Schließen">×</button><div id="productLightboxMedia"></div></div><script>
 
 
 
@@ -405,6 +405,6 @@ productLightbox.onclick=e=>{if(e.target===productLightbox)closeProductPreview()}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&productLightbox.classList.contains('open'))closeProductPreview()});
 
 </script>
-<div class="product-lightbox" id="productLightbox" aria-hidden="true"><div class="product-lightbox-inner"><button class="product-lightbox-close" type="button" aria-label="Schließen">×</button><div id="productLightboxMedia"></div></div></div>
+</div>
 </body>
 </html>
