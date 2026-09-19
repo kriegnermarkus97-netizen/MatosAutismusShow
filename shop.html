@@ -115,18 +115,22 @@ body.matos-wood-page:before{content:"";position:fixed;inset:0;background:rgba(20
 
 
 const mugSheet=new Image();
-mugSheet.src='matosville-tassen.png?v=1';
+mugSheet.src='matosville-tassen.png?v=2';
 mugSheet.onload=()=>{
  const boxes=document.querySelectorAll('.mug-packshot');
  const W=mugSheet.naturalWidth,H=mugSheet.naturalHeight;
- // Poster layout: left character panel + three mug columns, six character rows.
- const left=W*0.245,right=W*0.925,top=H*0.105,bottom=H*0.985;
- const cw=(right-left)/3,rh=(bottom-top)/6;
+ // New 6-column x 3-row product grid. Each cell already contains one complete mug.
+ const left=W*0.006,right=W*0.994,top=H*0.102,bottom=H*0.992;
+ const cw=(right-left)/6,rh=(bottom-top)/3;
  boxes.forEach(box=>{
-  const r=+box.dataset.mugrow,c=+box.dataset.mugcol,cv=box.querySelector('canvas'),ctx=cv.getContext('2d');
-  const sx=left+c*cw,sy=top+r*rh,sw=cw,sh=rh;
+  const oldRow=+box.dataset.mugrow,oldCol=+box.dataset.mugcol;
+  const i=oldRow*3+oldCol,row=Math.floor(i/6),col=i%6;
+  const cv=box.querySelector('canvas'),ctx=cv.getContext('2d');
+  // Crop only the image portion at the top of each product card, keeping the whole mug visible.
+  const padX=cw*0.055,sx=left+col*cw+padX,sy=top+row*rh+rh*0.015;
+  const sw=cw-padX*2,sh=rh*0.49;
   cv.width=720;cv.height=620;ctx.fillStyle='#1a0d09';ctx.fillRect(0,0,720,620);
-  const scale=Math.min(700/sw,600/sh),dw=sw*scale,dh=sh*scale;
+  const scale=Math.min(690/sw,590/sh),dw=sw*scale,dh=sh*scale;
   ctx.drawImage(mugSheet,sx,sy,sw,sh,(720-dw)/2,(620-dh)/2,dw,dh);
  });
 };
