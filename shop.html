@@ -80,21 +80,17 @@
 <div class="shop-toast" id="toast">Zum fiktiven Warenkorb hinzugefügt.</div>
 <script>
 const START_BALANCE=1000000;
-const savedBalance=localStorage.getItem('matosAlphaKroetenBalance');
-const balanceFixVersion=localStorage.getItem('matosAlphaKroetenBalanceFixV1');
+const BALANCE_KEY='matosAlphaKroetenBalanceV2';
+const savedBalance=localStorage.getItem(BALANCE_KEY);
 let balance=savedBalance===null ? START_BALANCE : Number(savedBalance);
 if(!Number.isFinite(balance)) balance=START_BALANCE;
-if(balanceFixVersion!=='done' && balance===0){
- balance=START_BALANCE;
- localStorage.setItem('matosAlphaKroetenBalanceFixV1','done');
-}
 let basket=[];
 const fmt=n=>n.toLocaleString('de-DE');
 const coins=document.getElementById('coins');
 const cartBtn=document.getElementById('cart');
 const overlay=document.getElementById('checkoutOverlay');
 const panel=document.getElementById('checkoutPanel');
-function saveBalance(){localStorage.setItem('matosAlphaKroetenBalance',String(balance));coins.textContent=fmt(balance)}
+function saveBalance(){localStorage.setItem(BALANCE_KEY,String(balance));coins.textContent=fmt(balance)}
 saveBalance();
 function updateCart(){cartBtn.textContent='🛒 WARENKORB ('+basket.length+')'}
 document.querySelectorAll('.cat').forEach(btn=>btn.onclick=()=>{
