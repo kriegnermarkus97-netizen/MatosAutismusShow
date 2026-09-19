@@ -81,8 +81,13 @@
 <script>
 const START_BALANCE=1000000;
 const savedBalance=localStorage.getItem('matosAlphaKroetenBalance');
+const balanceFixVersion=localStorage.getItem('matosAlphaKroetenBalanceFixV1');
 let balance=savedBalance===null ? START_BALANCE : Number(savedBalance);
 if(!Number.isFinite(balance)) balance=START_BALANCE;
+if(balanceFixVersion!=='done' && balance===0){
+ balance=START_BALANCE;
+ localStorage.setItem('matosAlphaKroetenBalanceFixV1','done');
+}
 let basket=[];
 const fmt=n=>n.toLocaleString('de-DE');
 const coins=document.getElementById('coins');
