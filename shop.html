@@ -95,24 +95,34 @@ body.matos-wood-page:before{content:"";position:fixed;inset:0;background:rgba(20
 <div class="checkout-overlay" id="checkoutOverlay"><div class="checkout-panel" id="checkoutPanel"></div></div>
 <div class="shop-toast" id="toast">Zum fiktiven Warenkorb hinzugefügt.</div>
 <script>
-
-const merchSheet=new Image();
-merchSheet.src='trucker-loenhard-merch.png';
-merchSheet.onload=()=>{
- const W=merchSheet.naturalWidth,H=merchSheet.naturalHeight;
- const x0=W*0.055, gridW=W*0.94, colW=gridW/6;
- const rowTop=[0.145,0.305,0.465,0.625,0.785];
- const rowBottom=[0.295,0.455,0.615,0.775,0.955];
- document.querySelectorAll('.merch-img').forEach(box=>{
-  const col=Number(box.dataset.col),row=Number(box.dataset.row),cv=box.querySelector('canvas'),ctx=cv.getContext('2d');
-  const sx=x0+col*colW+colW*.06, sy=H*rowTop[row], sw=colW*.88, sh=H*(rowBottom[row]-rowTop[row]);
-  cv.width=520;cv.height=430;
-  ctx.fillStyle='#0c0805';ctx.fillRect(0,0,cv.width,cv.height);
-  const scale=Math.min(cv.width/sw,cv.height/sh),dw=sw*scale,dh=sh*scale;
-  ctx.drawImage(merchSheet,sx,sy,sw,sh,(cv.width-dw)/2,(cv.height-dh)/2,dw,dh);
+const cleanMerchSheet=new Image();
+cleanMerchSheet.src='loenhard-klamotten-clean.png?v=2';
+cleanMerchSheet.onload=()=>{
+ const shirtCols=[[16,300],[318,603],[623,910],[930,1217],[1236,1523]];
+ const hoodieCols=shirtCols;
+ const accessoryCols=[[15,215],[220,420],[425,625],[630,830],[835,1035],[1040,1240],[1245,1525]];
+ document.querySelectorAll('.merch-img[data-row]').forEach(box=>{
+   const row=+box.dataset.row,col=+box.dataset.col,cv=box.querySelector('canvas'),ctx=cv.getContext('2d');
+   let sx,sy,sw,sh;
+   if(row===0){
+     const cc=Math.min(col,4),a=shirtCols[cc]; sx=a[0]+18; sy=70; sw=a[1]-a[0]-36; sh=190;
+   }else if(row===1){
+     const cc=Math.min(col,4),a=hoodieCols[cc]; sx=a[0]+18; sy=420; sw=a[1]-a[0]-36; sh=195;
+   }else if(row===2){
+     const cc=Math.min(col,3),a=accessoryCols[cc]; sx=a[0]+12; sy=770; sw=a[1]-a[0]-24; sh=132;
+   }else if(row===3){
+     const cc=4+Math.min(col,1),a=accessoryCols[cc]; sx=a[0]+12; sy=770; sw=a[1]-a[0]-24; sh=132;
+   }else{
+     const a=accessoryCols[6]; sx=a[0]+12; sy=770; sw=a[1]-a[0]-24; sh=238;
+   }
+   cv.width=720;cv.height=720;
+   ctx.fillStyle='#633a20';ctx.fillRect(0,0,720,720);
+   ctx.strokeStyle='rgba(45,20,8,.35)';ctx.lineWidth=3;
+   for(let y=20;y<720;y+=72){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(720,y);ctx.stroke();}
+   const max=row<2?650:625,scale=Math.min(max/sw,max/sh),dw=sw*scale,dh=sh*scale;
+   ctx.drawImage(cleanMerchSheet,sx,sy,sw,sh,(720-dw)/2,(720-dh)/2,dw,dh);
  });
 };
-
 const START_BALANCE=1000000;
 const BALANCE_KEY='matosAlphaKroetenBalanceV2';
 const savedBalance=localStorage.getItem(BALANCE_KEY);
