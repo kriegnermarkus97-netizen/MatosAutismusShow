@@ -7,10 +7,10 @@
 <title>Matosville Shop – MatosAutismusShow</title>
 <link rel="stylesheet" href="style.css">
 <style>
-.shop-page{min-height:100vh;padding:115px 5% 90px;background:radial-gradient(circle at 50% 0,#3a0d4b 0,#130518 38%,#070208 75%);font-family:Arial,sans-serif;color:#fff}
+.shop-page{min-height:100vh;padding:115px 5% 90px;background-color:#5a351f;background-image:linear-gradient(90deg,rgba(255,255,255,.025),rgba(0,0,0,.08) 48%,rgba(255,255,255,.02)),repeating-linear-gradient(0deg,#684126 0,#684126 72px,#3d2416 73px,#3d2416 76px,#75492b 77px,#684126 148px);background-size:100% 100%,100% 148px;font-family:Arial,sans-serif;color:#fff;text-shadow:none}
 .shop-hero{text-align:center;max-width:1000px;margin:0 auto 38px}
-.shop-hero h1{font-size:clamp(48px,9vw,105px);line-height:.9;margin:10px 0 16px;letter-spacing:-.055em}
-.shop-hero h1 span{color:#d56cff}
+.shop-hero h1{font-size:clamp(48px,9vw,105px);line-height:.9;margin:10px 0 16px;letter-spacing:-.055em;text-shadow:none;filter:none}
+.shop-hero h1 span{color:#f0d3a4;text-shadow:none;filter:none}
 .shop-hero p{max-width:720px;margin:0 auto;color:#d8cddd;font-size:17px;line-height:1.6}
 .shop-warning{display:inline-block;margin-top:20px;padding:9px 15px;border:1px solid #80449a;border-radius:999px;background:#130b16;color:#e7b8ff;font-size:12px;font-weight:900;letter-spacing:.08em}
 .shop-bar{max-width:1180px;margin:0 auto 28px;padding:14px;display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid #51265f;border-radius:16px;background:#100912}
@@ -32,6 +32,8 @@
 .checkout-overlay{position:fixed;inset:0;background:#050207ee;z-index:200;display:none;align-items:center;justify-content:center;padding:20px}.checkout-overlay.open{display:flex}.checkout-panel{width:min(760px,100%);max-height:88vh;overflow:auto;border:1px solid #6e3380;border-radius:22px;background:#130a17;padding:28px;box-shadow:0 25px 90px #000}.checkout-panel h2{font-size:clamp(28px,5vw,44px);margin:0 0 8px}.checkout-panel>p{color:#baaabd}.cart-row{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid #39203f}.cart-row button{border:0;background:#301338;color:#fff;border-radius:8px;cursor:pointer}.checkout-total{display:flex;justify-content:space-between;font-size:21px;font-weight:900;padding:20px 0;color:#efc1ff}.checkout-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.checkout-actions button{padding:12px 17px;border-radius:11px;border:1px solid #713486;background:#25102c;color:#fff;font-weight:900;cursor:pointer}.checkout-actions .primary{background:#8b24ad}.choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:20px 0}.choice{padding:15px;border:1px solid #55305e;border-radius:13px;background:#0d080f;cursor:pointer}.choice.selected{border-color:#dc78ff;background:#2a1032}.choice input{margin-right:8px}.finish{text-align:center;padding:25px 0}.finish .big{font-size:60px}.finish h2{color:#e18aff}.empty-cart{color:#a994ae;text-align:center;padding:30px}
 @media(max-width:700px){.shop-page{padding:95px 14px 60px}.shop-bar{align-items:flex-start}.shop-grid{grid-template-columns:1fr 1fr}.product{min-height:280px;padding:16px}.product-icon{font-size:46px}.product h2{font-size:17px}}
 @media(max-width:460px){.shop-grid{grid-template-columns:1fr}}
+.shop-page h1,.shop-page h2,.shop-page h3,.shop-page p,.shop-page small,.shop-page span,.shop-page button,.shop-page b{ text-shadow:none!important;filter:none!important}
+.shop-hero,.shop-bar,.categories,.shop-grid{position:relative}
 </style>
 </head>
 <body>
