@@ -20,9 +20,20 @@ let p=blue[selected],dx=0,dy=0;if(mouse.active){dx=mouse.x-p.x;dy=mouse.y-p.y;if
 blue.forEach((q,i)=>{if(i===selected)return;let target= i===1?ball:{x:ball.x-100,y:ball.y+(i===0?-120:120)};move(q,target.x-q.x,target.y-q.y,105,dt)});
 red.forEach((q,i)=>{let target=i===1?ball:{x:ball.x+100,y:ball.y+(i===0?-120:120)};move(q,target.x-q.x,target.y-q.y,118,dt);if(dist(q,ball)<q.r+ball.r+7){let dx=ball.x-q.x,dy=ball.y-q.y,l=Math.hypot(dx,dy)||1;ball.vx=dx/l*330-90;ball.vy=dy/l*330}});
 [...blue,...red].forEach(q=>{let d=dist(q,ball),min=q.r+ball.r;if(d<min){let dx=ball.x-q.x,dy=ball.y-q.y,l=d||1;ball.x=q.x+dx/l*min;ball.y=q.y+dy/l*min;ball.vx+=dx/l*65;ball.vy+=dy/l*65}});
-ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;ball.vx*=Math.pow(.22,dt);ball.vy*=Math.pow(.22,dt);
-const wall=22;if(ball.y<wall+ball.r){ball.y=wall+ball.r;ball.vy=Math.abs(ball.vy)}if(ball.y>H-wall-ball.r){ball.y=H-wall-ball.r;ball.vy=-Math.abs(ball.vy)}
-const inGoal=ball.y>225&&ball.y<375;if(ball.x<12&&inGoal){redScore++;centerBall()}else if(ball.x>W-12&&inGoal){blueScore++;centerBall()}else{if(ball.x<wall+ball.r){ball.x=wall+ball.r;ball.vx=Math.abs(ball.vx)}if(ball.x>W-wall-ball.r){ball.x=W-wall-ball.r;ball.vx=-Math.abs(ball.vx)}}
+ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;
+const wall=22,goalTop=225,goalBottom=375,rebound=.92;
+if(ball.y-ball.r<=wall){ball.y=wall+ball.r;ball.vy=Math.abs(ball.vy)*rebound}
+if(ball.y+ball.r>=H-wall){ball.y=H-wall-ball.r;ball.vy=-Math.abs(ball.vy)*rebound}
+const inGoal=ball.y>goalTop&&ball.y<goalBottom;
+if(ball.x-ball.r<=wall){
+ if(inGoal&&ball.x<12){redScore++;centerBall()}
+ else if(!inGoal){ball.x=wall+ball.r;ball.vx=Math.abs(ball.vx)*rebound}
+}
+if(ball.x+ball.r>=W-wall){
+ if(inGoal&&ball.x>W-12){blueScore++;centerBall()}
+ else if(!inGoal){ball.x=W-wall-ball.r;ball.vx=-Math.abs(ball.vx)*rebound}
+}
+ball.vx*=Math.pow(.55,dt);ball.vy*=Math.pow(.55,dt);
 }
 function field(){x.clearRect(0,0,W,H);x.fillStyle='#278b47';x.fillRect(0,0,W,H);for(let i=0;i<10;i++){x.fillStyle=i%2?'#278b47':'#2f9650';x.fillRect(i*100,0,100,H)}x.strokeStyle='#fff';x.lineWidth=5;x.strokeRect(22,22,W-44,H-44);x.beginPath();x.moveTo(W/2,22);x.lineTo(W/2,H-22);x.stroke();x.beginPath();x.arc(W/2,H/2,75,0,Math.PI*2);x.stroke();x.strokeRect(22,170,125,260);x.strokeRect(W-147,170,125,260);x.fillStyle='#ddd';x.fillRect(0,225,22,150);x.fillRect(W-22,225,22,150)}
 function drawP(p,label,sel){x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle=p.col;x.fill();x.strokeStyle='#fff';x.lineWidth=3;x.stroke();if(sel){x.beginPath();x.arc(p.x,p.y,p.r+9,0,Math.PI*2);x.strokeStyle='#ffe74c';x.lineWidth=5;x.stroke()}x.fillStyle='#fff';x.font='bold 15px Arial';x.textAlign='center';x.fillText(label,p.x,p.y+5)}
