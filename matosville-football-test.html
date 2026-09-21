@@ -1,4 +1,4 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Matosville Football 3v3 – Test</title><style>*{box-sizing:border-box}body{margin:0;background:#17131e;color:#fff;font-family:Arial,sans-serif;text-align:center}h1{margin:14px 8px 5px;font-size:clamp(20px,4vw,34px)}.sub{color:#d9c9ff;margin:0 8px 10px}.wrap{max-width:1100px;margin:auto;padding:0 10px 20px}canvas{width:100%;height:auto;display:block;border:5px solid #eee;border-radius:15px;background:#258943;box-shadow:0 8px 30px #0008;touch-action:none}.hud{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:10px;font-weight:800}.help{font-size:14px;line-height:1.5;color:#ddd}.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;margin:5px;background:#7b45d6;color:#fff}</style></head><body><div class="wrap"><h1>⚽ MATOSVILLE FOOTBALL – 3 VS 3</h1><p class="sub">Spielbare Grundversion 0.1</p><div class="hud"><span id="score">ROUTE 69 0 : 0 MATOSVILLE</span><span id="time">03:00</span></div><canvas id="c" width="1000" height="600"></canvas><button class="btn" id="restart">NEUES SPIEL</button><div class="help">MAUS = Spieler in Richtung Maus bewegen · LEERTASTE = Pass · LINKE MAUSTASTE = Schuss<br>Der gesteuerte Spieler wechselt automatisch zu dem Mitspieler, der den Ball berührt.</div></div><script>
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Matosville Football 3v3 – Test</title><style>*{box-sizing:border-box}body{margin:0;background:#17131e;color:#fff;font-family:Arial,sans-serif;text-align:center}h1{margin:14px 8px 5px;font-size:clamp(20px,4vw,34px)}.sub{color:#d9c9ff;margin:0 8px 10px}.wrap{max-width:1100px;margin:auto;padding:0 10px 20px}canvas{width:100%;height:auto;display:block;border:5px solid #eee;border-radius:15px;background:#258943;box-shadow:0 8px 30px #0008;touch-action:none}.hud{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:10px;font-weight:800}.help{font-size:14px;line-height:1.5;color:#ddd}.btn{border:0;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer;margin:5px;background:#7b45d6;color:#fff}</style></head><body><div class="wrap"><h1>⚽ MATOSVILLE FOOTBALL – 3 VS 3</h1><p class="sub">Spielbare Grundversion 0.1</p><div class="hud"><span id="score">ROUTE 69 0 : 0 MATOSVILLE</span><span id="time">03:00</span></div><canvas id="c" width="1000" height="600"></canvas><button class="btn" id="restart">NEUES SPIEL</button><div class="help">MAUS = Spieler in Richtung Maus bewegen · LEERTASTE = Pass · LINKE MAUSTASTE = Schuss · V = Spieler wechseln<br>Gelber Ring = dein aktuell gesteuerter Spieler.</div></div><script>
 const c=document.getElementById('c'),x=c.getContext('2d'),scoreEl=document.getElementById('score'),timeEl=document.getElementById('time');
 const W=c.width,H=c.height,keys={}; let blueScore=0,redScore=0,time=180,last=performance.now(),selected=0,ended=false,kickLock=0;
 const blue=[mk(250,180,'#55aaff'),mk(250,300,'#55aaff'),mk(250,420,'#55aaff')],red=[mk(750,180,'#ff5964'),mk(750,300,'#ff5964'),mk(750,420,'#ff5964')];
@@ -9,7 +9,7 @@ c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();mouse.x=(
 c.addEventListener('pointerenter',()=>mouse.active=true);
 c.addEventListener('pointerleave',()=>mouse.active=false);
 c.addEventListener('pointerdown',e=>{if(e.button===0){e.preventDefault();kick('shot')}});
-addEventListener('keydown',e=>{if(e.code==='Space')e.preventDefault();keys[e.code]=true;if(e.code==='Space'&&!e.repeat)kick('pass')});addEventListener('keyup',e=>keys[e.code]=false);
+addEventListener('keydown',e=>{if(e.code==='Space')e.preventDefault();keys[e.code]=true;if(e.code==='Space'&&!e.repeat)kick('pass');if(e.code==='KeyV'&&!e.repeat)selected=(selected+1)%3});addEventListener('keyup',e=>keys[e.code]=false);
 document.getElementById('restart').onclick=reset;
 function reset(){blueScore=redScore=0;time=180;ended=false;selected=0;blue.forEach((p,i)=>{p.x=250;p.y=180+i*120});red.forEach((p,i)=>{p.x=750;p.y=180+i*120});centerBall();}
 function centerBall(){ball.x=500;ball.y=300;ball.vx=ball.vy=0;blue.forEach((p,i)=>{p.x=250;p.y=180+i*120});red.forEach((p,i)=>{p.x=750;p.y=180+i*120})}
@@ -20,21 +20,19 @@ function update(dt){if(ended)return;kickLock=Math.max(0,kickLock-dt);time-=dt;if
 let p=blue[selected],dx=0,dy=0;if(mouse.active){dx=mouse.x-p.x;dy=mouse.y-p.y;if(Math.hypot(dx,dy)<10){dx=dy=0}}move(p,dx,dy,p.speed,dt);
 blue.forEach((q,i)=>{if(i===selected)return;let target= i===1?ball:{x:ball.x-100,y:ball.y+(i===0?-120:120)};move(q,target.x-q.x,target.y-q.y,105,dt)});
 red.forEach((q,i)=>{let target=i===1?ball:{x:ball.x+100,y:ball.y+(i===0?-120:120)};move(q,target.x-q.x,target.y-q.y,118,dt);if(dist(q,ball)<q.r+ball.r+7){let dx=ball.x-q.x,dy=ball.y-q.y,l=Math.hypot(dx,dy)||1;ball.vx=dx/l*330-90;ball.vy=dy/l*330}});
-[...blue,...red].forEach(q=>{let d=dist(q,ball),min=q.r+ball.r;if(d<min){if(blue.includes(q))selected=blue.indexOf(q);let dx=ball.x-q.x,dy=ball.y-q.y,l=d||1;ball.x=q.x+dx/l*min;ball.y=q.y+dy/l*min;ball.vx+=dx/l*65;ball.vy+=dy/l*65}});
+[...blue,...red].forEach(q=>{let d=dist(q,ball),min=q.r+ball.r;if(d<min){let dx=ball.x-q.x,dy=ball.y-q.y,l=d||1;ball.x=q.x+dx/l*min;ball.y=q.y+dy/l*min;ball.vx+=dx/l*65;ball.vy+=dy/l*65}});
 ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;
-const wall=22,goalTop=225,goalBottom=375,rebound=.92;
-if(ball.y-ball.r<=wall){ball.y=wall+ball.r;ball.vy=Math.abs(ball.vy)*rebound}
-if(ball.y+ball.r>=H-wall){ball.y=H-wall-ball.r;ball.vy=-Math.abs(ball.vy)*rebound}
+const wall=22,goalTop=225,goalBottom=375,rebound=.96;
+const hitTop=ball.y-ball.r<=wall,hitBottom=ball.y+ball.r>=H-wall;
+if(hitTop){ball.y=wall+ball.r;if(ball.vy<0)ball.vy=-ball.vy*rebound}
+if(hitBottom){ball.y=H-wall-ball.r;if(ball.vy>0)ball.vy=-ball.vy*rebound}
 const inGoal=ball.y>goalTop&&ball.y<goalBottom;
-if(ball.x-ball.r<=wall){
- if(inGoal&&ball.x<12){redScore++;centerBall()}
- else if(!inGoal){ball.x=wall+ball.r;ball.vx=Math.abs(ball.vx)*rebound}
-}
-if(ball.x+ball.r>=W-wall){
- if(inGoal&&ball.x>W-12){blueScore++;centerBall()}
- else if(!inGoal){ball.x=W-wall-ball.r;ball.vx=-Math.abs(ball.vx)*rebound}
-}
-ball.vx*=Math.pow(.55,dt);ball.vy*=Math.pow(.55,dt);
+const hitLeft=ball.x-ball.r<=wall,hitRight=ball.x+ball.r>=W-wall;
+if(hitLeft&&!inGoal){ball.x=wall+ball.r;if(ball.vx<0)ball.vx=-ball.vx*rebound}
+if(hitRight&&!inGoal){ball.x=W-wall-ball.r;if(ball.vx>0)ball.vx=-ball.vx*rebound}
+if(inGoal&&ball.x<0){redScore++;centerBall()}
+else if(inGoal&&ball.x>W){blueScore++;centerBall()}
+ball.vx*=Math.pow(.72,dt);ball.vy*=Math.pow(.72,dt);
 }
 function field(){x.clearRect(0,0,W,H);x.fillStyle='#278b47';x.fillRect(0,0,W,H);for(let i=0;i<10;i++){x.fillStyle=i%2?'#278b47':'#2f9650';x.fillRect(i*100,0,100,H)}x.strokeStyle='#fff';x.lineWidth=5;x.strokeRect(22,22,W-44,H-44);x.beginPath();x.moveTo(W/2,22);x.lineTo(W/2,H-22);x.stroke();x.beginPath();x.arc(W/2,H/2,75,0,Math.PI*2);x.stroke();x.strokeRect(22,170,125,260);x.strokeRect(W-147,170,125,260);x.fillStyle='#ddd';x.fillRect(0,225,22,150);x.fillRect(W-22,225,22,150)}
 function drawP(p,label,sel){x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle=p.col;x.fill();x.strokeStyle='#fff';x.lineWidth=3;x.stroke();if(sel){x.beginPath();x.arc(p.x,p.y,p.r+9,0,Math.PI*2);x.strokeStyle='#ffe74c';x.lineWidth=5;x.stroke()}x.fillStyle='#fff';x.font='bold 15px Arial';x.textAlign='center';x.fillText(label,p.x,p.y+5)}
